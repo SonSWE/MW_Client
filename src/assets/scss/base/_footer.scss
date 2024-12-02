@@ -1,0 +1,26 @@
+.footer_sticky {
+  width: 100%;
+  height: 34px;
+  background-color: #5aa1d817;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .connected {
+    color: #4fd08a;
+  }
+  .disconnected {
+    color: #d0b84f;
+  }
+}
+
+.btn-footer-list {
+  > li {
+    color: white;
+
+    &:hover a {
+      text-decoration: underline;
+      color: white;
+    }
+  }
+}

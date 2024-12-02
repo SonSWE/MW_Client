@@ -1,0 +1,76 @@
+.foot-record {
+    @include f-center-between;
+
+    padding: 18px 16px 0px;
+    color: #6E6B7B;
+    // border: 1px solid #ECEFF1;
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    // background: #fff;
+
+    > div:first-child {
+        max-width: 587px;
+        width: 100%;
+    }
+}
+
+.show-record select {
+    width: 47px;
+    height: 24px;
+    padding: 0 5px 0 0px;
+    padding-left: 6px;
+    border: 1px solid #CFD8DC;
+    border-radius: 6px;
+    appearance: none;
+    -moz-appearance: none;
+    margin: 0 4px;
+    background: url(/ic_arr_down.svg) no-repeat center right 4px;
+}
+
+// Button pagination
+.btn-pagination {
+    display: inline-block;
+    height: 24px;
+    cursor: pointer;
+    margin-left: 0px;
+    border: none;
+    background: none;
+    padding: 0;
+    outline: none;
+    box-shadow: none;
+    span {
+        width: 24px;
+        height: 24px;
+        text-align: center;
+        line-height: 24px;
+        border-radius: 5px;
+        color: #C4C4C4;
+        border: 1px solid transparent;
+        border: 1px solid transparent;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        &.active {
+            background: #E4F2FE;
+            color: $clr-m;
+            &:hover {
+                color: $clr-m;
+            }
+        }
+        &:hover {
+            border: 1px solid #E4F2FE;
+            color: $clr-m;
+        }
+
+        img {
+            width: 12px;
+            height: 12px;
+        }
+    }
+    &:focus,
+    &:active {
+        outline-color: transparent;
+    }
+}
+// Kết thúc base viết tiếp xuống bên dưới 24/5/2022

@@ -1,0 +1,170 @@
+.header-responesive {
+  background-color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  @media screen and (max-width: 600px) {
+    align-items: flex-start;
+
+    &.open_menu {
+      .menu,
+      .list-button-menu {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  }
+
+  .menu {
+    display: flex;
+    align-items: center;
+
+    .logo-img {
+      padding: 14px;
+      cursor: pointer;
+      img {
+        height: 36px;
+        object-fit: cover;
+      }
+    }
+  }
+
+  .list-button-menu {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+
+    @media screen and (max-width: 600px) {
+      display: none;
+      .button-menu{
+        width: 100%;
+      }
+    }
+
+    .button-menu {
+      font-weight: 400;
+      font-size: 14px;
+      padding: 10px;
+      text-wrap: nowrap;
+      position: relative;
+
+      &.active {
+        color: #1677ff;
+      }
+
+      &:hover {
+        .list-button-menu-children {
+          display: block;
+        }
+      }
+    }
+
+    .list-button-menu-children {
+      display: none;
+      background-color: #fff;
+      position: absolute;
+      border-radius: 5px;
+      margin-top: 10px;
+      transition: opacity 0.3s;
+      filter: drop-shadow(0px 0px 10px #d4d4d4);
+      padding: 4px 0;
+
+      &::before {
+        content: "";
+        position: absolute;
+        bottom: 100%; /* Mũi tên phía dưới tooltip */
+        left: 20%;
+        transform: translateX(-50%);
+        border-left: 9px solid transparent;
+        border-right: 9px solid transparent;
+        border-bottom: 9px solid #fff;
+      }
+
+      @media screen and (max-width: 600px) {
+        
+        position: relative;
+        &::before {
+          content: none;
+        }
+      }
+
+      .button-menu {
+        padding: 7px 30px 7px 7px;
+        &:hover {
+          background-color: rgb(245, 245, 245);
+          a {
+            color: black;
+          }
+        }
+      }
+    }
+  }
+
+  .left-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-right: 20px;
+
+    @media screen and (max-width: 600px) {
+      display: none;
+    }
+
+    .avt {
+      height: 36px;
+      width: 36px;
+      overflow: hidden;
+      border-radius: 100%;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+  }
+
+  .input-header {
+    border-radius: 20px;
+  }
+
+  .button-colapsed {
+    padding: 4px;
+    display: none;
+
+    @media screen and (max-width: 600px) {
+      padding: 18px 18px 0 0;
+      display: block;
+    }
+  }
+}
+
+.account-infor {
+  background-color: #fff;
+  .card-hover {
+    &:hover {
+      background-color: rgb(245, 245, 245);
+    }
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 12px;
+  }
+  .avt-lg {
+    height: 46px;
+    width: 46px;
+    overflow: hidden;
+    border-radius: 100%;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+}

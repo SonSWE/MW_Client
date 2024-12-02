@@ -1,0 +1,22 @@
+// .ag-theme-quartz,
+// .ag-theme-quartz-dark {
+//   --ag-icon-image-filter: url("../../image/icon/ant-design--filter-outlined.svg");
+//   // --ag-icon-font-code-menu: url("../../image/icon/ant-design--filter-outlined.svg");
+// }
+
+.hide-paging {
+  .ag-paging-panel {
+    display: none !important;
+  }
+}
+
+.ag-body-vertical-scroll-viewport::-webkit-scrollbar-thumb {
+  background-color: lightgray;
+  border-radius: 8px;
+  border: 4px solid transparent;
+  background-clip: content-box;
+  visibility: visible;
+}
+.ag-body-vertical-scroll-viewport::-webkit-scrollbar {
+  width: 16px;
+}

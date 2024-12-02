@@ -1,0 +1,120 @@
+// Các breakpoint chính khi reponsive 
+
+/* 
+    Cách sử dụng:
+        + @include tên-mixins {
+            content
+        }
+*/
+@mixin desktop {
+    @media only screen and (min-width: 1600px) {
+        @content
+    }
+}
+
+;
+
+@mixin desktop-large {
+    @media only screen and (max-width: 1600px) {
+        @content
+    }
+}
+
+;
+
+@mixin desktop-large-medium {
+    @media only screen and (max-width: 1536px) {
+        @content
+    }
+}
+
+;
+
+@mixin desktop-large-small {
+    @media only screen and (max-width: 1440px) {
+        @content
+    }
+}
+
+;
+
+@mixin desktop-medium {
+    @media only screen and (max-width: 1366px) {
+        @content
+    }
+}
+
+;
+@mixin desktop-small {
+    @media only screen and (max-width: 1024px) {
+        @content
+    }
+}
+
+;
+@mixin tablet {
+    @media only screen and (max-width: 991px) {
+        @content
+    }
+}
+
+;
+@mixin mobile-horizontal {
+    @media only screen and (max-width: 767px) {
+        @content
+    }
+}
+
+;
+@mixin mobile {
+    @media only screen and (max-width: 576px) {
+        @content
+    }
+}
+
+;
+@mixin mobile-medium {
+    @media only screen and (max-width: 425px) {
+        @content
+    }
+}
+
+;
+@mixin mobile-small {
+    @media only screen and (max-width: 375px) {
+        @content
+    }
+}
+
+;
+// Khởi tạo hàm để sử dụng keyframe 
+@mixin keyframes($animation-name) {
+    @-webkit-keyframes #{$animation-name} {
+        @content;
+    }
+    @keyframes #{$animation-name} {
+        @content;
+    }
+}
+
+// Khởi tại hàm để gọi animations để sử dụng
+@mixin animation($str) {
+    -webkit-animation: #{$str};
+    animation: #{$str};
+}
+
+
+/*
+    Cách sử dụng:
+        + @include animation(tên keyframe duration timing-function);
+*/
+
+// Kết thúc base viết tiếp xuống bên dưới 24/5/2022
+
+
+// Các mixin thường sử dụng
+@mixin f-center-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
