@@ -1,11 +1,21 @@
 
+import { DASHBOARD } from "../pages/Adminator/Dashboard/config";
 import { JOB } from "../pages/Adminator/Job/config";
 import { SKILL } from "../pages/Adminator/Skill/config";
 import { SPECIALTY } from "../pages/Adminator/Specialty/config";
 import { SYSPARAM } from "../pages/Adminator/SysParam/config";
 import { SYSTEMCODE } from "../pages/Adminator/SystemCode/config";
+import { USER } from "../pages/Adminator/User/config";
 
 export const RoutesAdminConfig = [
+  {
+    Function_Id: DASHBOARD.pageConfig.functionId,
+    Function_Name: "Trang chủ",
+    DisplayOnMenu: 1,
+    checkRight: false,
+    url: "/",
+    ComponentConfig: DASHBOARD,
+  },
   {
     Function_Id: SYSTEMCODE.pageConfig.functionId,
     Function_Name: "System Code",
@@ -47,5 +57,14 @@ export const RoutesAdminConfig = [
     checkRight: false,
     url: "/cong-viec",
     ComponentConfig: JOB,
+  },
+
+  {
+    Function_Id: USER.pageConfig.functionId,
+    Function_Name: "Tài khoản người dùng",
+    DisplayOnMenu: 1,
+    checkRight: false,
+    url: "/tai-khoan",
+    ComponentConfig: USER,
   },
 ];

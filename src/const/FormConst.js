@@ -13,3 +13,8 @@ export const CONST_CONTROL_TYPE = {
   Date: "DAT",
   DateTime: "DATTIME",
 };
+
+export const CONST_YN = {
+  Yes: "Y",
+  No: "N",
+};

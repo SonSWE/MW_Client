@@ -19,11 +19,6 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
         );
       }
     },
-    fillGiaTriBanDau: () => {},
-    fillGiaTriThemMoi: () => {},
-    refreshData: () => {
-      formInstance?.resetFields();
-    },
   }));
 
   const notification = useNotification();

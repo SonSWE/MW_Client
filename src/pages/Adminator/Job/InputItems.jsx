@@ -19,13 +19,11 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
       }
 
       if (convertToArray(values?.[FormJob.JobSkills]).length > 0) {
-        values[FormJob.JobSkills] = convertToArray(values?.[FormJob.JobSkills]).map((e) => e?.[FormJobSkill.SkillId]);
+        formInstance.setFieldValue(
+          FormJob.JobSkills,
+          convertToArray(values?.[FormJob.JobSkills]).map((e) => e?.[FormJobSkill.SkillId])
+        );
       }
-    },
-    fillGiaTriBanDau: () => {},
-    fillGiaTriThemMoi: () => {},
-    refreshData: () => {
-      formInstance?.resetFields();
     },
   }));
 
@@ -64,6 +62,7 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
   return (
     <div>
       <div className="group-item">
+        <Form.Item name={FormJob.Proposals} hidden></Form.Item>
         <div className="">
           <Form.Item name={FormJob.JobId} label="Mã">
             <Input disabled />
@@ -158,7 +157,7 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
             const budgetType = getFieldValue(FormJob.BudgetType);
             return (
               <>
-                {budgetType === CONST_BUDGET_TYPE.Fixed ? (
+                {budgetType === CONST_BUDGET_TYPE.Hourly ? (
                   <>
                     <div className="">
                       <Form.Item name={FormJob.HourlyRateFrom} label="Từ">
@@ -170,7 +169,7 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
                       </Form.Item>
                     </div>
                   </>
-                ) : budgetType === CONST_BUDGET_TYPE.Hourly ? (
+                ) : budgetType === CONST_BUDGET_TYPE.Fixed ? (
                   <>
                     <div className="">
                       <Form.Item name={FormJob.CostEstimate} label="Kinh phí đề xuất">
@@ -186,6 +185,11 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
           }}
         </Form.Item>
         <div className="">
+          <Form.Item name={FormJob.Title} label="Tiêu đề">
+            <Input />
+          </Form.Item>
+        </div>
+        <div className="">
           <Form.Item name={FormJob.Description} label="Mô tả">
             <Input.TextArea rows={4} />
           </Form.Item>
@@ -198,19 +202,6 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
 
         <div className="">
           <Form.Item name={FormJob.BudgetType} label="Ví trị">
-            <Select
-              options={[
-                ...getSystemCodeValues(systemCodes, "BUDGET_TYPE")?.map((e) => ({
-                  value: e.value,
-                  label: <span>{e.description}</span>,
-                })),
-              ]}
-            />
-          </Form.Item>
-        </div>
-
-        <div className="">
-          <Form.Item name={FormJob.BudgetType} label="Điểm thành công">
             <Select
               options={[
                 ...getSystemCodeValues(systemCodes, "BUDGET_TYPE")?.map((e) => ({

@@ -2,7 +2,7 @@ export const FormJob = {
   JobId: "jobId",
   TermType: "termType",
   Status: "status",
-  Title: "Title",
+  Title: "title",
   Description: "description",
   SpecialtyId: "specialtyId",
   Scope: "scope",
@@ -23,18 +23,12 @@ export const FormJobSkill = {
 };
 
 export const FormProposal = {
-  ProposalId: "ProposalId",
-  TalentId: "TalentId",
+  ProposalId: "proposalId",
+  TalentId: "talentId",
+  Status: "status",
   Bid: "bid",
   FeeService: "feeService",
   RealReceive: "realReceive",
-  TargetTime: "targetTime",
-  TargetTimeText: "targetTimeText",
   CoverLetter: "coverLetter",
-  Description: "description",
-  HourlyRate: "hourlyRate",
-  ReceiveRate: "receiveRate",
-  FrequencyReceive: "frequencyReceive",
-  PercentReceivePerTime: "percentReceivePerTime",
   FileAttaches: "fileAttaches",
 };

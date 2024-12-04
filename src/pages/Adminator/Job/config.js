@@ -28,8 +28,8 @@ export const columnDefs = [
     },
   },
   {
-    field: FormJob.Name,
-    headerName: "Tên",
+    field: FormJob.Title,
+    headerName: "Tiêu đề",
     align: "left",
     width: 180,
     sortable: true,

@@ -5,11 +5,6 @@ import { FormSkill } from "../../../const/FormSkill";
 const InputItemsSearch = React.forwardRef(({ formInstance, action, disabled }, ref) => {
   useImperativeHandle(ref, () => ({
     triggerThayDoiBanGhi: (values) => {},
-    fillGiaTriBanDau: () => {},
-    fillGiaTriThemMoi: () => {},
-    refreshData: () => {
-      formInstance?.resetFields();
-    },
   }));
 
   return (

@@ -1,7 +1,7 @@
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
 import { CONST_CONTROL_TYPE } from "../../const/FormConst";
 import { useGlobalConst } from "../../utils/constData";
-import { SeparatorMultipleValue } from "../../const/FornatType";
+import { FormatType, SeparatorMultipleValue } from "../../const/FornatType";
 import moment from "moment";
 import { validateNumber } from "../../utils/Validate";
 import { format, parserFormat } from "../../utils/Format";

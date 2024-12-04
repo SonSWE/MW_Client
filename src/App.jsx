@@ -23,7 +23,7 @@ function App() {
   const dispatch = useDispatch();
 
   const [userLogin, setUserLogin] = useState({
-    username: "Adminator1",
+    username: "Adminator",
     userType: CONST_USER_TYPE.Admin,
   })
   //tạm k check đăng nhập

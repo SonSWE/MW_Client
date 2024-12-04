@@ -46,6 +46,22 @@ export const Header = () => {
             </ul>
           </li>
           <li className="button-menu">
+            <a href="/cong-viec">Q.Lý khách hàng</a>
+            <FontAwesomeIcon className="ml-1" icon={faAngleDown} />
+            <ul className="list-button-menu-children">
+              <div className="arrow"></div>
+              <li className="button-menu">
+                <a href="/tai-khoan">Tài khoản đăng nhập</a>
+              </li>
+              <li className="button-menu">
+                <a href="/Khach-hang">Khách hàng</a>
+              </li>
+              <li className="button-menu">
+                <a href="/chuyen-mon">Freelance</a>
+              </li>
+            </ul>
+          </li>
+          <li className="button-menu">
             <a href="/cong-viec">Q.Lý công việc</a>
             <FontAwesomeIcon className="ml-1" icon={faAngleDown} />
             <ul className="list-button-menu-children">

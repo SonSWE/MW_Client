@@ -5,11 +5,6 @@ import { FormSpecialty } from "../../../const/FormSpecialty";
 const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) => {
   useImperativeHandle(ref, () => ({
     triggerThayDoiBanGhi: (values) => {},
-    fillGiaTriBanDau: () => {},
-    fillGiaTriThemMoi: () => {},
-    refreshData: () => {
-      formInstance?.resetFields();
-    },
   }));
 
   return (
