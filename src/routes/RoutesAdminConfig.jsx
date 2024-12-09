@@ -1,5 +1,6 @@
 
 import { DASHBOARD } from "../pages/Adminator/Dashboard/config";
+import { FREELANCER } from "../pages/Adminator/Freelancer/config";
 import { JOB } from "../pages/Adminator/Job/config";
 import { SKILL } from "../pages/Adminator/Skill/config";
 import { SPECIALTY } from "../pages/Adminator/Specialty/config";
@@ -66,5 +67,13 @@ export const RoutesAdminConfig = [
     checkRight: false,
     url: "/tai-khoan",
     ComponentConfig: USER,
+  },
+  {
+    Function_Id: FREELANCER.pageConfig.functionId,
+    Function_Name: "Freelance",
+    DisplayOnMenu: 1,
+    checkRight: false,
+    url: "/freelance",
+    ComponentConfig: FREELANCER,
   },
 ];

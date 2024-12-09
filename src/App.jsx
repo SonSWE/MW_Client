@@ -15,8 +15,10 @@ import "react-toastify/dist/ReactToastify.css";
 import "./index.css";
 
 import AppAdmin from "./AppAdmin.jsx";
-import { CONST_USER_TYPE } from "./const/LayoutConst.js";
-import AppWorker from "./AppWorker.jsx";
+import { CONST_LOGIN_TYPE, CONST_USER_TYPE } from "./const/LayoutConst.js";
+
+import AppClient from "./AppClient.jsx";
+import AppFreelancer from "./AppFreelancer.jsx";
 
 function App() {
   const loginApi = useLoginApi();
@@ -25,7 +27,8 @@ function App() {
   const [userLogin, setUserLogin] = useState({
     username: "Adminator",
     userType: CONST_USER_TYPE.Admin,
-  })
+    loginType: CONST_LOGIN_TYPE.Admin,
+  });
   //tạm k check đăng nhập
   // const userLogin = useSelector((state) => state.authReducer);
   const isLogin = userLogin && userLogin?.username;
@@ -105,14 +108,23 @@ function App() {
     },
   ]);
   console.log(userLogin?.userType);
+
+  const RenderByLoginType = ({ loginType }) => {
+    if (loginType === CONST_LOGIN_TYPE.Client) {
+      return <AppClient />;
+    } else if (loginType === CONST_LOGIN_TYPE.Freelancer) {
+      return <AppFreelancer />;
+    }
+
+    return <></>;
+  };
+
   return (
     <>
       {userLogin?.userType === CONST_USER_TYPE.Admin ? (
         <AppAdmin />
-      ) : userLogin?.userType === CONST_USER_TYPE.Worker ? (
-        <AppWorker/>
-      ) : userLogin?.userType === "T" ? (
-        <></>
+      ) : userLogin?.userType === CONST_USER_TYPE.User ? (
+        <RenderByLoginType loginType={userLogin.loginType} />
       ) : (
         <RouterProvider router={routersLogin} />
       )}

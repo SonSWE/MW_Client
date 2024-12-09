@@ -122,7 +122,7 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
         </div>
 
         <div className="">
-          <Form.Item name={FormJob.LevelTalent} label="Trình độ kinh nghiệm">
+          <Form.Item name={FormJob.LevelFreelancerId} label="Trình độ kinh nghiệm">
             <Select
               options={[
                 ...getSystemCodeValues(systemCodes, "PROJECT_LEVEL")?.map((e) => ({
@@ -148,7 +148,6 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
         </div>
 
         <Form.Item
-          className="pt-3 w-100"
           shouldUpdate={(prevValues, currentValues) =>
             isRender(prevValues, currentValues, [FormJob.BudgetType])
           }

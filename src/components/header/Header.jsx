@@ -57,7 +57,7 @@ export const Header = () => {
                 <a href="/Khach-hang">Khách hàng</a>
               </li>
               <li className="button-menu">
-                <a href="/chuyen-mon">Freelance</a>
+                <a href="/freelance">Freelance</a>
               </li>
             </ul>
           </li>

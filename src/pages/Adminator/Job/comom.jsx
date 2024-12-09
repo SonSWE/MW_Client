@@ -33,7 +33,7 @@ export const columnProposal = (props) => {
     },
     {
       headerName: "Mã ứng viên",
-      field: FormProposal.TalentId,
+      field: FormProposal.FreelancerId,
       editable: true,
       cellEditor: DropdownCell,
       controlType: CONST_CONTROL_TYPE.Combobox,

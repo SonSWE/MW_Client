@@ -6,7 +6,7 @@ export const FormJob = {
   Description: "description",
   SpecialtyId: "specialtyId",
   Scope: "scope",
-  LevelTalent: "levelTalent",
+  LevelFreelancerId: "levelFreelancerId",
   BudgetType: "budgetType",
   HourlyRateFrom: "hourlyRateFrom",
   HourlyRateTo: "hourlyRateTo",
@@ -24,7 +24,7 @@ export const FormJobSkill = {
 
 export const FormProposal = {
   ProposalId: "proposalId",
-  TalentId: "talentId",
+  FreelancerId: "freelancerId",
   Status: "status",
   Bid: "bid",
   FeeService: "feeService",

@@ -16,7 +16,7 @@ import "./assets/scss/main.css";
 import "./index.css";
 import { RoutesWorkerConfig } from "./routes/RoutesWorkerConfig.jsx";
 
-function AppWorker() {
+function AppFreelancer() {
   const loginApi = useLoginApi();
   const dispatch = useDispatch();
 
@@ -129,4 +129,4 @@ function AppWorker() {
   );
 }
 
-export default AppWorker;
+export default AppFreelancer;

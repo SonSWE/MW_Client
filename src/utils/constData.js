@@ -415,6 +415,7 @@ export const useGlobalConst = () => {
       },
       LOCALE: {
         dateFormat: "DD/MM/YYYY",
+        yearFormat: "YYYY",
       },
     },
   };

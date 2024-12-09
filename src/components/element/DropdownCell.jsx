@@ -41,7 +41,7 @@ const DropdownCell = forwardRef((props, ref) => {
         setValue([]);
       }
     } else if (props?.colDef?.controlType === CONST_CONTROL_TYPE.Date && props.value) {
-      setValue(isCheckDate(props.value) ? moment(props.value, "YYYYMMDD") : undefined);
+      setValue(isCheckDate(props.value) ? moment(props.value, "dd/mm/yyyy") : undefined);
     } else {
       setValue(props.value);
     }
@@ -72,7 +72,7 @@ const DropdownCell = forwardRef((props, ref) => {
     return {
       getValue: () => {
         if (props?.colDef?.controlType === CONST_CONTROL_TYPE.Date && value) {
-          return moment(value, "YYYYMMDD");
+          return moment(value, "dd/mm/yyyy");
         } else if (props?.colDef?.controlType === CONST_CONTROL_TYPE.ComboxMultiple) {
           return convertToArray(value).length > 0 ? value.join(SeparatorMultipleValue) : "";
         } else if (props?.colDef?.controlType === CONST_CONTROL_TYPE.Number) {
@@ -247,7 +247,7 @@ const DropdownCell = forwardRef((props, ref) => {
       placeholder={"dd/mm/yyyy"}
       value={value}
       onChange={(e) => {
-        setValue(e ? moment(e, "YYYYMMDD") : undefined);
+        setValue(e ? moment(e, "dd/mm/yyyy") : undefined);
       }}
       size="small"
       getPopupContainer={null}

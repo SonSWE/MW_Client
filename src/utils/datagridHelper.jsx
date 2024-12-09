@@ -22,8 +22,8 @@ const Cell = ({ children, bgColor, bgColorStyle }) => {
 
 const RenderOptions = ({ value, options, linkToDetail, valueItem, record }) => {
   let option = convertToArray(options).find((e) => e?.value === value);
-
-  let text = option !== undefined ? option?.description : value;
+console.log(option)
+  let text = option !== undefined ? option?.label : value;
 
   return !value || value === "" ? (
     <Cell>

@@ -8,7 +8,7 @@ import { CONST_YN } from "../../../const/FormConst";
 const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) => {
   useImperativeHandle(ref, () => ({
     triggerThayDoiBanGhi: (values) => {
-      formInstance.setFieldValue(FormUser.EnableLogon, CONST_YN.Yes);
+      
     },
   }));
 
@@ -58,7 +58,6 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
         </div>
         <div className="">
           <Form.Item
-            className="pt-3 w-100"
             shouldUpdate={(prevValues, currentValues) =>
               isRender(prevValues, currentValues, [FormUser.MustChangePasswordAtNextLogon])
             }
@@ -69,7 +68,10 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
                   ? true
                   : false;
               return (
-                <Form.Item name={FormUser.MustChangePasswordAtNextLogon}>
+                <Form.Item
+                  name={FormUser.MustChangePasswordAtNextLogon}
+                  label={"Đổi mật khẩu vào lần đăng nhập sau"}
+                >
                   <Checkbox
                     checked={checked}
                     onChange={(e) => {
@@ -78,9 +80,7 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
                         e.target.checked ? CONST_YN.Yes : CONST_YN.No
                       );
                     }}
-                  >
-                    Đổi mật khẩu vào lần đăng nhập sau
-                  </Checkbox>
+                  ></Checkbox>
                 </Form.Item>
               );
             }}
@@ -88,7 +88,6 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
         </div>
         <div className="">
           <Form.Item
-            className="pt-3 w-100"
             shouldUpdate={(prevValues, currentValues) =>
               isRender(prevValues, currentValues, [FormUser.AccountIsLockedOut])
             }
@@ -97,7 +96,7 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
               const checked =
                 getFieldValue(FormUser.AccountIsLockedOut) === CONST_YN.Yes ? true : false;
               return (
-                <Form.Item name={FormUser.AccountIsLockedOut}>
+                <Form.Item name={FormUser.AccountIsLockedOut} label={"Tài khoản bị khóa"}>
                   <Checkbox
                     checked={checked}
                     onChange={(e) => {
@@ -106,9 +105,7 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
                         e.target.checked ? CONST_YN.Yes : CONST_YN.No
                       );
                     }}
-                  >
-                    Tài khoản bị khóa
-                  </Checkbox>
+                  ></Checkbox>
                 </Form.Item>
               );
             }}
@@ -116,7 +113,6 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
         </div>
         <div className="">
           <Form.Item
-            className="pt-3 w-100"
             shouldUpdate={(prevValues, currentValues) =>
               isRender(prevValues, currentValues, [FormUser.EnableLogon])
             }
@@ -125,7 +121,7 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
               const checked = getFieldValue(FormUser.EnableLogon) === CONST_YN.Yes ? true : false;
 
               return (
-                <Form.Item name={FormUser.EnableLogon}>
+                <Form.Item name={FormUser.EnableLogon} label={"Cho phép đăng nhập"}>
                   <Checkbox
                     checked={checked}
                     onChange={(e) => {
@@ -134,9 +130,7 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
                         e.target.checked ? CONST_YN.Yes : CONST_YN.No
                       );
                     }}
-                  >
-                    Cho phép đăng nhập
-                  </Checkbox>
+                  ></Checkbox>
                 </Form.Item>
               );
             }}

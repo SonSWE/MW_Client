@@ -1,7 +1,7 @@
 import LayoutManagement from "../../../components/layout/LayoutManagement";
-import { CONST_FORM_ACTION } from "../../../const/FormConst";
-import { FormUser } from "../../../const/FormUser";
-
+import { CONST_CONTROL_TYPE } from "../../../const/FormConst";
+import { FormFreelancer } from "../../../const/FormFreelancer";
+import { FormJob } from "../../../const/FormJob";
 import { CRUD_ButtonConfig } from "../../../const/LayoutConst";
 import { useBusinessAction } from "./BusinessAction";
 import InputItems from "./InputItems";
@@ -18,8 +18,8 @@ export const columnDefs = [
     sortable: false,
   },
   {
-    field: FormUser.UserName,
-    headerName: "Tài khoản",
+    field: FormFreelancer.AvatarFileId,
+    headerName: "Ảnh đại diện",
     align: "left",
     pinned: "left",
     width: 160,
@@ -29,17 +29,18 @@ export const columnDefs = [
     },
   },
   {
-    field: FormUser.StatusText,
-    headerName: "Trạng thái",
+    field: FormFreelancer.FreelancerId,
+    headerName: "Mã",
     align: "left",
-    width: 180,
+    pinned: "left",
+    width: 160,
     sortable: true,
     sorter: {
       multiple: 1,
     },
   },
   {
-    field: FormUser.Name,
+    field: FormFreelancer.Name,
     headerName: "Tên",
     align: "left",
     width: 180,
@@ -49,70 +50,71 @@ export const columnDefs = [
     },
   },
   {
-    field: FormUser.UserTypeText,
-    headerName: "Loại tài khoản",
+    field: FormFreelancer.Email,
+    headerName: "Email",
     align: "left",
-    width: 280,
+    width: 180,
     sortable: true,
     sorter: {
       multiple: 1,
     },
   },
   {
-    field: FormUser.EnableLogonText,
-    headerName: "Được phép đăng nhập",
+    field: FormFreelancer.PhoneNumber,
+    headerName: "SĐT",
     align: "left",
-    width: 380,
+    width: 180,
     sortable: true,
     sorter: {
       multiple: 1,
     },
   },
   {
-    field: FormUser.FailedLogonCount,
-    headerName: "Số lần đăng nhập sai",
+    field: FormFreelancer.StreetAddress,
+    headerName: "Vị trí",
     align: "left",
-    width: 380,
+    width: 180,
     sortable: true,
     sorter: {
       multiple: 1,
     },
   },
   {
-    field: FormUser.MustChangePasswordAtNextLogonText,
-    headerName: "Đổi mật khẩu vào lần đăng nhập sau",
+    field: FormFreelancer.CityIdText,
+    headerName: "Quốc gia",
     align: "left",
-    width: 380,
+    width: 180,
     sortable: true,
     sorter: {
       multiple: 1,
     },
   },
   {
-    field: FormUser.AccountIsLockedOutText,
-    headerName: "Tài khoản bị khóa",
+    field: FormFreelancer.DateOfBirth,
+    headerName: "Ngày sinh",
     align: "left",
-    width: 380,
+    width: 180,
+    sortable: true,
+    sorter: {
+      multiple: 1,
+    },
+  },
+
+  {
+    field: FormFreelancer.LevelIdText,
+    headerName: "Trình độ",
+    align: "left",
+    width: 180,
     sortable: true,
     sorter: {
       multiple: 1,
     },
   },
   {
-    field: FormUser.LastTriedOrLogonTime,
-    headerName: "Thời gian đăng nhập gần nhất",
+    field: FormFreelancer.HourlyRate,
+    headerName: "Thu nhập mỗi giờ",
     align: "left",
-    width: 380,
-    sortable: true,
-    sorter: {
-      multiple: 1,
-    },
-  },
-  {
-    field: FormUser.LastChangePasswordOn,
-    headerName: "Thời gian đổi mật khẩu gần nhất",
-    align: "left",
-    width: 380,
+    width: 180,
     sortable: true,
     sorter: {
       multiple: 1,
@@ -121,17 +123,17 @@ export const columnDefs = [
 ];
 
 const SearchConfig = [
-  { key: FormUser.UserName, operator: "=" },
-  { key: FormUser.Name, operator: "=" },
-  { key: FormUser.Status, operator: "=" },
-  { key: FormUser.EnableLogon, operator: "=" },
-  { key: FormUser.FailedLogonCount, operator: "=" },
-  { key: FormUser.MustChangePasswordAtNextLogon, operator: "=" },
-  { key: FormUser.AccountIsLockedOut, operator: "=" },
-  { key: FormUser.LastChangePasswordOn, operator: "=" },
+  { key: FormFreelancer.FreelancerId, operator: "=" },
+  { key: FormFreelancer.Email, operator: "=" },
+  { key: FormFreelancer.PhoneNumber, operator: "=" },
+  { key: FormFreelancer.StreetAddress, operator: "=" },
+  { key: FormFreelancer.CityId, operator: "=" },
+  { key: FormFreelancer.DateOfBirth, operator: "=" },
+  { key: FormFreelancer.LevelId, operator: "=" },
+  { key: FormFreelancer.HourlyRate, operator: "=" },
 ];
 
-export const USER = {
+export const FREELANCER = {
   pageLayout: LayoutManagement,
   pageConfig: {
     businessAction: useBusinessAction,
@@ -140,17 +142,23 @@ export const USER = {
       InputItemsSearch,
     },
     header: {
-      
+      controller: "freelancer",
+      // disableRule: [
+      //   {
+      //     field: "recordStatus",
+      //     values: ["PD", "D"],
+      //   },
+      // ],
     },
     dataGrid: {
-      recordKey: FormUser.UserName,
-      searchCode: "USER",
+      recordKey: FormFreelancer.FreelancerId,
+      searchCode: "FREELANCER",
       buttonConfig: {
         ...CRUD_ButtonConfig,
       },
       columnDefs: columnDefs,
       searchConfig: SearchConfig,
     },
-    functionId: "USER",
+    functionId: "FREELANCER",
   },
 };
