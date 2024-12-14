@@ -421,21 +421,9 @@ export const useGlobalConst = () => {
   };
 };
 
-export const Corp_Action_Type = {
-  ByMoney: 1,
-  BySymbol: 2,
-};
-
-export const Sh_Article_Status_Enum = {
-  ChoXyLy: 1,
-  BiTraLai: 2,
-  DaDang: 3,
-  DaGo: 4,
-};
-
-export const Sh_Article_Hottype = {
-  TinBinhThuong: 0,
-  TinHot: 1,
+export const constHostAddressConfig = {
+  ApiHostAddress: import.meta.env.VITE_HOST_SERVICE,
+  WsHostAddress: import.meta.env.VITE_HOST_WEBSOCKET,
 };
 
 export const User_Type_Enum = {
@@ -443,17 +431,6 @@ export const User_Type_Enum = {
   Staff: "S",
 };
 
-export const App_Enum = {
-  MessageRequired: "Không được để trống",
-};
-
-export const SH_SHARE_TYPE_ENUM = {
-  CoPhieuPhoThong: 0,
-  CoPhieuESOP: 1,
-  CoPhieuUuDaiCoTuc: 2,
-  CoPhieuUuDaiBieuQuyet: 3,
-  CoPhieuKhac: 4,
-};
 
 const DATE_FORMAT = "DD/MM/YYYY";
 export const DATE_MASKED = IMask.createMask({
@@ -482,4 +459,9 @@ export const objectToArray = (obj)=>{
 export const CONST_BUDGET_TYPE = {
   Fixed: "F",
   Hourly: "H"
+}
+
+export const CONST_CLIENT_TYPE = {
+  Personal: "P",
+  Organization: "O"
 }

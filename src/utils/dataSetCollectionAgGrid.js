@@ -164,7 +164,6 @@ export const StatusRender = ({
 }) => {
   const globalConst = useGlobalConst();
   const allcode = useSelector((state) => state.allcodeReducer.ALLCODE);
-  const lang = useSelector((state) => state.language.language);
   
   let colorClass = "";
 
@@ -172,7 +171,7 @@ export const StatusRender = ({
   if ([globalConst.APP.CODE.STATUS.PENDING].includes(status)) {
     colorClass = "clr-yl";
   }
-  let statusText = GetStatusText(status, allcode, lang, cdCode, keyName);
+  let statusText = GetStatusText(status, allcode, cdCode, keyName);
 
   return <span>{statusText}</span>
   // // nếu từ chối hiển thị tooltip lý do từ chối

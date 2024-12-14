@@ -1,15 +1,15 @@
 import { Button, Checkbox, Form, Input } from "antd";
 
-import { useLoginApi } from "../../apiHelper/api/login";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import md5 from "md5";
 import { saveUserToStorage } from "../../store/actions/sharedActions";
+import { useBusinessAction } from "./BusinessAction";
 
 const Index = () => {
   const [form] = Form.useForm();
-  const apiClient = useLoginApi();
+  const apiClient = useBusinessAction();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -42,7 +42,7 @@ const Index = () => {
             }
 
             toast.success("Đăng nhập thành công");
-
+            console.log("thành công");
             navigate("/");
           } else {
             toast.error(res.data.Message);
@@ -90,7 +90,7 @@ const Index = () => {
                   },
                 ]}
               >
-                <Input type="password" placeholder="Password" className="h-10  rounded-3xl" />
+                <Input.Password placeholder="Password" className="h-10  rounded-3xl" />
               </Form.Item>
 
               <div className="ant-form-remember flex ">

@@ -50,7 +50,6 @@ const EditTableCommunityAG = React.forwardRef(
   ) => {
     const [pageNum, setPageNum] = useState(1);
     const [pageSize, setPageSize] = useState(maxPage);
-    // const lang = useSelector((state) => state.language.language);
 
     useImperativeHandle(ref, () => ({}));
 

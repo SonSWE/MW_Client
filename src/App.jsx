@@ -1,14 +1,11 @@
 import { Navigate, RouterProvider, createBrowserRouter } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-
-//thêm phần này để khởi tạo axios
-import {} from "./apiHelper/connection/axiosInterceptors.js";
-
 import { useEffect, useState } from "react";
 import Login from "./pages/Login/Index.jsx";
-import { useLoginApi } from "./apiHelper/api/login.js";
 import { LayoutEmpty } from "./components/layout/LayoutEmpty.jsx";
 // import { connectWS } from "./websocket/socket.js";
+
+import { } from "./utils/initAxiosClient.js";
 
 //import thư viện css
 import "react-toastify/dist/ReactToastify.css";
@@ -19,37 +16,61 @@ import { CONST_LOGIN_TYPE, CONST_USER_TYPE } from "./const/LayoutConst.js";
 
 import AppClient from "./AppClient.jsx";
 import AppFreelancer from "./AppFreelancer.jsx";
+import { useAxios } from "./utils/apiHelper.js";
+import { convertToArray } from "./utils/convertData.js";
+import { removeUserFromStorage } from "./store/actions/sharedActions.js";
+import { isNullOrEmpty } from "./utils/utils.js";
 
 function App() {
-  const loginApi = useLoginApi();
   const dispatch = useDispatch();
 
-  const [userLogin, setUserLogin] = useState({
-    username: "Adminator",
-    userType: CONST_USER_TYPE.Admin,
-    loginType: CONST_LOGIN_TYPE.Admin,
-  });
+  // const [userLogin, setUserLogin] = useState({
+  //   username: "Adminator",
+  //   userType: CONST_USER_TYPE.User,
+  //   loginType: CONST_LOGIN_TYPE.Freelancer,
+  // });
   //tạm k check đăng nhập
-  // const userLogin = useSelector((state) => state.authReducer);
+  const userLogin = useSelector((state) => state.authReducer);
   const isLogin = userLogin && userLogin?.username;
 
   // const userLogin = {
   //   username: "Adminator",
   //   userType: "A",
   // };
+  const Axios = useAxios();
+  const _handleVisibilityChange = (e, forceUpdate = false) => {
+    if (!forceUpdate && document.visibilityState === "hidden") {
+      return;
+    }
 
-  const _handleVisibilityChange = (e) => {
-    if (isLogin && document.visibilityState !== "hidden") {
-      loginApi
-        .Checkalive()
+    if (!isNullOrEmpty(userLogin?.username)) {
+      Axios.get("/api/auth/token/checkalive")
         .then((res) => {
           if (res.status !== 200) {
+            removeUserFromStorage();
             dispatch({ type: "CLEAR_USER" });
-          }
+          } 
+          // else {
+          //   // mở
+          //   dispatch({ type: "UPDATE_USER_SETTING", payload: res.data });
+          // }
         })
         .catch((err) => {
+          removeUserFromStorage();
           dispatch({ type: "CLEAR_USER" });
         });
+    }
+  };
+
+  const fetchSystemCodes = async () => {
+    try {
+      const { data } = await Axios.collections.SAShare.GetSystemCodes();
+      dispatch({
+        type: "SET_SYSTEMCODES",
+        payload: convertToArray(data),
+      });
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -67,35 +88,25 @@ function App() {
   //   connectWS();
   // }, []);
 
-  //tạm k check đăng nhập
-  // useEffect(() => {
-  //   document.addEventListener("visibilitychange", _handleVisibilityChange, false);
+  useEffect(() => {
+    document.addEventListener("visibilitychange", _handleVisibilityChange, false);
 
-  //   window.addEventListener("message", _handlePostMessage, false);
+    // window.addEventListener("message", _handlePostMessage, false);
 
-  //   if (userLogin) {
-  //     _handleVisibilityChange();
-  //     //gọi api lấy allcode
-  //     // GetAllCode()
-  //     //   .then((data) => {
-  //     //     if (data && data.jsondata) {
-  //     //       dispatch({
-  //     //         type: "SET_ALLCODE",
-  //     //         payload: JSON.parse(data.jsondata),
-  //     //       });
-  //     //     }
-  //     //   })
-  //     //   .catch(function (err) {
-  //     //     console.log(err);
-  //     //   });
-  //   }
+    if (userLogin) {
+      console.log(userLogin);
+      
+      _handleVisibilityChange();
 
-  //   return () => {
-  //     document.removeEventListener("visibilitychange", _handleVisibilityChange, false);
+      fetchSystemCodes();
+    }
 
-  //     window.removeEventListener("message", _handlePostMessage, false);
-  //   };
-  // }, [userLogin]);
+    return () => {
+      document.removeEventListener("visibilitychange", _handleVisibilityChange, false);
+
+      // window.removeEventListener("message", _handlePostMessage, false);
+    };
+  }, [userLogin]);
 
   const routersLogin = createBrowserRouter([
     {
@@ -107,7 +118,7 @@ function App() {
       element: <Navigate to="/login" replace />,
     },
   ]);
-  console.log(userLogin?.userType);
+  
 
   const RenderByLoginType = ({ loginType }) => {
     if (loginType === CONST_LOGIN_TYPE.Client) {

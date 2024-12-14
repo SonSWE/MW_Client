@@ -1,4 +1,5 @@
 
+import { CLIENT } from "../pages/Adminator/Client/config";
 import { DASHBOARD } from "../pages/Adminator/Dashboard/config";
 import { FREELANCER } from "../pages/Adminator/Freelancer/config";
 import { JOB } from "../pages/Adminator/Job/config";
@@ -75,5 +76,13 @@ export const RoutesAdminConfig = [
     checkRight: false,
     url: "/freelance",
     ComponentConfig: FREELANCER,
+  },
+  {
+    Function_Id: CLIENT.pageConfig.functionId,
+    Function_Name: "Khách hàng",
+    DisplayOnMenu: 1,
+    checkRight: false,
+    url: "/khach-hang",
+    ComponentConfig: CLIENT,
   },
 ];
