@@ -8,15 +8,37 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import moment from "moment";
 import { useState } from "react";
+import { wsReadyState } from "../../utils/socket";
+import { useSelector } from "react-redux";
 
 const FooterSticky = () => {
-  const [isConnected, setIsConnected] = useState(true);
+  const connectStatus = useSelector((state) => state.sysparams.CONNECTSTATUS);
+  const classnameStatusConnect = (status) => {
+    switch (status) {
+      case wsReadyState.CONNECTING:
+        return "connecting";
+      case wsReadyState.OPEN:
+        return "connected";
+      default:
+        return "disconnected";
+    }
+  };
+  const textStatusConnect = (status) => {
+    switch (status) {
+      case wsReadyState.CONNECTING:
+        return "Đang kết nối";
+      case wsReadyState.OPEN:
+        return "Đã kết nối";
+      default:
+        return "Kết nối thất bại";
+    }
+  };
   return (
     <div className="footer_sticky px-10">
-      <div className={isConnected ? "connected" : "disconnected"}>
+      <div className={classnameStatusConnect(connectStatus)}>
         <FontAwesomeIcon icon={faServer} color="black" size="xs" className="mr-2" />
         <FontAwesomeIcon icon={faCircle} size="xs" className="mr-2" />
-        {isConnected ? <span>Kết nối thành công</span> : <span>Kết nối thất bại</span>}
+        <span>{textStatusConnect(connectStatus)}</span>
       </div>
       <div className="flex items-center gap-3">
         <div>

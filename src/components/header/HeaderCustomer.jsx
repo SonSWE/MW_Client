@@ -15,15 +15,34 @@ import {
 import { Button, Divider, Input, Popover } from "antd";
 import { faBell, faComment } from "@fortawesome/free-regular-svg-icons";
 import { useState } from "react";
-export const HeaderWorker = () => {
+import { getUserFromStorage, removeUserFromStorage } from "../../store/actions/sharedActions";
+import { useAxios } from "../../utils/apiHelper";
+import { useDispatch } from "react-redux";
+export const HeaderCustomer = () => {
   const [showMenu, setShowMenu] = useState(false);
 
   const HandleColased = () => {
     setShowMenu(!showMenu);
   };
 
+  const dispatch = useDispatch();
+  const Axios = useAxios();
+  
+  const Logout = (e) => {
+    const userLocal = getUserFromStorage();
+
+    Axios.Logout(userLocal?.refresh_token)
+      .then((res) => {
+        removeUserFromStorage();
+        dispatch({ type: "CLEAR_USER" });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
-    <nav id={"topNav"} className={`header-responesive ${showMenu ? " open_menu" : ""}`}>
+    <nav id={"topNav"} className={`header-responesive relative z-50 ${showMenu ? " open_menu" : ""}`}>
       <div className="menu">
         <div className="logo-img">
           <img src={logo}></img>
@@ -112,7 +131,7 @@ export const HeaderWorker = () => {
                 <div className="text-base font-bold">Đăng xuất</div>
               </div>
               <Divider className="my-2" />
-              <div className="card-hover">
+              <div className="card-hover" onClick={Logout}>
                 <FontAwesomeIcon icon={faRightFromBracket} color="#f87171" size="lg" />
                 <div className="text-base font-bold text-red-400">Đăng xuất</div>
               </div>

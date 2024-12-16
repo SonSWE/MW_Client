@@ -49,6 +49,18 @@ export const useAxios = () => {
     inquiry: (inquiry) => {
       return client.post(`api/sa/search/inquiry`, inquiry );
     },
+    Login: (jsonData) => {
+      return client.post("api/auth/token/auth", jsonData);
+    },
+    RefreshToken: (jsonData) => {
+      return client.post("api/auth/token/auth", jsonData);
+    },
+    Checkalive: () => {
+      return client.get("api/auth/token/checkalive");
+    },
+    Logout: (prop) => {
+      return client.post("api/auth/token/logout", { refresh_token: prop });
+    },
     client: client,
   };
 

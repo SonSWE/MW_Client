@@ -1,6 +1,6 @@
 import React from "react";
 
-import { HeaderWorker } from "../header/HeaderWorker";
+import { HeaderCustomer } from "../header/HeaderCustomer";
 import FooterWorker from "../footer/FooterWorker";
 
 const LayoutWorker = ({ pageConfig }) => {
@@ -11,7 +11,7 @@ const LayoutWorker = ({ pageConfig }) => {
     <>
       <div className="bg-white relative">
         <div className="content-scroll !pb-0">
-          <HeaderWorker />
+          <HeaderCustomer />
 
           <div>
             <div className="page-content-worker h-full">

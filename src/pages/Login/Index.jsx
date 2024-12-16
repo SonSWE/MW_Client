@@ -5,13 +5,15 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import md5 from "md5";
 import { saveUserToStorage } from "../../store/actions/sharedActions";
-import { useBusinessAction } from "./BusinessAction";
+import { useAxios } from "../../utils/apiHelper";
+import { useNotification } from "../../utils/formHelper";
 
 const Index = () => {
   const [form] = Form.useForm();
-  const apiClient = useBusinessAction();
+  const Axios = useAxios();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const notification = useNotification();
 
   const onFinish = async (values) => {
     let param = {
@@ -22,8 +24,7 @@ const Index = () => {
       Refresh_token: "",
     };
 
-    apiClient
-      .Login(param)
+    Axios.Login(param)
       .then((res) => {
         if (res) {
           if (res?.status === 200 && res?.data?.code > 0) {
@@ -40,18 +41,28 @@ const Index = () => {
                 })
               );
             }
-
-            toast.success("Đăng nhập thành công");
-            console.log("thành công");
+            notification.success({
+              message: "Đăng nhập thành công",
+            });
             navigate("/");
-          } else {
-            toast.error(res.data.Message);
           }
         }
       })
       .catch((err) => {
-        console.log(err);
-        toast.error("Đăng nhập thất bại, không thể kết nối đến máy chủ!");
+        if (err.response) {
+          if (err.response.data) {
+            notification.error({
+              message: err.response.data.message,
+            });
+          }
+        } else if (err.request) {
+          notification.error({
+            message: "Đăng nhập thất bại, không thể kết nối đến máy chủ!",
+          });
+        } else {
+          // Lỗi khác trong quá trình gửi yêu cầu
+          console.error("Error:", err.message);
+        }
       });
   };
   return (

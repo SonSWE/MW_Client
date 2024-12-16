@@ -319,8 +319,11 @@ a:hover, a:focus {
 .footer_sticky .connected {
   color: #4fd08a;
 }
-.footer_sticky .disconnected {
+.footer_sticky .connecting {
   color: #d0b84f;
+}
+.footer_sticky .disconnected {
+  color: #d04f4f;
 }
 
 .btn-footer-list > li {

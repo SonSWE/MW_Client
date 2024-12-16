@@ -11,7 +11,7 @@ import "./assets/scss/main.css";
 import "./index.css";
 import { RoutesAdminConfig } from "./routes/RoutesAdminConfig.jsx";
 
-function AppAdmin() {
+function AppAdmin({isLogin}) {
   const getlstRouter = () => {
     let _lstRouters = [];
     _lstRouters.push({

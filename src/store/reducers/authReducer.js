@@ -30,17 +30,21 @@ export const authReducer = (state = initState, { type, payload }) => {
         ...state,
         userId: 0,
         access_token: "",
-        refresh_Token: "",
+        refresh_token: "",
         expiryTime: null,
         username: "",
         fullName: null,
+        userType: "",
+        loginType: "",
+        mustChangePassword: undefined,
+        freelancer: undefined,
         functionSettings: [],
       };
     case "RESET_TOKEN":
       return {
         ...state,
         access_token: payload.access_token,
-        refresh_Token: payload.refresh_Token,
+        refresh_token: payload.refresh_Token,
         expiryTime: payload.expiryTime,
       };
     default:

@@ -10,13 +10,13 @@ import {
   Tabs,
   Tooltip,
 } from "antd";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { GroupBox } from "../../../components/element/GroupBox";
 import { FormSystemCode, FormSystemCodeValue } from "../../../const/FormSystemCode";
 import { convertToArray, isNullOrEmpty, isRender, makeid } from "../../../utils/utils";
 import EditTableCommunityAG from "../../../components/controls/EditTableCommunityAG";
 import { columnSystemCodeValue } from "./comom";
-import { useNotification } from "../../../utils/formHelper";
+import { useNotification, usePopupNotification } from "../../../utils/formHelper";
 import delteteicon from "../../../assets/image/icon/ic_tip_delete.svg";
 import addicon from "../../../assets/image/icon/ic_add_form.svg";
 import BaseModal from "../../../components/controls/BaseModal";
@@ -36,13 +36,53 @@ import {
   faThumbsDown,
 } from "@fortawesome/free-regular-svg-icons";
 import { useNavigate } from "react-router-dom";
+import { getUserFromStorage } from "../../../store/actions/sharedActions";
+import { CONST_YN } from "../../../const/FormConst";
+import { useBusinessAction } from "./BusinessAction";
+import { FormFreelancer } from "../../../const/FormFreelancer";
+import { useSelector } from "react-redux";
+import ListJob from "./ListJob";
+import { FormJob } from "../../../const/FormJob";
 
 const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) => {
+  const apiClient = useBusinessAction();
+  const popup = usePopupNotification();
   const notification = useNotification();
-
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   const [formSearchAVD] = Form.useForm();
+  const [jobsSuggest, setJobSuggest] = useState([]);
+  const [jobsSaved, setJobsSaved] = useState([]);
+  const userLogged = getUserFromStorage();
+
+  const LoadJobsSuggest = () => {
+    apiClient
+      .GetSuggestByFreelancer(userLogged.freelancer?.freelancerId)
+      .then((res) => {
+        if (res.status === 200 && res.data) {
+          setJobSuggest(convertToArray(res.data));
+        }
+      })
+      .catch((e) => {
+        setJobSuggest([]);
+      });
+  };
+
+  const LoadJobsSaved = () => {
+    apiClient
+      .GetJobsSaved(userLogged.freelancer?.freelancerId)
+      .then((res) => {
+        if (res.status === 200 && res.data) {
+          setJobsSaved([...convertToArray(res.data)]);
+        }
+      })
+      .catch((e) => {
+        setJobsSaved([]);
+      });
+  };
+  useEffect(() => {
+    LoadJobsSuggest();
+    LoadJobsSaved();
+  }, []);
 
   const handleOk = () => {};
 
@@ -67,103 +107,70 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
     navigate(`/tim-viec-nang-cao?value=${value}`); // Chuyển đến trang /target-page
   };
 
-  const ListJob = () => {
-    return (
-      <div className="list-job">
-        <div className="text-sm text-label mb-4 px-4">
-          Chọn những công việc phù hợp với kinh nghiệm của bạn để có cơ hội ký hợp đồng cao hơn
-        </div>
-        <div className="job-card">
-          <div className="flex justify-between items-center">
-            <div>
-              <div className="text-xs text-label">Đã đăng 25/11</div>
-              <div className="text-lg !no-underline btn-text !text-black">
-                Chụp ảnh quán ca fe cầu giấy
-              </div>
-            </div>
-            <div className="flex">
-              <Button type="text" shape="circle" icon={<FontAwesomeIcon icFon={faThumbsDown} />} />
-              <Button type="text" shape="circle" icon={<FontAwesomeIcon icon={faHeartRegular} />} />
-            </div>
-          </div>
-          <div className="mt-2 text-xs text-label">
-            Giá cố định - Intermediate - Est. Budget: $50
-          </div>
-          <div className="mt-5 text-base text-label mt-5">
-            escription: We are seeking a skilled .NET C# developer to handle the following tasks: 1.
-            API Data Integration: Develop a module to import ingredient data from a specified API
-            into our existing database. Ensure accurate data mapping, validation, and storage
-            processes. 2. Financial Reporting: Create two financial reports using data from the
-            current database: Profit and Loss Report:
-          </div>
-          <div className="flex items-center gap-3 mt-5">
-            <div className="tag-skill">Chụp nhân dung</div>
-            <div className="tag-skill">Chụp nhân dung</div>
-            <div className="tag-skill">Chụp nhân dung</div>
-            <div className="tag-skill">Chụp nhân dung</div>
-          </div>
-          <div className="flex items-center gap-8 mt-5">
-            <div className="">
-              <FontAwesomeIcon icon={faCheckCircle} /> <span>Thanh toán được xác thực</span>
-            </div>
-            <div className="">
-              <Rate style={{ fontSize: "14px" }} disabled defaultValue={2} />
-              <span className="ml-2"> Đã thanh toán 500K+</span>
-            </div>
+  const handleChangeOpenForJob = () => {
+    const description =
+      userLogged?.freelancer?.isOpeningForJob === CONST_YN.Yes
+        ? "Bạn có chắn chắn muốn tắt trạng thái sẵn sàng nhận việc"
+        : "Bạn có chắn chắn muốn bật trạng thái sẵn sàng nhận việc";
+    const newValue =
+      userLogged?.freelancer?.isOpeningForJob === CONST_YN.Yes ? CONST_YN.No : CONST_YN.Yes;
 
-            <div className="">
-              <FontAwesomeIcon icon={faLocationDot} /> Hà Nội
-            </div>
-          </div>
-          <div className="mt-5 text-base text-label mt-5">Đề xuất: 5 đến 10</div>
-        </div>
-        <div className="job-card">
-          <div className="flex justify-between items-center">
-            <div>
-              <div className="text-xs text-label">Đã đăng 25/11</div>
-              <div className="text-lg !no-underline btn-text !text-black">
-                Chụp ảnh quán ca fe cầu giấy
-              </div>
-            </div>
-            <div className="flex">
-              <Button type="text" shape="circle" icon={<FontAwesomeIcon icFon={faThumbsDown} />} />
-              <Button type="text" shape="circle" icon={<FontAwesomeIcon icon={faHeartRegular} />} />
-            </div>
-          </div>
-          <div className="mt-2 text-xs text-label">
-            Giá cố định - Intermediate - Est. Budget: $50
-          </div>
-          <div className="mt-5 text-base text-label mt-5">
-            escription: We are seeking a skilled .NET C# developer to handle the following tasks: 1.
-            API Data Integration: Develop a module to import ingredient data from a specified API
-            into our existing database. Ensure accurate data mapping, validation, and storage
-            processes. 2. Financial Reporting: Create two financial reports using data from the
-            current database: Profit and Loss Report:
-          </div>
-          <div className="flex items-center gap-3 mt-5">
-            <div className="tag-skill">Chụp nhân dung</div>
-            <div className="tag-skill">Chụp nhân dung</div>
-            <div className="tag-skill">Chụp nhân dung</div>
-            <div className="tag-skill">Chụp nhân dung</div>
-          </div>
-          <div className="flex items-center gap-8 mt-5">
-            <div className="">
-              <FontAwesomeIcon icon={faCheckCircle} /> <span>Thanh toán được xác thực</span>
-            </div>
-            <div className="">
-              <Rate style={{ fontSize: "14px" }} disabled defaultValue={2} />
-              <span className="ml-2"> Đã thanh toán 500K+</span>
-            </div>
-
-            <div className="">
-              <FontAwesomeIcon icon={faLocationDot} /> Hà Nội
-            </div>
-          </div>
-          <div className="mt-5 text-base text-label mt-5">Đề xuất: 5 đến 10</div>
-        </div>
-      </div>
-    );
+    popup.confirmDuplicate({
+      description: description,
+      onOk: (close) => {
+        apiClient
+          .UpdateIsOpenForJob({
+            [FormFreelancer.FreelancerId]: userLogged?.freelancer?.[[FormFreelancer.FreelancerId]],
+            [FormFreelancer.IsOpeningForJob]: newValue,
+          })
+          .then((res) => {
+            if (res.status === 200) {
+              close();
+              notification.success({ message: "Cập nhật thành công" });
+            }
+          })
+          .catch((err) => {
+            if (err.response) {
+              if (err.response?.data?.message) {
+                notification.error({
+                  message: err.response.data.message,
+                });
+              }
+            } else if (err.request) {
+              notification.error({
+                message: "Không thể kết nối đến máy chủ!",
+              });
+            } else {
+              // Lỗi khác trong quá trình gửi yêu cầu
+              console.error("Error:", err.message);
+            }
+          });
+      },
+    });
   };
+
+  const saveJob = (prop) => {
+    if (prop?.[FormJob.Saved] === CONST_YN.Yes) {
+      apiClient
+        .RemoveSaveJob(prop)
+        .then((res) => {
+          if (res.status === 200 && res.data) {
+            LoadJobsSaved();
+          }
+        })
+        .catch((e) => {});
+    } else {
+      apiClient
+        .InsertSaveJob(prop)
+        .then((res) => {
+          if (res.status === 200 && res.data) {
+            LoadJobsSaved();
+          }
+        })
+        .catch((e) => {});
+    }
+  };
+
   return (
     <div className="grid grid-flow-col grid-cols-4 gap-8 p-y">
       <div className="col-span-3">
@@ -191,7 +198,7 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
             prefix={<FontAwesomeIcon icon={faMagnifyingGlass} />}
             onKeyDown={(event) => {
               if (event.code === "Enter" && !isNullOrEmpty(event.target.value)) {
-                console.log(event.target.value)
+                console.log(event.target.value);
                 goToSearch(event.target.value);
               }
             }}
@@ -204,17 +211,12 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
             {
               label: "Phù hợp nhất",
               key: "1",
-              children: <ListJob />,
-            },
-            {
-              label: "Mới đăng tải",
-              key: "2",
-              children: <ListJob />,
+              children: <ListJob datas={jobsSuggest} apiClient={apiClient} saveJob={saveJob}/>,
             },
             {
               label: "Đã lưu (7)",
               key: "3",
-              children: <ListJob />,
+              children: <ListJob datas={jobsSaved} apiClient={apiClient}  saveJob={saveJob}/>,
             },
           ]}
         />
@@ -243,7 +245,12 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
               <div className="text-base">Sẵn sàng làm việc</div>
               <div className="text-label">Mở</div>
             </div>
-            <Button type="text" shape="circle" icon={<FontAwesomeIcon icon={faPencil} />} />
+            <Button
+              type="text"
+              onClick={handleChangeOpenForJob}
+              shape="circle"
+              icon={<FontAwesomeIcon icon={faPencil} />}
+            />
           </div>
         </div>
 
@@ -255,7 +262,7 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
           </div>
         </div>
 
-        <div className="card">
+        {/* <div className="card">
           <div className="card-title">Tùy chọn</div>
           <div className="flex items-center justify-between">
             <div>
@@ -264,7 +271,7 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
             </div>
             <Button type="text" shape="circle" icon={<FontAwesomeIcon icon={faPencil} />} />
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
     // <div className="bg-red-500">

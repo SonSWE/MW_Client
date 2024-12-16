@@ -13,7 +13,7 @@ import {
   getNumberLocaleCompany,
 } from "helpers/utils";
 //render giá trị
-import { useNotification } from "helpers/formHelper";
+import { usePopupNotification } from "helpers/formHelper";
 import moment from "moment";
 import { convertToArray } from "helpers/utils";
 const DropDownRender = ({ children, tooltip }) => {
@@ -210,7 +210,7 @@ export const TXStatusTextRender = ({
   oldData,
   keyName,
 }) => {
-  const notification = useNotification();
+  const notification = usePopupNotification();
   const globalConst = useGlobalConst();
   let colorClass = "";
 
@@ -290,7 +290,7 @@ export const MapColumns = (
   recordStatus,
   checkTabs = false
 ) => {
-  const notification = useNotification();
+  const notification = usePopupNotification();
 
   return columnList.map((e) => {
     let cellRenderer =

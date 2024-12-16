@@ -1,7 +1,7 @@
 import { Form, Input, InputNumber, Modal, Select, Tabs } from "antd";
 import React, { useEffect, useImperativeHandle, useState } from "react";
 import { convertToArray, getSystemCodeValues, isRender, makeid } from "../../../utils/utils";
-import { useNotification } from "../../../utils/formHelper";
+import { usePopupNotification } from "../../../utils/formHelper";
 import { FormJob, FormJobSkill, FormProposal } from "../../../const/FormJob";
 import { CONST_BUDGET_TYPE } from "../../../utils/constData";
 import { useSelector } from "react-redux";
@@ -27,7 +27,7 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
     },
   }));
 
-  const notification = useNotification();
+  const notification = usePopupNotification();
   const systemCodes = useSelector((state) => state.systemCodeReducer.SYSTEMCODES);
   const axios = useAxios();
   const [lstSkill, setLstSkill] = useState([]);

@@ -5,7 +5,7 @@ import { CONST_FORM_ACTION } from "../../const/FormConst";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
 import TextArea from "antd/es/input/TextArea";
-import { useNotification } from "../../utils/formHelper";
+import { usePopupNotification } from "../../utils/formHelper";
 
 const ModalAction = React.forwardRef(({ controller, searchCode, pageConfig, onEvent }, ref) => {
   //modal
@@ -13,7 +13,7 @@ const ModalAction = React.forwardRef(({ controller, searchCode, pageConfig, onEv
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [disable, setDisable] = useState(false);
   const [formInstance] = Form.useForm();
-  const notification = useNotification();
+  const notification = usePopupNotification();
 
   const refInput = useRef(null);
 
@@ -122,7 +122,7 @@ const ModalAction = React.forwardRef(({ controller, searchCode, pageConfig, onEv
           .deleteOne(values?.[pageConfig.dataGrid.recordKey])
           .then((res) => {
             setIsLoading(false);
-            if (res && res.code > 0) {
+            if (res?.status === 200 && res?.data?.code > 0) {
               closeModal();
               notification.success({ message: "Xóa thông tin bản ghi thành công" });
               onEvent({
@@ -339,7 +339,7 @@ const ModalAction = React.forwardRef(({ controller, searchCode, pageConfig, onEv
       ]}
     >
       <div
-        className="body-scroll"
+        className="body-scroll relative z-50"
         style={{
           boxShadow: topVisible
             ? bottomVisible

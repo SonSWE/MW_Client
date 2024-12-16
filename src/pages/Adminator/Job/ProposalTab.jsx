@@ -3,7 +3,7 @@ import React, { useRef } from "react";
 import { GroupBox } from "../../../components/element/GroupBox";
 import { convertToArray, isNullOrEmpty, isRender, makeid } from "../../../utils/utils";
 import EditTableCommunityAG from "../../../components/controls/EditTableCommunityAG";
-import { useNotification } from "../../../utils/formHelper";
+import { usePopupNotification } from "../../../utils/formHelper";
 import delteteicon from "../../../assets/image/icon/ic_tip_delete.svg";
 import addicon from "../../../assets/image/icon/ic_add_form.svg";
 import { FormJob, FormProposal } from "../../../const/FormJob";
@@ -11,7 +11,7 @@ import { useSelector } from "react-redux";
 import { columnProposal } from "./comom";
 
 const ProposalTab = ({ formInstance, action, disabled }) => {
-  const notification = useNotification();
+  const notification = usePopupNotification();
   const systemCodes = useSelector((state) => state.systemCodeReducer.SYSTEMCODES);
   const gridRef = useRef(null);
 

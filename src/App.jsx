@@ -1,11 +1,11 @@
-import { Navigate, RouterProvider, createBrowserRouter } from "react-router-dom";
+import { Navigate, RouterProvider, createBrowserRouter, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import Login from "./pages/Login/Index.jsx";
 import { LayoutEmpty } from "./components/layout/LayoutEmpty.jsx";
-// import { connectWS } from "./websocket/socket.js";
 
-import { } from "./utils/initAxiosClient.js";
+
+import {} from "./utils/initAxiosClient.js";
 
 //import thư viện css
 import "react-toastify/dist/ReactToastify.css";
@@ -20,40 +20,57 @@ import { useAxios } from "./utils/apiHelper.js";
 import { convertToArray } from "./utils/convertData.js";
 import { removeUserFromStorage } from "./store/actions/sharedActions.js";
 import { isNullOrEmpty } from "./utils/utils.js";
+import { connectWS } from "./utils/socket.js";
 
 function App() {
   const dispatch = useDispatch();
-
-  // const [userLogin, setUserLogin] = useState({
-  //   username: "Adminator",
-  //   userType: CONST_USER_TYPE.User,
-  //   loginType: CONST_LOGIN_TYPE.Freelancer,
-  // });
-  //tạm k check đăng nhập
+  // const navigate = useNavigate();
   const userLogin = useSelector((state) => state.authReducer);
-  const isLogin = userLogin && userLogin?.username;
-
-  // const userLogin = {
-  //   username: "Adminator",
-  //   userType: "A",
-  // };
+  const isLogin = userLogin && !isNullOrEmpty(userLogin?.username);
   const Axios = useAxios();
+
+  useEffect(() => {
+    function a(e) {
+      // if (e.detail.type === "SYSTEMINFO") {
+      //   dispatch({ type: "SET_SYSTEMINFO", payload: JSON.parse(e.detail.content) });
+      // } else if (e.detail.type === "SRVTIME") {
+      //   dispatch({ type: "SET_SERVERTIME", payload: moment(e.detail.content) });
+      // } else if (e.detail.type === "RELOAD_LOGGED_USER_SETTING") {
+      //   _handleVisibilityChange(null, true);
+      // } else if(e.detail.type === "RELOAD_COMPANY_SETTING"){
+      //     //sondt reload company setting when edit
+      //     loadCompany();
+      // }
+    }
+    function b(e) {
+      dispatch({ type: "SET_CONNECTSTATUS", payload: e.detail });
+    }
+
+    connectWS();
+    document.addEventListener("socket-message", a);
+    document.addEventListener("update-connect-status", b);
+
+    return () => {
+      document.removeEventListener("socket-message", a);
+      document.removeEventListener("update-connect-status", b);
+    };
+  }, []);
+
   const _handleVisibilityChange = (e, forceUpdate = false) => {
     if (!forceUpdate && document.visibilityState === "hidden") {
       return;
     }
 
     if (!isNullOrEmpty(userLogin?.username)) {
-      Axios.get("/api/auth/token/checkalive")
+      Axios.Checkalive()
         .then((res) => {
           if (res.status !== 200) {
             removeUserFromStorage();
             dispatch({ type: "CLEAR_USER" });
-          } 
-          // else {
-          //   // mở
-          //   dispatch({ type: "UPDATE_USER_SETTING", payload: res.data });
-          // }
+          }
+          else {
+            dispatch({ type: "UPDATE_USER_SETTING", payload: res.data });
+          }
         })
         .catch((err) => {
           removeUserFromStorage();
@@ -91,20 +108,18 @@ function App() {
   useEffect(() => {
     document.addEventListener("visibilitychange", _handleVisibilityChange, false);
 
-    // window.addEventListener("message", _handlePostMessage, false);
+    window.addEventListener("message", _handlePostMessage, false);
 
-    if (userLogin) {
-      console.log(userLogin);
-      
+    if (isLogin) {
       _handleVisibilityChange();
 
       fetchSystemCodes();
-    }
+    } 
 
     return () => {
       document.removeEventListener("visibilitychange", _handleVisibilityChange, false);
 
-      // window.removeEventListener("message", _handlePostMessage, false);
+      window.removeEventListener("message", _handlePostMessage, false);
     };
   }, [userLogin]);
 
@@ -118,7 +133,6 @@ function App() {
       element: <Navigate to="/login" replace />,
     },
   ]);
-  
 
   const RenderByLoginType = ({ loginType }) => {
     if (loginType === CONST_LOGIN_TYPE.Client) {
@@ -133,7 +147,7 @@ function App() {
   return (
     <>
       {userLogin?.userType === CONST_USER_TYPE.Admin ? (
-        <AppAdmin />
+        <AppAdmin isLogin={isLogin} />
       ) : userLogin?.userType === CONST_USER_TYPE.User ? (
         <RenderByLoginType loginType={userLogin.loginType} />
       ) : (

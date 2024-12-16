@@ -1,9 +1,9 @@
-import { FINDWORK } from "../pages/Worker/FindWork/config";
-import { FINDWORKADVANCED } from "../pages/Worker/FindWorkAdvanced/config";
-import { SAVEDJOBS } from "../pages/Worker/SavedJobs/config";
-import { SUBMITPROPOSAL } from "../pages/Worker/SubmitProposal/config";
+import { DASHBOARD } from "../pages/Freelancer/Dashboard/config";
+import { FINDWORKADVANCED } from "../pages/Freelancer/FindWorkAdvanced/config";
+import { SAVEDJOBS } from "../pages/Freelancer/SavedJobs/config";
+import { SUBMITPROPOSAL } from "../pages/Freelancer/SubmitProposal/config";
 
-export const RoutesWorkerConfig = [
+export const RoutesFreelancerConfig = [
   // {
   //   Function_Id: "DASHBOARD",
   //   Function_Name: "Trang chủ",
@@ -17,7 +17,7 @@ export const RoutesWorkerConfig = [
   {
     DisplayOnMenu: 1,
     url: "/tim-viec",
-    ComponentConfig: FINDWORK,
+    ComponentConfig: DASHBOARD,
   },
   {
     DisplayOnMenu: 1,

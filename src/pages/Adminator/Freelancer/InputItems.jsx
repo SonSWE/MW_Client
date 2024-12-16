@@ -1,15 +1,16 @@
 import { Checkbox, DatePicker, Form, Input, InputNumber, Modal, Select, Tabs } from "antd";
 import React, { useEffect, useImperativeHandle, useState } from "react";
 import { convertToArray, getSystemCodeValues, isRender, makeid } from "../../../utils/utils";
-import { useNotification } from "../../../utils/formHelper";
+import { usePopupNotification } from "../../../utils/formHelper";
 import { useSelector } from "react-redux";
 import { useAxios } from "../../../utils/apiHelper";
 import { FormFreelancer, FormSpecialty } from "../../../const/FormFreelancer";
 import WorkingHistoryTab from "./WorkingHistoryTab";
 import EducationTab from "./EducationTab";
 import CertificateTab from "./CertificateTab";
-import moment from "moment";
+
 import { CONST_YN } from "../../../const/FormConst";
+import moment from "moment/moment";
 
 const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) => {
   useImperativeHandle(ref, () => ({
@@ -39,7 +40,7 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
     },
   }));
 
-  const notification = useNotification();
+  const notification = usePopupNotification();
   const systemCodes = useSelector((state) => state.systemCodeReducer.SYSTEMCODES);
   const axios = useAxios();
   const [lstSkill, setLstSkill] = useState([]);

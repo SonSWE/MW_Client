@@ -7,7 +7,7 @@ import { LayoutEmpty } from "./components/layout/LayoutEmpty.jsx";
 import "react-toastify/dist/ReactToastify.css";
 import "./assets/scss/main.css";
 import "./index.css";
-import { RoutesWorkerConfig } from "./routes/RoutesWorkerConfig.jsx";
+import { RoutesFreelancerConfig } from "./routes/RoutesFreelancerConfig.jsx";
 
 function AppClient() {
   
@@ -23,7 +23,7 @@ function AppClient() {
       element: <Navigate to="/tim-viec" replace />,
     });
 
-    RoutesWorkerConfig?.map((item) => {
+    RoutesFreelancerConfig?.map((item) => {
       _lstRouters.push({
         path: item.url,
         element: item.ComponentConfig.pageLayout ? (

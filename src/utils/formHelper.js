@@ -1,6 +1,6 @@
-import { Modal } from "antd";
+import { Modal, notification } from "antd";
 
-export const useNotification = () => {
+export const usePopupNotification = () => {
   return {
     error: ({ title = "Thất bại", message = "Thất bại" }) => {
       const modal = Modal.error({
@@ -68,8 +68,8 @@ export const useNotification = () => {
         okText: "Xác nhận",
         cancelText: "Đóng",
         onOk: info.onOk,
-        onCancel: info.onCancel,
-        // onCancel:(close) => info?.onCancel? info?.onCancel : close(),
+        // onCancel: info.onCancel,
+        onCancel:(close) => info?.onCancel ? info?.onCancel(close) : close(),
         // ...info,
         //   modalRender: (modalDom) => <ModalRender modalDom={modalDom}/>,
       });
@@ -81,10 +81,6 @@ export const useNotification = () => {
     confirmDuplicate: (info) => {
       let secondsToGo = 500;
       const modal = Modal.confirm({
-        className: info.className ?? "modal-center-notify",
-        footer: false,
-        closable: true,
-        mask: true,
         centered: true,
         title: info?.message ? info.message : "Thông báo",
         content: info?.description ? info?.description : "",
@@ -93,12 +89,44 @@ export const useNotification = () => {
         onOk: info.onOk,
         onCancel: (close) => (info?.onCancel ? info?.onCancel(close) : close()),
         // ...info,
-        //   modalRender: (modalDom) => <ModalRender modalDom={modalDom}/>,
       });
       // setTimeout(() => {
       //   modal.destroy();
       // }, secondsToGo * 1000);
       return modal;
+    },
+  };
+};
+
+export const useNotification = () => {
+  return {
+    error: (prop) => {
+      return notification.error({
+        message: prop?.title ? prop.title : "Thất bại",
+        description: prop?.message ? prop?.message : "Thất bại",
+        placement: "bottomRight",
+      });
+    },
+    info: (prop) => {
+      return notification.info({
+        message: prop?.title ? prop.title : "Thông báo",
+        description: prop?.message ? prop?.message : "",
+        placement: "bottomRight",
+      });
+    },
+    success: (prop) => {
+      return notification.success({
+        message: prop?.title ? prop.title : "Thông báo",
+        description: prop?.message ? prop?.message : "",
+        placement: "bottomRight",
+      });
+    },
+    warning: (prop) => {
+      return notification.warning({
+        message: prop?.title ? prop.title : "Cảnh báo",
+        description: prop?.message ? prop?.message : "",
+        placement: "bottomRight",
+      });
     },
   };
 };

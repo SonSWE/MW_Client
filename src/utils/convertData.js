@@ -11,9 +11,9 @@ export const formatDate = (dateTimeString, formatString) => {
   }
 };
 
-export const PriceFormatter = (params) => {
+export const PriceFormatter = (value) => {
   return new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(
-    params.value || 0
+    value || 0
   );
 };
 

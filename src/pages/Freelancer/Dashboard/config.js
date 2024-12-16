@@ -3,16 +3,11 @@ import { FormSystemCode } from "../../../const/FormSystemCode";
 import { useBusinessAction } from "./BusinessAction";
 import InputItems from "./InputItems";
 
-const SearchConfig = [
-  { key: FormSystemCode.SystemCodeId, operator: "=" },
-  { key: FormSystemCode.Name, operator: "=" },
-];
-
-export const FINDWORK = {
+export const DASHBOARD = {
   pageLayout: LayoutWorker,
   pageConfig: {
     businessAction: useBusinessAction,
     Component: InputItems,
-    functionId: "FINDWORK",
+    functionId: "DASHBOARD",
   },
 };

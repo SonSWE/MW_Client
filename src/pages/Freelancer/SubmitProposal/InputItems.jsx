@@ -17,7 +17,7 @@ import { FormSystemCode, FormSystemCodeValue } from "../../../const/FormSystemCo
 import { convertToArray, isNullOrEmpty, isRender, makeid } from "../../../utils/utils";
 import EditTableCommunityAG from "../../../components/controls/EditTableCommunityAG";
 import { columnSystemCodeValue } from "./comom";
-import { useNotification } from "../../../utils/formHelper";
+import { usePopupNotification } from "../../../utils/formHelper";
 import delteteicon from "../../../assets/image/icon/ic_tip_delete.svg";
 import addicon from "../../../assets/image/icon/ic_add_form.svg";
 import BaseModal from "../../../components/controls/BaseModal";
@@ -40,7 +40,7 @@ import { useNavigate } from "react-router-dom";
 import Dragger from "antd/es/upload/Dragger";
 
 const InputItems = React.forwardRef(({ action, disabled }, ref) => {
-  const notification = useNotification();
+  const notification = usePopupNotification();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
