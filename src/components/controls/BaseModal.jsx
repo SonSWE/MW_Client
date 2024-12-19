@@ -56,7 +56,7 @@ const BaseModal = ({ title, open, footer, onCancel, children, props }) => {
       {...props}
     >
       <div
-        className="body-scroll"
+        className="body-scroll relative z-50"
         style={{
           boxShadow: topVisible
             ? bottomVisible

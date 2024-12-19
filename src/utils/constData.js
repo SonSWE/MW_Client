@@ -431,7 +431,6 @@ export const User_Type_Enum = {
   Staff: "S",
 };
 
-
 const DATE_FORMAT = "DD/MM/YYYY";
 export const DATE_MASKED = IMask.createMask({
   blocks: {
@@ -449,19 +448,31 @@ export const formatPrice = (value) => `${value}đ`.replace(/\B(?=(\d{3})+(?!\d))
 
 export const parserPrice = (value) => value?.replace(/\$\s?|(,*)/g, "")?.replace("đ", "");
 
-export const objectToArray = (obj)=>{
+export const objectToArray = (obj) => {
   const customArray = Object.entries(obj).map(([key, value]) => {
     return { key: key, ...value };
   });
   return customArray;
-}
+};
 
 export const CONST_BUDGET_TYPE = {
   Fixed: "F",
-  Hourly: "H"
-}
+  Hourly: "H",
+};
 
 export const CONST_CLIENT_TYPE = {
   Personal: "P",
-  Organization: "O"
-}
+  Organization: "O",
+};
+
+export const CONST_CONTRACT_STATUS = {
+  Pending: "P",
+  Rejected: "R",
+  Closed: "C",
+  Active: "A",
+  End: "E",
+  PendingApprovalSubmit: "PS",
+  Reopen: "RO",
+  Done: "D",
+  Fail: "F",
+};

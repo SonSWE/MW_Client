@@ -6,9 +6,10 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { isNullOrEmpty } from "../../../utils/utils";
 import { useBusinessAction } from "./BusinessAction";
 import { FormJob, FormProposal } from "../../../const/FormJob";
-import { CONST_BUDGET_TYPE } from "../../../utils/constData";
+import { CONST_BUDGET_TYPE, useGlobalConst } from "../../../utils/constData";
 import { PriceFormatter } from "../../../utils/convertData";
 import { getUserFromStorage } from "../../../store/actions/sharedActions";
+import { formaterNumber, parserNumber } from "../../../utils/Format";
 
 const InputItems = React.forwardRef(({ action, disabled }, ref) => {
   const navigate = useNavigate();
@@ -18,6 +19,7 @@ const InputItems = React.forwardRef(({ action, disabled }, ref) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [jobDetail, setJobDetail] = useState();
   const userLogged = getUserFromStorage();
+  const globalConst = useGlobalConst();
 
   const props = {
     name: "file",
@@ -139,6 +141,11 @@ const InputItems = React.forwardRef(({ action, disabled }, ref) => {
               <Form.Item className="w-full" name={FormProposal.Bid} label="">
                 <InputNumber
                   className="w-full"
+                  min={1000}
+                  step={100}
+                  formatter={formaterNumber}
+                  parser={parserNumber}
+                  suffix="đ"
                   onChange={(value) => {
                     const fee = value * 0.1;
                     formInstance.setFieldValue(FormProposal.RealReceive, value - fee);
@@ -153,7 +160,15 @@ const InputItems = React.forwardRef(({ action, disabled }, ref) => {
                 <div className="font-medium">Phí dịch vụ 10%</div>
               </div>
               <Form.Item className="w-full" name="ServiceFee" label="">
-                <InputNumber className="w-full" disabled />
+                <InputNumber
+                  className="w-full"
+                  disabled
+                  min={1000}
+                  step={100}
+                  formatter={formaterNumber}
+                  parser={parserNumber}
+                  suffix="đ"
+                />
               </Form.Item>
             </div>
 
@@ -163,7 +178,15 @@ const InputItems = React.forwardRef(({ action, disabled }, ref) => {
                 <div className="text-label">Tổng số tiền thực tế bạn sẽ nhận được</div>
               </div>
               <Form.Item className="w-full" name={FormProposal.RealReceive} label="">
-                <InputNumber className="w-full" disabled />
+                <InputNumber
+                  className="w-full"
+                  disabled
+                  min={1000}
+                  step={100}
+                  formatter={formaterNumber}
+                  parser={parserNumber}
+                  suffix="đ"
+                />
               </Form.Item>
             </div>
           </div>

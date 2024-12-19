@@ -243,11 +243,11 @@ const DropdownCell = forwardRef((props, ref) => {
       ref={refInput}
       {...globalConst.ANT.FORM.ITEM.INPUT.SELECT_COMPLEX_SEARCH}
       autoComplete="off"
+      placeholder="dd/MM/yyyy"
       format={globalConst.ANT.LOCALE.dateFormat}
-      placeholder={"dd/mm/yyyy"}
       value={value}
       onChange={(e) => {
-        setValue(e ? moment(e, "dd/mm/yyyy") : undefined);
+        setValue(e ? moment(e, globalConst.ANT.LOCALE.dateFormat) : undefined);
       }}
       size="small"
       getPopupContainer={null}

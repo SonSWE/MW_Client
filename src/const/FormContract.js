@@ -10,6 +10,8 @@ export const FormContract = {
   FeeService:"feeService",
   RealReceive:"realReceive",
   Remark:"remark",
+  StartDate:"startDate",
+  EndDate:"endDate",
   FileAttaches:"fileAttaches",
   ProposalId:"proposalId",
   CreateDate: "createDate",

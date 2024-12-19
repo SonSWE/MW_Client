@@ -49,7 +49,6 @@ export function formatCreatedDate(apiDate) {
 export const countProposalText = (count) => {
   switch (true) {
     case count < 5:
-      console.log("Ít hơn 5");
       return "Ít hơn 5";
     case count >= 5 && count <= 10:
       return "5 đến 10";

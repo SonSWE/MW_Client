@@ -6,11 +6,12 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { isNullOrEmpty } from "../../../utils/utils";
 import { useBusinessAction } from "./BusinessAction";
 import { FormJob, FormProposal } from "../../../const/FormJob";
-import { CONST_BUDGET_TYPE } from "../../../utils/constData";
+import { CONST_BUDGET_TYPE, useGlobalConst } from "../../../utils/constData";
 import { PriceFormatter } from "../../../utils/convertData";
 import { getUserFromStorage } from "../../../store/actions/sharedActions";
 import { CONST_FORM_ACTION } from "../../../const/FormConst";
 import { FormContract } from "../../../const/FormContract";
+import { formaterNumber, parserNumber } from "../../../utils/Format";
 
 const InputItems = React.forwardRef(({ action, disabled }, ref) => {
   const navigate = useNavigate();
@@ -23,6 +24,7 @@ const InputItems = React.forwardRef(({ action, disabled }, ref) => {
   const [jobDetail, setJobDetail] = useState();
   const userLogged = getUserFromStorage();
   const [allowSave, setAllowSave] = useState(false);
+  const globalConst = useGlobalConst();
 
   const props = {
     name: "file",
@@ -43,10 +45,6 @@ const InputItems = React.forwardRef(({ action, disabled }, ref) => {
       console.log("Dropped files", e.dataTransfer.files);
     },
   };
-
-  useEffect(() => {
-    formInstance.setFieldValue(FormProposal.FreelancerId, userLogged?.freelancer?.freelancerId);
-  }, [userLogged]);
 
   useEffect(() => {
     LoadProposal();
@@ -158,9 +156,19 @@ const InputItems = React.forwardRef(({ action, disabled }, ref) => {
                     Tổng số tiền khách hàng sẽ thấy trên đề xuất của bạn
                   </div>
                 </div>
-                <Form.Item className="w-full" name={FormProposal.Bid} label="">
+                <Form.Item
+                  className="w-full"
+                  name={FormProposal.Bid}
+                  label=""
+                  rules={[globalConst.ANT.FORM.RULES.yeuCauNhap]}
+                >
                   <InputNumber
                     className="w-full"
+                    min={1000}
+                    step={100}
+                    formatter={formaterNumber}
+                    parser={parserNumber}
+                    suffix="đ"
                     onChange={(value) => {
                       const fee = value * 0.1;
                       formInstance.setFieldValue(FormProposal.RealReceive, value - fee);
@@ -175,7 +183,15 @@ const InputItems = React.forwardRef(({ action, disabled }, ref) => {
                   <div className="font-medium">Phí dịch vụ 10%</div>
                 </div>
                 <Form.Item className="w-full" name="ServiceFee" label="">
-                  <InputNumber className="w-full" disabled />
+                  <InputNumber
+                    className="w-full"
+                    disabled
+                    min={1000}
+                    step={100}
+                    formatter={formaterNumber}
+                    parser={parserNumber}
+                    suffix="đ"
+                  />
                 </Form.Item>
               </div>
 
@@ -185,7 +201,15 @@ const InputItems = React.forwardRef(({ action, disabled }, ref) => {
                   <div className="text-label">Tổng số tiền thực tế bạn sẽ nhận được</div>
                 </div>
                 <Form.Item className="w-full" name={FormProposal.RealReceive} label="">
-                  <InputNumber className="w-full" disabled />
+                  <InputNumber
+                    className="w-full"
+                    disabled
+                    min={1000}
+                    step={100}
+                    formatter={formaterNumber}
+                    parser={parserNumber}
+                    suffix="đ"
+                  />
                 </Form.Item>
               </div>
 
@@ -193,8 +217,18 @@ const InputItems = React.forwardRef(({ action, disabled }, ref) => {
                 <div className="w-full">
                   <div className="font-medium">Ngày bắt đầu</div>
                 </div>
-                <Form.Item className="w-full" name="StartDate" label="">
-                  <DatePicker className="w-full" />
+                <Form.Item
+                  className="w-full"
+                  name={FormProposal.StartDate}
+                  label=""
+                  rules={[globalConst.ANT.FORM.RULES.yeuCauNhap]}
+                  {...globalConst.ANT.FORM.ITEM.PARSER.DATE_DATABASE}
+                >
+                  <DatePicker
+                    className="w-full"
+                    placeholder="dd/MM/yyyy"
+                    format={globalConst.ANT.LOCALE.dateFormat}
+                  />
                 </Form.Item>
               </div>
             </div>

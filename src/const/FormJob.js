@@ -27,7 +27,6 @@ export const FormJob = {
   CreateDate: "createDate",
   Saved: "saved",
   Applied: "applied",
-  
 };
 export const FormJobSkill = {
   SkillId: "skillId",
@@ -48,4 +47,5 @@ export const FormProposal = {
   FileAttaches: "fileAttaches",
   CreateDate: "createDate",
   JobTitle: "jobTitle",
+  StartDate: "startDate",
 };

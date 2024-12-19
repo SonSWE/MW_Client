@@ -14,6 +14,7 @@ import TabJobInformation from "./TabJobInformation";
 import TabInviteFreelancer from "./TabInviteFreelancer";
 import TabReviewProposal from "./TabReviewProposal";
 import TabContract from "./TabContract";
+import TabFreelancerHired from "./TabFreelancerHired";
 
 const InputItems = React.forwardRef(({ action, disabled }, ref) => {
   const navigate = useNavigate();
@@ -175,6 +176,11 @@ const InputItems = React.forwardRef(({ action, disabled }, ref) => {
           {
             label: `Đã thuê (${jobDetail?.[FormJob.CountOfContract]})`,
             key: "4",
+            children: <TabFreelancerHired jobDetail={jobDetail} apiClient={apiClient} key={key} />,
+          },
+          {
+            label: `Hợp đồng (${jobDetail?.[FormJob.CountOfContract]})`,
+            key: "5",
             children: <TabContract jobDetail={jobDetail} apiClient={apiClient} key={key} />,
           },
         ]}

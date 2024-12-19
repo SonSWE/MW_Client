@@ -11,6 +11,7 @@ import CertificateTab from "./CertificateTab";
 
 import { CONST_YN } from "../../../const/FormConst";
 import moment from "moment/moment";
+import { useGlobalConst } from "../../../utils/constData";
 
 const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) => {
   useImperativeHandle(ref, () => ({
@@ -45,6 +46,7 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
   const axios = useAxios();
   const [lstSkill, setLstSkill] = useState([]);
   const [lstSpecialty, setLstSpecialty] = useState([]);
+  const globalConst = useGlobalConst();
 
   useEffect(() => {
     axios.collections.SAShare.GetSkills().then((res) => {
@@ -104,9 +106,14 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
           <Form.Item
             name={FormFreelancer.DateOfBirth}
             label="Ngày sinh"
-            getValueProps={(value) => ({ value: value ? moment(value) : "" })}
+            rules={[]}
+            {...globalConst.ANT.FORM.ITEM.PARSER.DATE_DATABASE}
           >
-            <DatePicker placeholder={"dd/mm/yyyy"} className="w-full" />
+            <DatePicker
+              className="w-full"
+              placeholder="dd/MM/yyyy"
+              format={globalConst.ANT.LOCALE.dateFormat}
+            />
           </Form.Item>
         </div>
         <div className="">

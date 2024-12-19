@@ -47,7 +47,7 @@ const ListJob = ({ datas, apiClient }) => {
                 </div>
                 <div className="flex flex-col items-center">
                   <div className="font-medium taxt-base">Đã ký hợp đồng</div>
-                  <div className="text-label">{item?.[FormJob.CountOfProposal]}</div>
+                  <div className="text-label">{item?.[FormJob.CountOfContract]}</div>
                 </div>
               </div>
               <div className="w-fit flex justify-end">

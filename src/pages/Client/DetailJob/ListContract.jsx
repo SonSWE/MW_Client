@@ -16,7 +16,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Drawer, Form, Rate } from "antd";
 import { FormJob, FormProposal } from "../../../const/FormJob";
 import { PriceFormatter } from "../../../utils/convertData";
-import { CONST_BUDGET_TYPE } from "../../../utils/constData";
+import { CONST_BUDGET_TYPE, CONST_CONTRACT_STATUS } from "../../../utils/constData";
 import { countProposalText, formatCreatedDate } from "../../../utils/utils";
 import { CONST_YN } from "../../../const/FormConst";
 import { getUserFromStorage } from "../../../store/actions/sharedActions";
@@ -24,33 +24,65 @@ import { useForm } from "antd/es/form/Form";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FormFreelancer } from "../../../const/FormFreelancer";
+import { FormContract } from "../../../const/FormContract";
 
-const ListContract = ({ datas, apiClient }) => {
+import avt from "../../../assets/image/avtar.webp";
+
+const ListContract = ({ datas, apiClient, detailContract, approvalContract }) => {
   const navigate = useNavigate();
 
   return (
     <div>
-      
-        <div className="list-job border rounded-xl">
-          {datas.map((item) => (
-            <div className="job-card flex justify-between">
-              
-              <div>{item.freelancer?.[FormFreelancer.Name]}</div>
-              <div className="">
+      <div className="list-job border rounded-xl">
+        {datas.map((item) => (
+          <div className="job-card flex justify-between">
+            <div className="w-1/5">
+              <div className="flex">
+                <div className="w-10 rounded-full overflow-hidden">
+                  <img className="w-full h-full" src={avt}></img>
+                </div>
+                <div className="ml-5">
+                  <div className="text-base font-medium">
+                    {item.freelancer?.[FormFreelancer.Name]}
+                  </div>
+                  <div className="text-label">{item.freelancer?.[FormFreelancer.Title]}</div>
+                </div>
+              </div>
+            </div>
+            <div className="w-1/5">
+              <div className="w-full flex flex-wrap items-center gap-3 mt-5">
+                {item.freelancer?.[FormFreelancer.SkillsText]?.split(",")?.map((e) => (
+                  <div className="tag-skill">{e}</div>
+                ))}
+              </div>
+            </div>
+            <div className="border rounded-xl h-fit p-2">{item?.[FormContract.StatusText]}</div>
+
+            <div className="flex gap-3">
+              {item?.[FormContract.Status] === CONST_CONTRACT_STATUS.PendingApprovalSubmit && (
                 <Button
                   type="primary"
                   size="large"
                   onClick={() => {
-                    navigate("/gui-yeu-cau?freelancerId=" + item?.[FormFreelancer.Name]);
+                    approvalContract(item);
                   }}
                 >
-                  Xem hợp đồng
+                  Duyệt kết quả
                 </Button>
-              </div>
+              )}
+
+              <Button
+                size="large"
+                onClick={() => {
+                  detailContract(item);
+                }}
+              >
+                Xem
+              </Button>
             </div>
-          ))}
-        </div>
-      
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

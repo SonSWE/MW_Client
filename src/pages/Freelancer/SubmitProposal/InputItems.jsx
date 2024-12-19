@@ -6,10 +6,11 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { isNullOrEmpty } from "../../../utils/utils";
 import { useBusinessAction } from "./BusinessAction";
 import { FormJob, FormProposal } from "../../../const/FormJob";
-import { CONST_BUDGET_TYPE } from "../../../utils/constData";
+import { CONST_BUDGET_TYPE, useGlobalConst } from "../../../utils/constData";
 import { PriceFormatter } from "../../../utils/convertData";
 import { getUserFromStorage } from "../../../store/actions/sharedActions";
 import { CONST_FORM_ACTION } from "../../../const/FormConst";
+import { formaterNumber, parserNumber } from "../../../utils/Format";
 
 const InputItems = React.forwardRef(({ action, disabled }, ref) => {
   const navigate = useNavigate();
@@ -18,7 +19,8 @@ const InputItems = React.forwardRef(({ action, disabled }, ref) => {
   const [formInstance] = Form.useForm();
   const [searchParams, setSearchParams] = useSearchParams();
   const [jobDetail, setJobDetail] = useState();
-  const userLogged = getUserFromStorage(); 
+  const userLogged = getUserFromStorage();
+  const globalConst = useGlobalConst();
 
   const props = {
     name: "file",
@@ -122,7 +124,7 @@ const InputItems = React.forwardRef(({ action, disabled }, ref) => {
                 : ` ${PriceFormatter(jobDetail?.[FormJob.CostEstimate])}`}
             </div>
             <div className="mt-2">
-              <a className="underline hover:!underline">Xem chi tiết công việc ...</a>
+              <a className="underline hover:!underline">Xem chi tiết công việc</a>
             </div>
           </div>
           <div className="card-border">
@@ -138,9 +140,19 @@ const InputItems = React.forwardRef(({ action, disabled }, ref) => {
                   Tổng số tiền khách hàng sẽ thấy trên đề xuất của bạn
                 </div>
               </div>
-              <Form.Item className="w-full" name={FormProposal.Bid} label="">
+              <Form.Item
+                className="w-full"
+                name={FormProposal.Bid}
+                label=""
+                rules={[globalConst.ANT.FORM.RULES.yeuCauNhap]}
+              >
                 <InputNumber
                   className="w-full"
+                  min={1000}
+                  step={100}
+                  formatter={formaterNumber}
+                  parser={parserNumber}
+                  suffix="đ"
                   onChange={(value) => {
                     const fee = value * 0.1;
                     formInstance.setFieldValue(FormProposal.RealReceive, value - fee);
@@ -155,7 +167,15 @@ const InputItems = React.forwardRef(({ action, disabled }, ref) => {
                 <div className="font-medium">Phí dịch vụ 10%</div>
               </div>
               <Form.Item className="w-full" name="ServiceFee" label="">
-                <InputNumber className="w-full" disabled />
+                <InputNumber
+                  className="w-full"
+                  disabled
+                  min={1000}
+                  step={100}
+                  formatter={formaterNumber}
+                  parser={parserNumber}
+                  suffix="đ"
+                />
               </Form.Item>
             </div>
 
@@ -165,7 +185,15 @@ const InputItems = React.forwardRef(({ action, disabled }, ref) => {
                 <div className="text-label">Tổng số tiền thực tế bạn sẽ nhận được</div>
               </div>
               <Form.Item className="w-full" name={FormProposal.RealReceive} label="">
-                <InputNumber className="w-full" disabled />
+                <InputNumber
+                  className="w-full"
+                  disabled
+                  min={1000}
+                  step={100}
+                  formatter={formaterNumber}
+                  parser={parserNumber}
+                  suffix="đ"
+                />
               </Form.Item>
             </div>
           </div>
@@ -182,7 +210,7 @@ const InputItems = React.forwardRef(({ action, disabled }, ref) => {
 
             <div>Dính kèm</div>
             <Dragger {...props}>
-              <p className="ant-upload-text">Click or drag file to this area to upload</p>
+              <p className="ant-upload-text">Click chọn hoặc kéo thả file vào đây để tải lên</p>
             </Dragger>
           </div>
 
