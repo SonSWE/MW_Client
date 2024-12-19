@@ -1,60 +1,24 @@
-import {
-  Button,
-  Carousel,
-  Form,
-  Input,
-  InputNumber,
-  Modal,
-  Popconfirm,
-  Progress,
-  Rate,
-  Tabs,
-  Tooltip,
-} from "antd";
-import React, { useRef, useState } from "react";
-import { GroupBox } from "../../../components/element/GroupBox";
-import { FormSystemCode, FormSystemCodeValue } from "../../../const/FormSystemCode";
-import { convertToArray, isNullOrEmpty, isRender, makeid } from "../../../utils/utils";
-import EditTableCommunityAG from "../../../components/controls/EditTableCommunityAG";
-import { columnSystemCodeValue } from "./comom";
-import { usePopupNotification } from "../../../utils/formHelper";
-import delteteicon from "../../../assets/image/icon/ic_tip_delete.svg";
-import addicon from "../../../assets/image/icon/ic_add_form.svg";
-import BaseModal from "../../../components/controls/BaseModal";
-
-import avt from "../../../assets/image/avtar.webp";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faHeart as faHeartSolid,
-  faLocation,
-  faLocationDot,
-  faMagnifyingGlass,
-  faPencil,
-} from "@fortawesome/free-solid-svg-icons";
-import {
-  faCheckCircle,
-  faHeart as faHeartRegular,
-  faThumbsDown,
-} from "@fortawesome/free-regular-svg-icons";
-import { useNavigate } from "react-router-dom";
+import { Button, Form, Input, InputNumber } from "antd";
+import React, { useEffect, useState } from "react";
+import { useNotification } from "../../../utils/formHelper";
 import Dragger from "antd/es/upload/Dragger";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { isNullOrEmpty } from "../../../utils/utils";
+import { useBusinessAction } from "./BusinessAction";
+import { FormJob, FormProposal } from "../../../const/FormJob";
+import { CONST_BUDGET_TYPE } from "../../../utils/constData";
+import { PriceFormatter } from "../../../utils/convertData";
+import { getUserFromStorage } from "../../../store/actions/sharedActions";
+import { CONST_FORM_ACTION } from "../../../const/FormConst";
 
 const InputItems = React.forwardRef(({ action, disabled }, ref) => {
-  const notification = usePopupNotification();
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const navigate = useNavigate();
+  const apiClient = useBusinessAction();
+  const notification = useNotification();
   const [formInstance] = Form.useForm();
-
-  const handleOk = () => {};
-
-  const onCancel = () => {
-    setIsModalOpen(false);
-  };
-
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [jobDetail, setJobDetail] = useState();
+  const userLogged = getUserFromStorage(); 
 
   const props = {
     name: "file",
@@ -76,9 +40,68 @@ const InputItems = React.forwardRef(({ action, disabled }, ref) => {
     },
   };
 
+  useEffect(() => {
+    formInstance.setFieldValue(FormProposal.FreelancerId, userLogged?.freelancer?.freelancerId);
+  }, [userLogged]);
+
+  useEffect(() => {
+    const jobId = searchParams.get("jobId");
+
+    if (!isNullOrEmpty(jobId)) {
+      apiClient
+        .GetDetailById(jobId)
+        .then((res) => {
+          if (res.status === 200 && res.data) {
+            setJobDetail(res.data);
+            formInstance.setFieldValue(FormJob.JobId, res.data?.[FormJob.JobId]);
+          }
+        })
+        .catch((e) => {
+          setJobDetail(undefined);
+        });
+    } else {
+      setJobDetail(undefined);
+    }
+  }, [searchParams]);
+
+  const submit = () => {
+    formInstance.submit();
+    formInstance.validateFields().then((values) => {
+      apiClient
+        .SubmitProposal(values)
+        .then((res) => {
+          if (res.status === 200) {
+            notification.success({ message: "Gửi thành công" });
+          }
+
+          setTimeout(() => {
+            navigate("/");
+          }, 2000);
+        })
+        .catch((err) => {
+          if (err.response) {
+            if (err.response?.data?.message) {
+              notification.error({
+                message: err.response.data.message,
+              });
+            }
+          } else if (err.request) {
+            notification.error({
+              message: "Không thể kết nối đến máy chủ!",
+            });
+          } else {
+            // Lỗi khác trong quá trình gửi yêu cầu
+            console.error("Error:", err.message);
+          }
+        });
+    });
+  };
+
   return (
     <>
       <Form form={formInstance} className="py-5">
+        <Form.Item name={FormJob.JobId} hidden />
+        <Form.Item name={FormProposal.FreelancerId} hidden />
         <div>
           <div className="form-title text-2xl font-medium mb-5">Gửi đề xuất công việc</div>
           <div className="card-border">
@@ -88,51 +111,68 @@ const InputItems = React.forwardRef(({ action, disabled }, ref) => {
           </div>
           <div className="card-border">
             <div className="text-xl font-medium mb-5">Chi tiết công việc</div>
-            <div className="text-lg font-medium">Chỉnh sửa video ngắn đăng youtube</div>
+            <div className="text-lg font-medium">{jobDetail?.[FormJob.Title]}</div>
+            <div className="mt-1 text-xs text-label">
+              {jobDetail?.[FormJob.TermTypeText]} - {jobDetail?.[FormJob.LevelFreelancerIdText]} -{" "}
+              {jobDetail?.[FormJob.BudgetTypeText]}:
+              {jobDetail?.[FormJob.BudgetType] === CONST_BUDGET_TYPE.Hourly
+                ? ` ${PriceFormatter(jobDetail?.[FormJob.HourlyRateFrom])}/Giờ-${PriceFormatter(
+                    jobDetail?.[FormJob.HourlyRateTo]
+                  )}/Giờ`
+                : ` ${PriceFormatter(jobDetail?.[FormJob.CostEstimate])}`}
+            </div>
+            <div className="mt-2">
+              <a className="underline hover:!underline">Xem chi tiết công việc ...</a>
+            </div>
           </div>
           <div className="card-border">
             <div className="text-xl font-medium mb-5">Điều khoản</div>
             <div className="pb-3">
               Tổng số tiền bạn muốn nhận được từ công việc này là bao nhiêu?
             </div>
-            <Form.Item name="branchGroupId" label="">
-              <div className="flex items-center">
-                <div className="w-full">
-                  <div className="font-medium">Đấu thầu</div>
-                  <div className="text-label">
-                    Tổng số tiền khách hàng sẽ thấy trên đề xuất của bạn
-                  </div>
-                </div>
 
-                <InputNumber className="w-full" />
+            <div className="flex items-center">
+              <div className="w-full">
+                <div className="font-medium">Đấu thầu</div>
+                <div className="text-label">
+                  Tổng số tiền khách hàng sẽ thấy trên đề xuất của bạn
+                </div>
               </div>
-            </Form.Item>
+              <Form.Item className="w-full" name={FormProposal.Bid} label="">
+                <InputNumber
+                  className="w-full"
+                  onChange={(value) => {
+                    const fee = value * 0.1;
+                    formInstance.setFieldValue(FormProposal.RealReceive, value - fee);
+                    formInstance.setFieldValue("ServiceFee", fee);
+                  }}
+                />
+              </Form.Item>
+            </div>
 
-            <Form.Item name="branchGroupId" label="">
-              <div className="flex items-center">
-                <div className="w-full">
-                  <div className="font-medium">Phí dịch vụ 10%</div>
-                </div>
-
+            <div className="flex items-center">
+              <div className="w-full">
+                <div className="font-medium">Phí dịch vụ 10%</div>
+              </div>
+              <Form.Item className="w-full" name="ServiceFee" label="">
                 <InputNumber className="w-full" disabled />
-              </div>
-            </Form.Item>
+              </Form.Item>
+            </div>
 
-            <Form.Item name="branchGroupId" label="">
-              <div className="flex items-center">
-                <div className="w-full">
-                  <div className="font-medium">Đấu thầu</div>
-                  <div className="text-label">Tổng số tiền thực tế bạn sẽ nhận được</div>
-                </div>
-
-                <InputNumber className="w-full" />
+            <div className="flex items-center">
+              <div className="w-full">
+                <div className="font-medium">Số tiền sau phí</div>
+                <div className="text-label">Tổng số tiền thực tế bạn sẽ nhận được</div>
               </div>
-            </Form.Item>
+              <Form.Item className="w-full" name={FormProposal.RealReceive} label="">
+                <InputNumber className="w-full" disabled />
+              </Form.Item>
+            </div>
           </div>
 
           <div className="card-border">
             <div className="text-xl font-medium mb-5">Mô tả giải pháp công việc</div>
-            <Form.Item name="branchGroupId" label="">
+            <Form.Item name={FormProposal.CoverLetter} label="">
               <Input.TextArea
                 style={{
                   height: 120,
@@ -147,8 +187,8 @@ const InputItems = React.forwardRef(({ action, disabled }, ref) => {
           </div>
 
           <div className="flex flex-nowrap justify-start items-center gap-5 py-2">
-            <Button className="rounded-xl" type="primary" size="large">
-              Gửi ngay bằng 6 connects
+            <Button className="rounded-xl" type="primary" size="large" onClick={submit}>
+              Gửi
             </Button>
             <Button className="rounded-xl" size="large">
               Hủy bỏ

@@ -16,6 +16,7 @@ const initState = {
   functionSettings: _initUser.functionSettings,
   freelancer: _initUser.freelancer,
   clients: _initUser.clients,
+  client: _initUser.client,
 };
 
 export const authReducer = (state = initState, { type, payload }) => {
@@ -38,6 +39,8 @@ export const authReducer = (state = initState, { type, payload }) => {
         loginType: "",
         mustChangePassword: undefined,
         freelancer: undefined,
+        client: undefined,
+        clients: [],
         functionSettings: [],
       };
     case "RESET_TOKEN":

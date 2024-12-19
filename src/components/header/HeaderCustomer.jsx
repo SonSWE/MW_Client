@@ -53,27 +53,40 @@ export const HeaderCustomer = () => {
           </li> */}
           <li className="button-menu">
             <a href="/tim-viec">Tìm việc</a>
-            {/* <FontAwesomeIcon className="ml-1" icon={faAngleDown} />
-            <ul className="list-button-menu-children">
-              <div className="arrow"></div>
-              <li className="button-menu">
-                <a href="/system-code">System Code</a>
-              </li>
-            </ul> */}
-          </li>
-          {/* <li className="button-menu">
-            <a href="/cong-viec">Q.Lý công việc</a>
             <FontAwesomeIcon className="ml-1" icon={faAngleDown} />
             <ul className="list-button-menu-children">
               <div className="arrow"></div>
               <li className="button-menu">
-                <a href="/">Trang chủ</a>
+                <a href="/tim-viec">Tìm việc</a>
               </li>
               <li className="button-menu">
-                <a href="/cong-viec">Q.Lý công việc</a>
+                <a href="/cong-viec-da-luu">Công việc đã lưu</a>
+              </li>
+              <li className="button-menu">
+                <a href="/de-xuat-cong-viec">Đề xuất công việc</a>
               </li>
             </ul>
-          </li> */}
+          </li>
+          <li className="button-menu">
+            <a href="/hop-hong">Công việc</a>
+            <FontAwesomeIcon className="ml-1" icon={faAngleDown} />
+            <ul className="list-button-menu-children">
+              <div className="arrow"></div>
+              <li className="button-menu">
+                <a href="/hop-dong">Hợp đồng</a>
+              </li>
+              <li className="button-menu">
+                <a href="/cong-viec">Công việc</a>
+              </li>
+              <li className="button-menu">
+                <a href="/cong-viec-da-luu">Công việc đã lưu</a>
+              </li>
+              <li className="button-menu">
+                <a href="/de-xuat-cong-viec">Đề xuất công việc</a>
+              </li>
+            </ul>
+          </li>
+          
         </ul>
       </div>
 

@@ -1,0 +1,16 @@
+export const FormContract = {
+  ContractId: "contractId",
+  JobId: "jobId",
+  JobTitle: "jobTitle",
+  FreelancerId: "freelancerId",
+  RejectDes:"rejectDes",
+  Status:"status",
+  StatusText:"statusText",
+  Bid:"bid",
+  FeeService:"feeService",
+  RealReceive:"realReceive",
+  Remark:"remark",
+  FileAttaches:"fileAttaches",
+  ProposalId:"proposalId",
+  CreateDate: "createDate",
+};

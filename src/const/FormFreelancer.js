@@ -26,6 +26,7 @@ export const FormFreelancer = {
   WorkingHistories: "workingHistories", // Danh sách lịch sử làm việc (mwFreelancerWorkingHistory)
   Certificates: "certificates", // Danh sách chứng chỉ (mwFreelancerCertificate)
   SkillId: "skillId",
+  SkillsText: "skillsText",
 };
 
 export const FormSpecialty = {

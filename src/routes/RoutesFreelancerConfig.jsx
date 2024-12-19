@@ -1,19 +1,13 @@
+import { CONTRACT } from "../pages/Freelancer/Contract/config";
 import { DASHBOARD } from "../pages/Freelancer/Dashboard/config";
+import { DETAILOFFER } from "../pages/Freelancer/DetailOffer/config";
+import { DETAILPROPOSAL } from "../pages/Freelancer/DetailProposal/config";
 import { FINDWORKADVANCED } from "../pages/Freelancer/FindWorkAdvanced/config";
-import { SAVEDJOBS } from "../pages/Freelancer/SavedJobs/config";
+import { PROPOSAL } from "../pages/Freelancer/Proposal/config";
+import { SAVEDJOB } from "../pages/Freelancer/SavedJob/config";
 import { SUBMITPROPOSAL } from "../pages/Freelancer/SubmitProposal/config";
 
 export const RoutesFreelancerConfig = [
-  // {
-  //   Function_Id: "DASHBOARD",
-  //   Function_Name: "Trang chủ",
-  //   icon: <FontAwesomeIcon icon={faHome} />,
-  //   DisplayOnMenu: 1,
-  //   checkRight: false,
-  //   url: "/",
-  //   pageLayout: LayoutLeftSideBar,
-  //   pageContent: { component: Dashboard },
-  // },
   {
     DisplayOnMenu: 1,
     url: "/tim-viec",
@@ -22,7 +16,12 @@ export const RoutesFreelancerConfig = [
   {
     DisplayOnMenu: 1,
     url: "/cong-viec-da-luu",
-    ComponentConfig: SAVEDJOBS,
+    ComponentConfig: SAVEDJOB,
+  },
+  {
+    DisplayOnMenu: 1,
+    url: "/de-xuat-cong-viec",
+    ComponentConfig: PROPOSAL,
   },
   {
     DisplayOnMenu: 1,
@@ -33,5 +32,20 @@ export const RoutesFreelancerConfig = [
     DisplayOnMenu: 1,
     url: "/gui-de-xuat",
     ComponentConfig: SUBMITPROPOSAL,
+  },
+  {
+    DisplayOnMenu: 1,
+    url: "/chi-tiet-de-xuat",
+    ComponentConfig: DETAILPROPOSAL,
+  },
+  {
+    DisplayOnMenu: 1,
+    url: "/hop-dong",
+    ComponentConfig: CONTRACT,
+  },
+  {
+    DisplayOnMenu: 1,
+    url: "/xac-nhan-hop-dong",
+    ComponentConfig: DETAILOFFER,
   },
 ];

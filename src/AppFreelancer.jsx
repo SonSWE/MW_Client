@@ -1,10 +1,6 @@
 import { Navigate, RouterProvider, createBrowserRouter } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
 
-//thêm phần này để khởi tạo axios
-
-import { useEffect } from "react";
 import Login from "./pages/Login/Index.jsx";
 import { LayoutEmpty } from "./components/layout/LayoutEmpty.jsx";
 

@@ -7,10 +7,10 @@ import { LayoutEmpty } from "./components/layout/LayoutEmpty.jsx";
 import "react-toastify/dist/ReactToastify.css";
 import "./assets/scss/main.css";
 import "./index.css";
-import { RoutesFreelancerConfig } from "./routes/RoutesFreelancerConfig.jsx";
+import { RoutesClientConfig } from "./routes/RoutesClientConfig.jsx";
 
 function AppClient() {
-  
+
   const getlstRouter = () => {
     let _lstRouters = [];
     _lstRouters.push({
@@ -20,10 +20,10 @@ function AppClient() {
 
     _lstRouters.push({
       path: "/",
-      element: <Navigate to="/tim-viec" replace />,
+      element: <Navigate to="/trang-chu" replace />,
     });
 
-    RoutesFreelancerConfig?.map((item) => {
+    RoutesClientConfig?.map((item) => {
       _lstRouters.push({
         path: item.url,
         element: item.ComponentConfig.pageLayout ? (

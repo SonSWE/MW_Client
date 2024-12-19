@@ -1,8 +1,10 @@
 export const FormJob = {
   JobId: "jobId",
+  ClientId: "clientId",
   TermType: "termType",
   TermTypeText: "termTypeText",
   Status: "status",
+  StatusText: "statusText",
   Title: "title",
   Description: "description",
   SpecialtyId: "specialtyId",
@@ -21,8 +23,11 @@ export const FormJob = {
   FileAttaches: "fileAttaches",
   Position: "position",
   CountOfProposal: "countOfProposal",
+  CountOfContract: "countOfContract",
   CreateDate: "createDate",
   Saved: "saved",
+  Applied: "applied",
+  
 };
 export const FormJobSkill = {
   SkillId: "skillId",
@@ -33,10 +38,14 @@ export const FormJobSkill = {
 export const FormProposal = {
   ProposalId: "proposalId",
   FreelancerId: "freelancerId",
+  JobId: "jobId",
   Status: "status",
+  StatusText: "statusText",
   Bid: "bid",
   FeeService: "feeService",
   RealReceive: "realReceive",
   CoverLetter: "coverLetter",
   FileAttaches: "fileAttaches",
+  CreateDate: "createDate",
+  JobTitle: "jobTitle",
 };

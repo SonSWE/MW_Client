@@ -18,3 +18,8 @@ export const CONST_YN = {
   Yes: "Y",
   No: "N",
 };
+
+export const CONST_JOB_STATUS = {
+  Open: "O",
+  Close: "C",
+};

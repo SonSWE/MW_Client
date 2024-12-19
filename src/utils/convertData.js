@@ -1,15 +1,3 @@
-import { format } from "date-fns";
-
-export const formatDate = (dateTimeString, formatString) => {
-  try {
-    if (dateTimeString?.includes("0001-01-01")) {
-      return "";
-    }
-    return format(new Date(dateTimeString), formatString) ?? "";
-  } catch (e) {
-    return "";
-  }
-};
 
 export const PriceFormatter = (value) => {
   return new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(

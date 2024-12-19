@@ -48,8 +48,6 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
   const apiClient = useBusinessAction();
   const popup = usePopupNotification();
   const notification = useNotification();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [formSearchAVD] = Form.useForm();
   const [jobsSuggest, setJobSuggest] = useState([]);
   const [jobsSaved, setJobsSaved] = useState([]);
   const userLogged = getUserFromStorage();
@@ -84,22 +82,6 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
     LoadJobsSaved();
   }, []);
 
-  const handleOk = () => {};
-
-  const onCancel = () => {
-    setIsModalOpen(false);
-  };
-
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-  const contentStyle = {
-    height: "160px",
-    color: "#fff",
-    lineHeight: "160px",
-    textAlign: "center",
-    background: "#364d79",
-  };
 
   const navigate = useNavigate();
 
@@ -198,7 +180,6 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
             prefix={<FontAwesomeIcon icon={faMagnifyingGlass} />}
             onKeyDown={(event) => {
               if (event.code === "Enter" && !isNullOrEmpty(event.target.value)) {
-                console.log(event.target.value);
                 goToSearch(event.target.value);
               }
             }}
@@ -214,7 +195,7 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
               children: <ListJob datas={jobsSuggest} apiClient={apiClient} saveJob={saveJob}/>,
             },
             {
-              label: "Đã lưu (7)",
+              label: `Đã lưu (${jobsSaved?.length})`,
               key: "3",
               children: <ListJob datas={jobsSaved} apiClient={apiClient}  saveJob={saveJob}/>,
             },
