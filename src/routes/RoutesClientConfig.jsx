@@ -8,6 +8,7 @@ import { SAVEDJOB } from "../pages/Freelancer/SavedJob/config";
 import { SUBMITPROPOSAL } from "../pages/Freelancer/SubmitProposal/config";
 import { DETAILJOB } from "../pages/Client/DetailJob/config";
 import { SENDOFFER } from "../pages/Client/SendOffer/config";
+import { WALLET } from "../pages/Wallet/config";
 
 export const RoutesClientConfig = [
   {
@@ -44,5 +45,10 @@ export const RoutesClientConfig = [
     DisplayOnMenu: 1,
     url: "/xac-nhan-hop-dong",
     ComponentConfig: DETAILOFFER,
+  },
+  {
+    DisplayOnMenu: 1,
+    url: "/vi-tien",
+    ComponentConfig: WALLET,
   },
 ];

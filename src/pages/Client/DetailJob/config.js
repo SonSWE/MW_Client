@@ -1,10 +1,9 @@
-import LayoutClient from "../../../components/layout/LayoutClient";
-import LayoutWorker from "../../../components/layout/LayoutWorker";
+import LayoutHeader from "../../../components/layout/LayoutHeader";
 import { useBusinessAction } from "./BusinessAction";
 import InputItems from "./InputItems";
 
 export const DETAILJOB = {
-  pageLayout: LayoutClient,
+  pageLayout: LayoutHeader,
   pageConfig: {
     businessAction: useBusinessAction,
     Component: InputItems,

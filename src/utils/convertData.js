@@ -1,15 +1,15 @@
+import moment from "moment";
+import { isNullOrEmpty } from "./utils";
 
 export const PriceFormatter = (value) => {
-  return new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(
-    value || 0
-  );
+  return new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(value || 0);
 };
 
 export const valueToString = (value) => {
   if (isNaN(value) === true || value === undefined || value === null) {
     return "";
   }
-  
+
   return value;
 };
 export const formatNumber = (numberValue) => {
@@ -66,3 +66,15 @@ export const getBase64 = (img, callback) => {
   reader.readAsDataURL(img);
 };
 
+export const formatDate = (value, format = "DD/MM/YYYY") => {
+  if(isNullOrEmpty(value)){
+    return ""
+  }
+  const inputDate = moment(value); // Convert API date to moment object
+
+  if (!inputDate.isValid()) {
+    return "Invalid date"; // Return an error message if the input date is invalid
+  }
+
+  return inputDate.format(format)
+};

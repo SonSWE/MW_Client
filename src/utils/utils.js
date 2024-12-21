@@ -39,11 +39,11 @@ export function formatCreatedDate(apiDate) {
 
   // Case 2: If the date is within the current year but more than 2 days ago
   if (inputDate.year() === now.year()) {
-    return inputDate.format("HH:mm DD/MM");
+    return inputDate.format("DD/MM HH:mm");
   }
 
   // Case 3: If the date is in a different year
-  return inputDate.format("HH:mm DD/MM/YYYY");
+  return inputDate.format("DD/MM/YYYY HH:mm ");
 }
 
 export const countProposalText = (count) => {

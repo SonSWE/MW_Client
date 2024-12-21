@@ -6,6 +6,7 @@ import { FINDWORKADVANCED } from "../pages/Freelancer/FindWorkAdvanced/config";
 import { PROPOSAL } from "../pages/Freelancer/Proposal/config";
 import { SAVEDJOB } from "../pages/Freelancer/SavedJob/config";
 import { SUBMITPROPOSAL } from "../pages/Freelancer/SubmitProposal/config";
+import { WALLET } from "../pages/Wallet/config";
 
 export const RoutesFreelancerConfig = [
   {
@@ -47,5 +48,10 @@ export const RoutesFreelancerConfig = [
     DisplayOnMenu: 1,
     url: "/xac-nhan-hop-dong",
     ComponentConfig: DETAILOFFER,
+  },
+  {
+    DisplayOnMenu: 1,
+    url: "/vi-tien",
+    ComponentConfig: WALLET,
   },
 ];

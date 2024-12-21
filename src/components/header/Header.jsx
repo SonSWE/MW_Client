@@ -14,21 +14,24 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Button, Divider, Input, Popover } from "antd";
 import { faBell, faComment } from "@fortawesome/free-regular-svg-icons";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useAxios } from "../../utils/apiHelper";
 import { getUserFromStorage, removeUserFromStorage } from "../../store/actions/sharedActions";
+import ListMenu from "./ListMenu";
+import { useDispatch, useSelector } from "react-redux";
+import { CONST_LOGIN_TYPE, CONST_USER_TYPE } from "../../const/LayoutConst";
 export const Header = () => {
   const Axios = useAxios();
   const [showMenu, setShowMenu] = useState(false);
+  const userLogged = useSelector((state) => state.authReducer);
+  const dispatch = useDispatch();
 
   const HandleColased = () => {
     setShowMenu(!showMenu);
   };
 
   const Logout = (e) => {
-    const userLocal = getUserFromStorage();
-
-    Axios.Logout(userLocal?.refresh_token)
+    Axios.Logout(userLogged?.refresh_token)
       .then((res) => {
         removeUserFromStorage();
         dispatch({ type: "CLEAR_USER" });
@@ -38,62 +41,142 @@ export const Header = () => {
       });
   };
 
+  const ListMenuAdmin = [
+    {
+      title: "Trang chủ",
+      url: "/",
+      children: [],
+    },
+    {
+      title: "Tham số hệ thống",
+      url: "/cong-viec",
+      children: [
+        {
+          title: "System Code",
+          url: "/system-code",
+        },
+        {
+          title: "Cấu hình tham số",
+          url: "/sys-param",
+        },
+      ],
+    },
+    {
+      title: "Q.Lý khách hàng",
+      url: "/cong-viec",
+      children: [
+        {
+          title: "Tài khoản đăng nhập",
+          url: "/tai-khoan",
+        },
+        {
+          title: "Khách hàng",
+          url: "/Khach-hang",
+        },
+        {
+          title: "Freelance",
+          url: "/freelance",
+        },
+      ],
+    },
+    {
+      title: "Q.Lý công việc",
+      url: "/cong-viec",
+      children: [
+        {
+          title: "Công việc",
+          url: "/cong-viec",
+        },
+        {
+          title: "Kỹ năng",
+          url: "/ky-nang",
+        },
+        {
+          title: "Chuyên môn",
+          url: "/chuyen-mon",
+        },
+      ],
+    },
+  ];
+
+  const ListMenuClient = [
+    {
+      title: "Trang chủ",
+      url: "/",
+      children: [],
+    },
+    {
+      title: "Công việc",
+      url: "/cong-viec",
+      children: [
+        {
+          title: "Công việc",
+          url: "/cong-viec",
+        },
+      ],
+    },
+  ];
+
+  const ListMenuFreelancer = [
+    {
+      title: "Tìm việc",
+      url: "/tim-viec",
+      children: [
+        {
+          title: "Tìm việc",
+          url: "/tim-viec",
+        },
+        {
+          title: "Công việc đã lưu",
+          url: "/cong-viec-da-luu",
+        },
+        {
+          title: "Đề xuất công việc",
+          url: "/de-xuat-cong-viec",
+        },
+      ],
+    },
+    {
+      title: "Công việc",
+      url: "/hop-hong",
+      children: [
+        {
+          title: "Hợp đồng",
+          url: "/hop-hong",
+        },
+      ],
+    },
+    {
+      title: "Ví tiền",
+      url: "/vi-tien",
+      children: [],
+    },
+  ];
+
+  const listMenu = useMemo(() => {
+    if (userLogged?.userType === CONST_USER_TYPE.Admin) {
+      return ListMenuAdmin;
+    }
+
+    if (userLogged?.loginType === CONST_LOGIN_TYPE.Client) {
+      return ListMenuClient;
+    } else if (userLogged?.loginType === CONST_LOGIN_TYPE.Freelancer) {
+      return ListMenuFreelancer;
+    }
+
+    return [];
+  }, [userLogged]);
+
   return (
-    <nav id={"topNav"} className={`header-responesive relative z-50 ${showMenu ? " open_menu" : ""}`}>
+    <nav
+      id={"topNav"}
+      className={`header-responesive relative z-50 ${showMenu ? " open_menu" : ""}`}
+    >
       <div className="menu">
         <div className="logo-img">
           <img src={logo}></img>
         </div>
-        <ul className="list-button-menu">
-          <li className="button-menu active">
-            <a href="/">Trang chủ</a>
-          </li>
-          <li className="button-menu">
-            <a href="/cong-viec">Tham số hệ thống</a>
-            <FontAwesomeIcon className="ml-1" icon={faAngleDown} />
-            <ul className="list-button-menu-children">
-              <div className="arrow"></div>
-              <li className="button-menu">
-                <a href="/system-code">System Code</a>
-              </li>
-              <li className="button-menu">
-                <a href="/sys-param">Cấu hình tham số</a>
-              </li>
-            </ul>
-          </li>
-          <li className="button-menu">
-            <a href="/cong-viec">Q.Lý khách hàng</a>
-            <FontAwesomeIcon className="ml-1" icon={faAngleDown} />
-            <ul className="list-button-menu-children">
-              <div className="arrow"></div>
-              <li className="button-menu">
-                <a href="/tai-khoan">Tài khoản đăng nhập</a>
-              </li>
-              <li className="button-menu">
-                <a href="/Khach-hang">Khách hàng</a>
-              </li>
-              <li className="button-menu">
-                <a href="/freelance">Freelance</a>
-              </li>
-            </ul>
-          </li>
-          <li className="button-menu">
-            <a href="/cong-viec">Q.Lý công việc</a>
-            <FontAwesomeIcon className="ml-1" icon={faAngleDown} />
-            <ul className="list-button-menu-children">
-              <div className="arrow"></div>
-              <li className="button-menu">
-                <a href="/cong-viec">Công việc</a>
-              </li>
-              <li className="button-menu">
-                <a href="/ky-nang">Kỹ năng</a>
-              </li>
-              <li className="button-menu">
-                <a href="/chuyen-mon">Chuyên môn</a>
-              </li>
-            </ul>
-          </li>
-        </ul>
+        <ListMenu menuData={listMenu} />
       </div>
 
       <div className="left-content">
@@ -151,7 +234,7 @@ export const Header = () => {
               </div>
               <Divider className="my-2" />
               <div className="card-hover" onClick={Logout}>
-                <FontAwesomeIcon icon={faRightFromBracket} color="#f87171" size="lg"  />
+                <FontAwesomeIcon icon={faRightFromBracket} color="#f87171" size="lg" />
                 <div className="text-base font-bold text-red-400">Đăng xuất</div>
               </div>
             </div>

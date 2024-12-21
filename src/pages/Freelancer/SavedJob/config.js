@@ -1,10 +1,9 @@
-import LayoutWorker from "../../../components/layout/LayoutWorker";
-import { FormSystemCode } from "../../../const/FormSystemCode";
+import LayoutHeader from "../../../components/layout/LayoutHeader";
 import { useBusinessAction } from "./BusinessAction";
 import InputItems from "./InputItems";
 
 export const SAVEDJOB = {
-  pageLayout: LayoutWorker,
+  pageLayout: LayoutHeader,
   pageConfig: {
     businessAction: useBusinessAction,
     Component: InputItems,

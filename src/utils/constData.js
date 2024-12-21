@@ -476,3 +476,11 @@ export const CONST_CONTRACT_STATUS = {
   Done: "D",
   Fail: "F",
 };
+
+export const CONST_TRANSACTION_TYPE = {
+  Deposit: "D",
+  Withdraw: "W",
+  Payment: "P",
+  Transfer: "T",
+  Receive: "R",
+};

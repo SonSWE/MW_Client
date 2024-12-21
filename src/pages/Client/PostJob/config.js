@@ -1,9 +1,9 @@
-import LayoutWorker from "../../../components/layout/LayoutWorker";
+import LayoutHeader from "../../../components/layout/LayoutHeader";
 import { useBusinessAction } from "./BusinessAction";
 import InputItems from "./InputItems";
 
 export const POSTJOB = {
-  pageLayout: LayoutWorker,
+  pageLayout: LayoutHeader,
   pageConfig: {
     businessAction: useBusinessAction,
     Component: InputItems,
