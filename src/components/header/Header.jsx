@@ -142,7 +142,7 @@ export const Header = () => {
       children: [
         {
           title: "Hợp đồng",
-          url: "/hop-hong",
+          url: "/hop-dong",
         },
       ],
     },

@@ -21,7 +21,7 @@ const ListContract = ({ datas, apiClient, submitContract }) => {
               <div className="w-4/5 text-lg ">{item?.[FormContract.StatusText]}</div>
               <div className="w-1/5">
                 {item?.[FormContract.Status] === CONST_CONTRACT_STATUS.Active ||
-                item?.[FormContract.Status] === CONST_CONTRACT_STATUS.Reopen ? (
+                item?.[FormContract.Status] === CONST_CONTRACT_STATUS.PendingApprovalSubmit ? (
                   <div className="flex gap-3">
                     <Button
                       onClick={() => {

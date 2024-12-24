@@ -18,7 +18,7 @@ export const columnDefs = [
     sortable: false,
   },
   {
-    field: FormFreelancer.AvatarFileId,
+    field: FormFreelancer.Avatar,
     headerName: "Ảnh đại diện",
     align: "left",
     pinned: "left",

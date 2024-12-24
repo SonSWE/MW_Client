@@ -5,6 +5,11 @@ export const SAShare = (axiosClient) => {
         "/api/sa/sashare/getsystemcodes"
       );
     },
+    GetSysParams: () => {
+      return axiosClient.get(
+        "/api/sa/sashare/getsysparams"
+      );
+    },
     GetSkills: () => {
       return axiosClient.get(
         "/api/sa/sashare/getskills"

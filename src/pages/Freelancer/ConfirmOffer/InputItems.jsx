@@ -138,7 +138,7 @@ const InputItems = React.forwardRef(({ action, disabled }, ref) => {
                   Tổng số tiền khách hàng sẽ thấy trên đề xuất của bạn
                 </div>
               </div>
-              <Form.Item className="w-full" name={FormProposal.Bid} label="">
+              <Form.Item className="w-full" name={FormProposal.BidAmount} label="">
                 <InputNumber
                   className="w-full"
                   min={1000}

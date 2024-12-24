@@ -1,11 +1,12 @@
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input, List } from "antd";
 import { FormJob, FormProposal } from "../../../const/FormJob";
 import { CONST_BUDGET_TYPE } from "../../../utils/constData";
-import { convertToArray, PriceFormatter } from "../../../utils/convertData";
-import { countProposalText, formatCreatedDate } from "../../../utils/utils";
+import { convertToArray, formatDate, PriceFormatter } from "../../../utils/convertData";
+import { countProposalText, formatCreatedDate, isRender } from "../../../utils/utils";
 import {
   faCheckCircle,
   faHandHoldingDollar,
+  faLink,
   faLocationDot,
   faMagnifyingGlass,
   faPencil,
@@ -20,14 +21,16 @@ import ListContract from "./ListContract";
 import BaseModal from "../../../components/controls/BaseModal";
 import Dragger from "antd/es/upload/Dragger";
 import { useNotification } from "../../../utils/formHelper";
-import { FormContract } from "../../../const/FormContract";
+import { FormContract, FormContractResult } from "../../../const/FormContract";
 import { useForm } from "antd/es/form/Form";
+import { useNavigate } from "react-router-dom";
 
 const TabContract = ({ apiClient, jobDetail, key }) => {
   const notification = useNotification();
   const [contracts, setContracts] = useState([]);
   const [formSubmitContract] = useForm();
   const [isShowModal, setIsShowModal] = useState(false);
+  const navigate = useNavigate();
 
   const props = {
     name: "file",
@@ -49,41 +52,14 @@ const TabContract = ({ apiClient, jobDetail, key }) => {
     },
   };
 
-  const openModal = () => {
-    setIsShowModal(true);
-  };
   const onCancel = () => {
     setIsShowModal(false);
   };
   const onApproval = () => {
-    formSubmitContract.submit(),
-      formSubmitContract.validateFields().then((values) => {
-        apiClient
-          .DoneContract(values?.[FormContract.ContractId])
-          .then((res) => {
-            if (res.status === 200) {
-              notification.success({ message: "Hoành thành hợp đồng thành công" });
-              LoadContract();
-              onCancel();
-            }
-          })
-          .catch((err) => {
-            if (err.response) {
-              if (err.response?.data?.message) {
-                notification.error({
-                  message: err.response.data.message,
-                });
-              }
-            } else if (err.request) {
-              notification.error({
-                message: "Không thể kết nối đến máy chủ!",
-              });
-            } else {
-              // Lỗi khác trong quá trình gửi yêu cầu
-              console.error("Error:", err.message);
-            }
-          });
-      });
+    navigate(
+      "/ket-thuc-hop-dong?contractId=" +
+        formSubmitContract.getFieldValue(FormContractResult.ContractId)
+    );
   };
 
   useEffect(() => {
@@ -104,17 +80,13 @@ const TabContract = ({ apiClient, jobDetail, key }) => {
   };
 
   const approvalContract = (data) => {
-    apiClient
-      .GetContractDetail(data?.[FormContract.ContractId])
-      .then((res) => {
-        if (res.status === 200 && res.data) {
-          setIsShowModal(true);
-          formSubmitContract.setFieldsValue(res.data);
-        }
-      })
-      .catch((e) => {
-        formSubmitContract.setFieldsValue(undefined);
-      });
+    apiClient.GetContractResultByContractId(data?.[FormContract.ContractId]).then((res) => {
+      if (res.status === 200 && res.data) {
+        formSubmitContract.setFieldValue(FormContract.ContractResults, convertToArray(res.data));
+      }
+    });
+    formSubmitContract.setFieldValue(FormContract.ContractId, data?.[FormContract.ContractId]);
+    setIsShowModal(true);
   };
 
   const detailContract = (data) => {
@@ -176,28 +148,63 @@ const TabContract = ({ apiClient, jobDetail, key }) => {
       >
         <Form form={formSubmitContract} className="py-5" disabled>
           <Form.Item name={FormContract.ContractId} hidden />
+          <Form.Item name={FormContract.ContractResults} hidden />
+
           <div className="mb-5">
             Hãy xem xét kỹ kết quả nhận được từ freelancer trước khi xác nhận hoàn thành hợp đồng
           </div>
           <div>
-            <div className="">
-              <div className="w-full">
-                <Form.Item name={FormContract.Remark} label="Mô tả thêm">
-                  <Input.TextArea
-                    style={{
-                      height: 120,
-                    }}
-                  />
-                </Form.Item>
-              </div>
-              <div className="w-full">
-                <Form.Item name="branchGroupId" label="File đính kèm">
-                  <Dragger {...props}>
-                    <p className="ant-upload-text">Chọn hoặc kéo thả file đính kèm để tải lên</p>
-                  </Dragger>
-                </Form.Item>
-              </div>
-            </div>
+            <Form.Item
+              className="!p-0 !m-0"
+              shouldUpdate={(prevValues, currentValues) =>
+                isRender(prevValues, currentValues, [FormContract.ContractResults])
+              }
+            >
+              {({ getFieldValue }) => {
+                const lst = convertToArray(getFieldValue(FormContract.ContractResults));
+                return lst.length > 0 ? (
+                  <div>
+                    <div className="text-base font-bold">Danh sách kết quả</div>
+                    <List
+                      className="mt-2"
+                      bordered
+                      dataSource={lst}
+                      renderItem={(item) => {
+                        const lstFile = convertToArray(
+                          item?.[FormContractResult.FileAttach]?.split("|")
+                        );
+
+                        return (
+                          <List.Item>
+                            <div className="w-full flex items-start justify-between">
+                              <div>
+                                <div>{item?.[FormContractResult.Remark]}</div>
+                                {lstFile.length > 0 &&
+                                  lstFile.map((e) => (
+                                    <div className="text-[#1677ff] !underline">
+                                      <FontAwesomeIcon icon={faLink} /> <a>{e}</a>
+                                    </div>
+                                  ))}
+                              </div>
+
+                              <div>
+                                Ngày gửi:{" "}
+                                {formatDate(
+                                  item?.[FormContractResult.CreateDate],
+                                  "DD/MM/YYYY hh:mm"
+                                )}
+                              </div>
+                            </div>
+                          </List.Item>
+                        );
+                      }}
+                    ></List>
+                  </div>
+                ) : (
+                  <></>
+                );
+              }}
+            </Form.Item>
           </div>
         </Form>
       </BaseModal>

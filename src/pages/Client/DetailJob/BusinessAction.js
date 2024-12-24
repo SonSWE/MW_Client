@@ -20,11 +20,9 @@ export const useBusinessAction = (controller) => {
     GetContractDetail: (id) => {
       return httpRequest.get(`/api/cus/contract/getdetailbyid?value=${id}`);
     },
-    DoneContract: (id) => {
-      return httpRequest.put(`/api/cus/contract/updatestatus`, {
-        Id: id,
-        Status: CONST_CONTRACT_STATUS.Done,
-      });
+    GetContractResultByContractId: (id) => {
+      return httpRequest.get(`/api/cus/contract/getcontractresult?value=${id}`);
     },
+    
   };
 };

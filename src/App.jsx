@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import Login from "./pages/Login/Index.jsx";
 import { LayoutEmpty } from "./components/layout/LayoutEmpty.jsx";
 
-
 import {} from "./utils/initAxiosClient.js";
 
 //import thư viện css
@@ -27,7 +26,7 @@ function App() {
   // const navigate = useNavigate();
   const userLogin = useSelector((state) => state.authReducer);
   const isLogin = userLogin && !isNullOrEmpty(userLogin?.username);
-  const Axios = useAxios();
+  const AxiosClient = useAxios();
 
   useEffect(() => {
     function a(e) {
@@ -62,13 +61,12 @@ function App() {
     }
 
     if (!isNullOrEmpty(userLogin?.username)) {
-      Axios.Checkalive()
+      AxiosClient.Checkalive()
         .then((res) => {
           if (res.status !== 200) {
             removeUserFromStorage();
             dispatch({ type: "CLEAR_USER" });
-          }
-          else {
+          } else {
             dispatch({ type: "UPDATE_USER_SETTING", payload: res.data });
           }
         })
@@ -81,9 +79,21 @@ function App() {
 
   const fetchSystemCodes = async () => {
     try {
-      const { data } = await Axios.collections.SAShare.GetSystemCodes();
+      const { data } = await AxiosClient.collections.SAShare.GetSystemCodes();
       dispatch({
         type: "SET_SYSTEMCODES",
+        payload: convertToArray(data),
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const fetchSysParams = async () => {
+    try {
+      const { data } = await AxiosClient.collections.SAShare.GetSysParams();
+      dispatch({
+        type: "SET_SYSPARAMS",
         payload: convertToArray(data),
       });
     } catch (error) {
@@ -101,10 +111,6 @@ function App() {
     }
   };
 
-  // useEffect(() => {
-  //   connectWS();
-  // }, []);
-
   useEffect(() => {
     document.addEventListener("visibilitychange", _handleVisibilityChange, false);
 
@@ -114,7 +120,8 @@ function App() {
       _handleVisibilityChange();
 
       fetchSystemCodes();
-    } 
+      fetchSysParams();
+    }
 
     return () => {
       document.removeEventListener("visibilitychange", _handleVisibilityChange, false);

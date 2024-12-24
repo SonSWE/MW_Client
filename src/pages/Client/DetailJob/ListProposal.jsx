@@ -67,7 +67,7 @@ const ListProposal = ({ datas, apiClient }) => {
               </div>
             </div>
             <div className="w-2/5">
-              <div className="font-medium">{PriceFormatter(item?.[FormProposal.Bid])}</div>
+              <div className="font-medium">{PriceFormatter(item?.[FormProposal.BidAmount])}</div>
               <div>{item?.[FormProposal.CoverLetter]}</div>
             </div>
           </div>

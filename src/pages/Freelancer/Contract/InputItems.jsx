@@ -1,17 +1,20 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { convertToArray } from "../../../utils/utils";
+import { convertToArray, isRender } from "../../../utils/utils";
 import { useNotification, usePopupNotification } from "../../../utils/formHelper";
 
 import { useNavigate } from "react-router-dom";
 import { getUserFromStorage } from "../../../store/actions/sharedActions";
 import { useBusinessAction } from "./BusinessAction";
 import ListContract from "./ListContract";
-import { Button, Form, Input, Tabs } from "antd";
-import { FormContract } from "../../../const/FormContract";
+import { Button, Form, Input, List, Tabs } from "antd";
+import { FormContract, FormContractResult } from "../../../const/FormContract";
 import { CONST_CONTRACT_STATUS } from "../../../utils/constData";
 import BaseModal from "../../../components/controls/BaseModal";
 import { useForm } from "antd/es/form/Form";
 import Dragger from "antd/es/upload/Dragger";
+import { formatDate } from "../../../utils/convertData";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLink } from "@fortawesome/free-solid-svg-icons";
 
 const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) => {
   const navigate = useNavigate();
@@ -48,6 +51,7 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
     setIsShowModal(true);
   };
   const onCancel = () => {
+    formSubmitContract.resetFields();
     setIsShowModal(false);
   };
   const onSubmit = () => {
@@ -129,6 +133,11 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
   );
 
   const submitContract = (data) => {
+    apiClient.GetContractResultByContractId(data?.[FormContract.ContractId]).then((res) => {
+      if (res.status === 200 && res.data) {
+        formSubmitContract.setFieldValue(FormContract.ContractResults, convertToArray(res.data));
+      }
+    });
     formSubmitContract.setFieldValue(FormContract.ContractId, data?.[FormContract.ContractId]);
     setIsShowModal(true);
   };
@@ -181,10 +190,18 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
         ]}
       >
         <Form form={formSubmitContract} className="py-5">
+          <Form.Item name={FormContract.ContractResults} hidden />
+          <Form.Item name={FormContract.FileAttach} hidden />
           <Form.Item name={FormContract.ContractId} hidden />
+
+          <div className="text-base font-bold">Gửi kết quả</div>
           <div className="mb-5">
             Kết quả sẽ được gửi đến khách hàng, sau khi khách hàng duyệt kết quả hợp đồng sẽ hoàn
             thành và bạn sẽ nhận được tiền trong vòng 24h tiếp theo
+            <div>
+              Bạn có thể gửi lại các kết quả hợp đồng trong vòng 15 ngày kể từ lần gửi kết quả đàu
+              tiên
+            </div>
           </div>
           <div>
             <div className="">
@@ -206,6 +223,58 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
               </div>
             </div>
           </div>
+
+          <Form.Item
+            className="!p-0 !m-0"
+            shouldUpdate={(prevValues, currentValues) =>
+              isRender(prevValues, currentValues, [FormContract.ContractResults])
+            }
+          >
+            {({ getFieldValue }) => {
+              const lst = convertToArray(getFieldValue(FormContract.ContractResults));
+              return lst.length > 0 ? (
+                <div>
+                  <div className="text-base font-bold">Lịch sử gửi kết quả</div>
+                  <List
+                    className="mt-2"
+                    bordered
+                    dataSource={lst}
+                    renderItem={(item) => {
+                      const lstFile = convertToArray(
+                        item?.[FormContractResult.FileAttach]?.split("|")
+                      );
+
+                      return (
+                        <List.Item>
+                          <div className="w-full flex items-start justify-between">
+                            <div>
+                              <div>{item?.[FormContractResult.Remark]}</div>
+                              {lstFile.length > 0 &&
+                                lstFile.map((e) => (
+                                  <div className="text-[#1677ff] !underline">
+                                    <FontAwesomeIcon icon={faLink} /> <a>{e}</a>
+                                  </div>
+                                ))}
+                            </div>
+
+                            <div>
+                              Ngày gửi:{" "}
+                              {formatDate(
+                                item?.[FormContractResult.CreateDate],
+                                "DD/MM/YYYY hh:mm"
+                              )}
+                            </div>
+                          </div>
+                        </List.Item>
+                      );
+                    }}
+                  ></List>
+                </div>
+              ) : (
+                <></>
+              );
+            }}
+          </Form.Item>
         </Form>
       </BaseModal>
     </div>

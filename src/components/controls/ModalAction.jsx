@@ -85,10 +85,22 @@ const ModalAction = React.forwardRef(({ controller, searchCode, pageConfig, onEv
               });
             }
           })
-          .catch((ex) => {
-            console.log(ex);
-            notification.error({ message: `Kết nối đến server thất bại` });
+          .catch((err) => {
             setIsLoading(false);
+            if (err.response) {
+              if (err.response?.data?.message) {
+                notification.error({
+                  message: err.response.data.message,
+                });
+              }
+            } else if (err.request) {
+              notification.error({
+                message: "Không thể kết nối đến máy chủ!",
+              });
+            } else {
+              // Lỗi khác trong quá trình gửi yêu cầu
+              console.error("Error:", err.message);
+            }
           });
       } else if (action === CONST_FORM_ACTION.Update) {
         pageConfig
@@ -111,10 +123,22 @@ const ModalAction = React.forwardRef(({ controller, searchCode, pageConfig, onEv
               });
             }
           })
-          .catch((ex) => {
-            console.log(ex);
-            notification.error({ message: `Kết nối đến server thất bại` });
+          .catch((err) => {
             setIsLoading(false);
+            if (err.response) {
+              if (err.response?.data?.message) {
+                notification.error({
+                  message: err.response.data.message,
+                });
+              }
+            } else if (err.request) {
+              notification.error({
+                message: "Không thể kết nối đến máy chủ!",
+              });
+            } else {
+              // Lỗi khác trong quá trình gửi yêu cầu
+              console.error("Error:", err.message);
+            }
           });
       } else if (action === CONST_FORM_ACTION.Delete) {
         pageConfig
@@ -137,77 +161,27 @@ const ModalAction = React.forwardRef(({ controller, searchCode, pageConfig, onEv
               });
             }
           })
-          .catch((ex) => {
-            console.log(ex);
-            notification.error({ message: `Kết nối đến server thất bại` });
+          .catch((err) => {
             setIsLoading(false);
+            if (err.response) {
+              if (err.response?.data?.message) {
+                notification.error({
+                  message: err.response.data.message,
+                });
+              }
+            } else if (err.request) {
+              notification.error({
+                message: "Không thể kết nối đến máy chủ!",
+              });
+            } else {
+              // Lỗi khác trong quá trình gửi yêu cầu
+              console.error("Error:", err.message);
+            }
           });
       }
     });
   };
 
-  // const handleOkAsync = async () => {
-  //   setIsLoading(true);
-  //   await formInstance.submit();
-  //   const values = await formInstance.validateFields();
-  //   if (action === CONST_FORM_ACTION.Create) {
-  //     const resCreate = await pageConfig.businessAction().addOne(values);
-
-  //     setIsLoading(false);
-  //     if (resCreate?.status === 200 && resCreate?.data?.code > 0) {
-  //       closeModal();
-  //       notifiSuccess({ message: "Tạo bản ghi thành công" });
-  //       onEvent({
-  //         type: TYPE_ACTION.SAVE_DATA_SUCCESS,
-  //         data: { ...resCreate.data },
-  //       });
-  //     } else {
-  //       notifiError({ message: resCreate?.data?.message });
-  //       onEvent({
-  //         type: TYPE_ACTION.SAVE_DATA_ERROR,
-  //         data: { ...resCreate?.data },
-  //       });
-  //     }
-  //   } else if (action === CONST_FORM_ACTION.Update) {
-  //     const resUpdate = await pageConfig.businessAction().updateOne(values);
-  //     setIsLoading(false);
-  //     console.log(resUpdate);
-  //     if (resUpdate?.status === 200 && resUpdate?.data?.code > 0) {
-  //       closeModal();
-  //       notifiSuccess({ message: "Cập nhật thông tin bản ghi thành công" });
-  //       onEvent({
-  //         type: TYPE_ACTION.SAVE_DATA_SUCCESS,
-  //         data: { ...resUpdate.data },
-  //       });
-  //     } else {
-  //       notifiError({ message: resUpdate?.data?.message });
-  //       onEvent({
-  //         type: TYPE_ACTION.SAVE_DATA_ERROR,
-  //         data: { ...resUpdate?.data },
-  //       });
-  //     }
-  //   } else if (action === CONST_FORM_ACTION.Delete) {
-  //     const resDelete = await pageConfig
-  //       .businessAction()
-  //       .deleteOne(values?.[pageConfig.dataGrid.recordKey]);
-
-  //     setIsLoading(false);
-  //     if (resDelete?.status === 200 && resDelete?.data?.code > 0) {
-  //       closeModal();
-  //       notifiSuccess({ message: "Xóa thông tin bản ghi thành công" });
-  //       onEvent({
-  //         type: TYPE_ACTION.SAVE_DATA_SUCCESS,
-  //         data: { ...resDelete.data },
-  //       });
-  //     } else {
-  //       notifiError({ message: resDelete?.data?.message });
-  //       onEvent({
-  //         type: TYPE_ACTION.SAVE_DATA_ERROR,
-  //         data: { ...resDelete?.data },
-  //       });
-  //     }
-  //   }
-  // };
   const handleCancel = () => {
     // setIsModalOpen(false);
     const mustConfirmCloseAction = [CONST_FORM_ACTION.Create, CONST_FORM_ACTION.Update];

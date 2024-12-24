@@ -49,7 +49,7 @@ export const columnProposal = (props) => {
     },
     {
       headerName: "Giá đầu thầu",
-      field: FormProposal.Bid,
+      field: FormProposal.BidAmount,
       editable: true,
       cellEditor: DropdownCell,
       controlType: CONST_CONTROL_TYPE.Number,

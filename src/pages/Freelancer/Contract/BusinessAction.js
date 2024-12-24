@@ -8,6 +8,9 @@ export const useBusinessAction = (controller = "freelancer") => {
     GetContactsByFreelancer: (id) => {
       return httpRequest.get(`/api/cus/contract/getbyfreelancer?value=${id}`);
     },
+    GetContractResultByContractId: (id) => {
+      return httpRequest.get(`/api/cus/contract/getcontractresult?value=${id}`);
+    },
     SubmitContract: (jsonData) => {
       return httpRequest.put(`/api/cus/contract/submitcontact`, jsonData);
     },

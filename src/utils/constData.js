@@ -455,6 +455,10 @@ export const objectToArray = (obj) => {
   return customArray;
 };
 
+export const CONST_PARAM_ID = {
+  FEE_SERVICE_PER_JOB: "FEE_SERVICE_PER_JOB",
+};
+
 export const CONST_BUDGET_TYPE = {
   Fixed: "F",
   Hourly: "H",
@@ -471,7 +475,7 @@ export const CONST_CONTRACT_STATUS = {
   Closed: "C",
   Active: "A",
   End: "E",
-  PendingApprovalSubmit: "PS",
+  PendingApprovalSubmit: "PA",
   Reopen: "RO",
   Done: "D",
   Fail: "F",

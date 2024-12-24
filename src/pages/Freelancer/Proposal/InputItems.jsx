@@ -38,11 +38,11 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
       <Tabs
           defaultActiveKey="1"
           items={[
-            {
-              label: `Chờ xác nhận hợp đồng (${proposals?.length})`,
-              key: "1",
-              children: <ListProposal datas={proposals} apiClient={apiClient} />,
-            },
+            // {
+            //   label: `Chờ xác nhận hợp đồng (${proposals?.length})`,
+            //   key: "1",
+            //   children: <ListProposal datas={proposals} apiClient={apiClient} />,
+            // },
             {
               label: `Đã gửi`,
               key: "3",

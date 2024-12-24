@@ -9,6 +9,7 @@ import { SUBMITPROPOSAL } from "../pages/Freelancer/SubmitProposal/config";
 import { DETAILJOB } from "../pages/Client/DetailJob/config";
 import { SENDOFFER } from "../pages/Client/SendOffer/config";
 import { WALLET } from "../pages/Wallet/config";
+import { ENDCONTRACT } from "../pages/Client/EndContract/config";
 
 export const RoutesClientConfig = [
   {
@@ -33,18 +34,8 @@ export const RoutesClientConfig = [
   },
   {
     DisplayOnMenu: 1,
-    url: "/gui-de-xuat",
-    ComponentConfig: SUBMITPROPOSAL,
-  },
-  {
-    DisplayOnMenu: 1,
-    url: "/chi-tiet-de-xuat",
-    ComponentConfig: DETAILPROPOSAL,
-  },
-  {
-    DisplayOnMenu: 1,
-    url: "/xac-nhan-hop-dong",
-    ComponentConfig: DETAILOFFER,
+    url: "/ket-thuc-hop-dong",
+    ComponentConfig: ENDCONTRACT,
   },
   {
     DisplayOnMenu: 1,

@@ -5,7 +5,7 @@ export const FormFreelancer = {
   Email: "email", // Email
   Password: "password",
   PhoneNumber: "phoneNumber", // Số điện thoại
-  AvatarFileId: "avatarFileId", // ID file ảnh đại diện
+  Avatar: "avatar", // ID file ảnh đại diện
   StreetAddress: "streetAddress", // Địa chỉ
   CityId: "cityId", // thành phố
   CityIdText: "cityIdText",

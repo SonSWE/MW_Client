@@ -97,7 +97,7 @@ const InputItems = React.forwardRef(({ action, disabled }, ref) => {
           const newContract = {
             [FormContract.JobId]: values?.[FormProposal.JobId],
             [FormContract.FreelancerId]: values?.[FormProposal.FreelancerId],
-            [FormContract.Bid]: values?.[FormProposal.Bid],
+            [FormContract.ContractAmount]: values?.[FormProposal.BidAmount],
             [FormContract.FeeService]: values?.[FormProposal.FeeService],
             [FormContract.RealReceive]: values?.[FormProposal.RealReceive],
             [FormContract.ProposalId]: values?.[FormProposal.ProposalId],
@@ -158,7 +158,7 @@ const InputItems = React.forwardRef(({ action, disabled }, ref) => {
                 </div>
                 <Form.Item
                   className="w-full"
-                  name={FormProposal.Bid}
+                  name={FormProposal.BidAmount}
                   label=""
                   rules={[globalConst.ANT.FORM.RULES.yeuCauNhap]}
                 >

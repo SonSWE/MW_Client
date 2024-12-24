@@ -1,47 +1,41 @@
 import { Button, Form, Input, InputNumber } from "antd";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useNotification } from "../../../utils/formHelper";
-import Dragger from "antd/es/upload/Dragger";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { isNullOrEmpty } from "../../../utils/utils";
+import { convertToArray, isNullOrEmpty } from "../../../utils/utils";
 import { useBusinessAction } from "./BusinessAction";
 import { FormJob, FormProposal } from "../../../const/FormJob";
-import { CONST_BUDGET_TYPE, useGlobalConst } from "../../../utils/constData";
+import { CONST_BUDGET_TYPE, CONST_PARAM_ID, useGlobalConst } from "../../../utils/constData";
 import { PriceFormatter } from "../../../utils/convertData";
 import { getUserFromStorage } from "../../../store/actions/sharedActions";
-import { CONST_FORM_ACTION } from "../../../const/FormConst";
 import { formaterNumber, parserNumber } from "../../../utils/Format";
+import { BaseUploadFile } from "../../../components/element/BaseUploadFile";
+import { useSelector } from "react-redux";
 
 const InputItems = React.forwardRef(({ action, disabled }, ref) => {
+  //state
+  const [jobDetail, setJobDetail] = useState();
+  const [fileList, setFileList] = useState([]);
+  const sysParam = useSelector((state) => state.sysparamsReducer.SYSPARAMS);
+  const ServiceFeePercent = useMemo(
+    () =>
+      Number(
+        convertToArray(sysParam).find((x) => x.sysParamId === CONST_PARAM_ID.FEE_SERVICE_PER_JOB)
+          ?.pValue ?? 0
+      ),
+    [sysParam]
+  );
+
+  //hock
   const navigate = useNavigate();
   const apiClient = useBusinessAction();
   const notification = useNotification();
   const [formInstance] = Form.useForm();
   const [searchParams, setSearchParams] = useSearchParams();
-  const [jobDetail, setJobDetail] = useState();
   const userLogged = getUserFromStorage();
   const globalConst = useGlobalConst();
 
-  const props = {
-    name: "file",
-    multiple: true,
-    action: "https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload",
-    onChange(info) {
-      const { status } = info.file;
-      if (status !== "uploading") {
-        console.log(info.file, info.fileList);
-      }
-      if (status === "done") {
-        message.success(`${info.file.name} file uploaded successfully.`);
-      } else if (status === "error") {
-        message.error(`${info.file.name} file upload failed.`);
-      }
-    },
-    onDrop(e) {
-      console.log("Dropped files", e.dataTransfer.files);
-    },
-  };
-
+  //effect state
   useEffect(() => {
     formInstance.setFieldValue(FormProposal.FreelancerId, userLogged?.freelancer?.freelancerId);
   }, [userLogged]);
@@ -66,6 +60,17 @@ const InputItems = React.forwardRef(({ action, disabled }, ref) => {
     }
   }, [searchParams]);
 
+  useEffect(() => {
+    console.log(fileList);
+    //set file list to form data
+    if (fileList?.length > 0) {
+      formInstance.setFieldValue(FormProposal.FileAttaches, fileList.map((e) => e.name).join("|"));
+    } else {
+      formInstance.setFieldValue(FormProposal.FileAttaches, undefined);
+    }
+  }, [fileList]);
+
+  //function
   const submit = () => {
     formInstance.submit();
     formInstance.validateFields().then((values) => {
@@ -75,10 +80,7 @@ const InputItems = React.forwardRef(({ action, disabled }, ref) => {
           if (res.status === 200) {
             notification.success({ message: "Gửi thành công" });
           }
-
-          setTimeout(() => {
-            navigate("/");
-          }, 2000);
+          navigate("/");
         })
         .catch((err) => {
           if (err.response) {
@@ -104,24 +106,16 @@ const InputItems = React.forwardRef(({ action, disabled }, ref) => {
       <Form form={formInstance} className="py-5">
         <Form.Item name={FormJob.JobId} hidden />
         <Form.Item name={FormProposal.FreelancerId} hidden />
+        <Form.Item name={FormProposal.FileAttaches} hidden />
+
         <div>
           <div className="form-title text-2xl font-medium mb-5">Gửi đề xuất công việc</div>
-          <div className="card-border">
-            <div className="text-xl font-medium mb-5">Thiết lập đề xuất</div>
-            <div>Đề xuất này yêu cầu 6 connects</div>
-            <div>Bạn sẽ còn lại 134 sau khi gửi bản đề xuất công việc này</div>
-          </div>
           <div className="card-border">
             <div className="text-xl font-medium mb-5">Chi tiết công việc</div>
             <div className="text-lg font-medium">{jobDetail?.[FormJob.Title]}</div>
             <div className="mt-1 text-xs text-label">
               {jobDetail?.[FormJob.TermTypeText]} - {jobDetail?.[FormJob.LevelFreelancerIdText]} -{" "}
-              {jobDetail?.[FormJob.BudgetTypeText]}:
-              {jobDetail?.[FormJob.BudgetType] === CONST_BUDGET_TYPE.Hourly
-                ? ` ${PriceFormatter(jobDetail?.[FormJob.HourlyRateFrom])}/Giờ-${PriceFormatter(
-                    jobDetail?.[FormJob.HourlyRateTo]
-                  )}/Giờ`
-                : ` ${PriceFormatter(jobDetail?.[FormJob.CostEstimate])}`}
+              Ngân sách: {PriceFormatter(jobDetail?.[FormJob.CostEstimate])}
             </div>
             <div className="mt-2">
               <a className="underline hover:!underline">Xem chi tiết công việc</a>
@@ -133,7 +127,7 @@ const InputItems = React.forwardRef(({ action, disabled }, ref) => {
               Tổng số tiền bạn muốn nhận được từ công việc này là bao nhiêu?
             </div>
 
-            <div className="flex items-center">
+            <div className="flex items-center mb-5">
               <div className="w-full">
                 <div className="font-medium">Đấu thầu</div>
                 <div className="text-label">
@@ -141,8 +135,8 @@ const InputItems = React.forwardRef(({ action, disabled }, ref) => {
                 </div>
               </div>
               <Form.Item
-                className="w-full"
-                name={FormProposal.Bid}
+                className="w-full !mb-0"
+                name={FormProposal.BidAmount}
                 label=""
                 rules={[globalConst.ANT.FORM.RULES.yeuCauNhap]}
               >
@@ -154,37 +148,39 @@ const InputItems = React.forwardRef(({ action, disabled }, ref) => {
                   parser={parserNumber}
                   suffix="đ"
                   onChange={(value) => {
-                    const fee = value * 0.1;
-                    formInstance.setFieldValue(FormProposal.RealReceive, value - fee);
-                    formInstance.setFieldValue("ServiceFee", fee);
+                    if (ServiceFeePercent > 0) {
+                      const fee = value * ServiceFeePercent;
+                      formInstance.setFieldValue(FormProposal.RealReceive, value - fee);
+                      formInstance.setFieldValue(FormProposal.FeeService, fee);
+                    }
                   }}
                 />
               </Form.Item>
             </div>
 
-            <div className="flex items-center">
-              <div className="w-full">
-                <div className="font-medium">Phí dịch vụ 10%</div>
+            {ServiceFeePercent > 0 && (
+              <div className="flex items-center mb-5">
+                <div className="w-full">
+                  <div className="font-medium">Phí dịch vụ {ServiceFeePercent * 100}%</div>
+                </div>
+                <Form.Item className="w-full !mb-0" name={FormProposal.FeeService} label="">
+                  <InputNumber
+                    className="w-full"
+                    disabled
+                    formatter={formaterNumber}
+                    parser={parserNumber}
+                    suffix="đ"
+                  />
+                </Form.Item>
               </div>
-              <Form.Item className="w-full" name="ServiceFee" label="">
-                <InputNumber
-                  className="w-full"
-                  disabled
-                  min={1000}
-                  step={100}
-                  formatter={formaterNumber}
-                  parser={parserNumber}
-                  suffix="đ"
-                />
-              </Form.Item>
-            </div>
+            )}
 
-            <div className="flex items-center">
+            <div className="flex items-center mb-5">
               <div className="w-full">
                 <div className="font-medium">Số tiền sau phí</div>
                 <div className="text-label">Tổng số tiền thực tế bạn sẽ nhận được</div>
               </div>
-              <Form.Item className="w-full" name={FormProposal.RealReceive} label="">
+              <Form.Item className="w-full !mb-0" name={FormProposal.RealReceive} label="">
                 <InputNumber
                   className="w-full"
                   disabled
@@ -200,7 +196,11 @@ const InputItems = React.forwardRef(({ action, disabled }, ref) => {
 
           <div className="card-border">
             <div className="text-xl font-medium mb-5">Mô tả giải pháp công việc</div>
-            <Form.Item name={FormProposal.CoverLetter} label="">
+            <Form.Item
+              name={FormProposal.CoverLetter}
+              label=""
+              rules={[globalConst.ANT.FORM.RULES.yeuCauNhap]}
+            >
               <Input.TextArea
                 style={{
                   height: 120,
@@ -209,9 +209,7 @@ const InputItems = React.forwardRef(({ action, disabled }, ref) => {
             </Form.Item>
 
             <div>Dính kèm</div>
-            <Dragger {...props}>
-              <p className="ant-upload-text">Click chọn hoặc kéo thả file vào đây để tải lên</p>
-            </Dragger>
+            <BaseUploadFile fileList={fileList} setFileList={setFileList} maxFile={5} />
           </div>
 
           <div className="flex flex-nowrap justify-start items-center gap-5 py-2">

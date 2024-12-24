@@ -40,7 +40,7 @@ export const FormProposal = {
   JobId: "jobId",
   Status: "status",
   StatusText: "statusText",
-  Bid: "bid",
+  BidAmount: "bidAmount",
   FeeService: "feeService",
   RealReceive: "realReceive",
   CoverLetter: "coverLetter",

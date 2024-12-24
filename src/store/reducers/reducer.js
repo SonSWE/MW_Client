@@ -7,7 +7,7 @@ import { sysparamsReducer } from "./sysparamsReducer";
 
 const reducers = combineReducers({
   systemCodeReducer: systemCodeReducer,
-  sysparams: sysparamsReducer,
+  sysparamsReducer: sysparamsReducer,
   authReducer: authReducer,
 });
 
