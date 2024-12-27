@@ -8,8 +8,13 @@ import { columnSystemCodeValue } from "./comom";
 import { usePopupNotification } from "../../../utils/formHelper";
 import delteteicon from "../../../assets/image/icon/ic_tip_delete.svg";
 import addicon from "../../../assets/image/icon/ic_add_form.svg";
+import { useGlobalConst } from "../../../utils/constData";
 
 const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) => {
+  const notification = usePopupNotification();
+  const globalConst = useGlobalConst();
+  const gridRef = useRef(null);
+
   useImperativeHandle(ref, () => ({
     triggerThayDoiBanGhi: (values) => {
       if (values?.[FormSystemCode.SystemCodeValues]?.length > 0) {
@@ -20,10 +25,6 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
       }
     },
   }));
-
-  const notification = usePopupNotification();
-
-  const gridRef = useRef(null);
 
   const rowDatacColumn = (props) => {
     return [
@@ -126,11 +127,15 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
     };
   };
   return (
-    <div>
+    <div className="form-two-col">
       <div className="row-item">
         <Form.Item name={FormSystemCode.SystemCodeValues} hidden />
         <div className="w-full">
-          <Form.Item name="systemCodeId" label="System Code ID">
+          <Form.Item
+            name={FormSystemCode.SystemCodeId}
+            label="System Code ID"
+            rules={[globalConst.ANT.FORM.RULES.yeuCauNhap]}
+          >
             <Input
               onChange={(e) => {
                 formInstance.setFieldValue(
@@ -142,8 +147,12 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
           </Form.Item>
         </div>
         <div className="w-full">
-          <Form.Item name="name" label="Tên">
-            <Input />
+          <Form.Item
+            name={FormSystemCode.Name}
+            label="Tên"
+            rules={[globalConst.ANT.FORM.RULES.yeuCauNhap]}
+          >
+            <Input maxLength={250} />
           </Form.Item>
         </div>
       </div>

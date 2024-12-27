@@ -1,5 +1,5 @@
 import LayoutManagement from "../../../components/layout/LayoutManagement";
-import { CONST_FORM_ACTION } from "../../../const/FormConst";
+import { CONST_CONTROL_TYPE, CONST_FORM_ACTION } from "../../../const/FormConst";
 import { FormSysParam } from "../../../const/FormSysParam";
 
 import { CRUD_ButtonConfig } from "../../../const/LayoutConst";
@@ -75,6 +75,7 @@ const SearchConfig = [
   { key: FormSysParam.Name, operator: "=" },
   { key: FormSysParam.PValue, operator: "=" },
   { key: FormSysParam.Content, operator: "=" },
+  { key: FormSysParam.Status, operator: "=", control: CONST_CONTROL_TYPE.ComboxMultiple },
 ];
 
 export const SYSPARAM = {

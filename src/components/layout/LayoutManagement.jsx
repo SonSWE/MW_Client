@@ -91,6 +91,7 @@ const LayoutManagement = ({ ComponentConfig }) => {
                         label=""
                       >
                         <Input
+                          allowClear
                           placeholder="Từ khóa tìm kiếm"
                           prefix={<FontAwesomeIcon icon={faMagnifyingGlass} />}
                           onKeyDown={(event) => {

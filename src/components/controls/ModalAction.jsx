@@ -4,7 +4,6 @@ import { TYPE_ACTION } from "../../const/LayoutConst";
 import { CONST_FORM_ACTION } from "../../const/FormConst";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
-import TextArea from "antd/es/input/TextArea";
 import { usePopupNotification } from "../../utils/formHelper";
 
 const ModalAction = React.forwardRef(({ controller, searchCode, pageConfig, onEvent }, ref) => {
@@ -61,9 +60,9 @@ const ModalAction = React.forwardRef(({ controller, searchCode, pageConfig, onEv
     setIsLoading(false);
   };
   const handleOk = () => {
-    setIsLoading(true);
     formInstance.submit();
     formInstance.validateFields().then((values) => {
+      setIsLoading(true);
       if (action === CONST_FORM_ACTION.Create) {
         pageConfig
           .businessAction()
@@ -77,20 +76,18 @@ const ModalAction = React.forwardRef(({ controller, searchCode, pageConfig, onEv
                 type: TYPE_ACTION.SAVE_DATA_SUCCESS,
                 data: { ...res.data },
               });
-            } else {
-              notification.error({ message: res?.data?.message });
-              onEvent({
-                type: TYPE_ACTION.SAVE_DATA_ERROR,
-                data: { ...res?.data },
-              });
             }
           })
           .catch((err) => {
+            onEvent({
+              type: TYPE_ACTION.SAVE_DATA_ERROR,
+              data: { ...err?.data },
+            });
             setIsLoading(false);
             if (err.response) {
               if (err.response?.data?.message) {
                 notification.error({
-                  message: err.response.data.message,
+                  message: err.response.data.code + ": " + err.response.data.message,
                 });
               }
             } else if (err.request) {
@@ -115,20 +112,18 @@ const ModalAction = React.forwardRef(({ controller, searchCode, pageConfig, onEv
                 type: TYPE_ACTION.SAVE_DATA_SUCCESS,
                 data: { ...res.data },
               });
-            } else {
-              notification.error({ message: res?.data?.message });
-              onEvent({
-                type: TYPE_ACTION.SAVE_DATA_ERROR,
-                data: { ...res?.data },
-              });
             }
           })
           .catch((err) => {
+            onEvent({
+              type: TYPE_ACTION.SAVE_DATA_ERROR,
+              data: { ...err?.data },
+            });
             setIsLoading(false);
             if (err.response) {
               if (err.response?.data?.message) {
                 notification.error({
-                  message: err.response.data.message,
+                  message: err.response.data.code + ": " + err.response.data.message,
                 });
               }
             } else if (err.request) {
@@ -153,15 +148,13 @@ const ModalAction = React.forwardRef(({ controller, searchCode, pageConfig, onEv
                 type: TYPE_ACTION.SAVE_DATA_SUCCESS,
                 data: { ...res.data },
               });
-            } else {
-              notification.error({ message: res?.data?.message });
-              onEvent({
-                type: TYPE_ACTION.SAVE_DATA_ERROR,
-                data: { ...res?.data },
-              });
             }
           })
           .catch((err) => {
+            onEvent({
+              type: TYPE_ACTION.SAVE_DATA_ERROR,
+              data: { ...err?.data },
+            });
             setIsLoading(false);
             if (err.response) {
               if (err.response?.data?.message) {
@@ -286,75 +279,79 @@ const ModalAction = React.forwardRef(({ controller, searchCode, pageConfig, onEv
   }, [isModalOpen]);
 
   return (
-    <Modal
-      title={title}
-      onCancel={handleCancel}
-      centered
-      open={isModalOpen}
-      width="90vw"
-      footer={[
-        <Button
-          type="primary"
-          key="save"
-          onClick={handleOk}
-          hidden={
-            ![
-              CONST_FORM_ACTION.Delete,
-              CONST_FORM_ACTION.Create,
-              CONST_FORM_ACTION.Update,
-            ].includes(action)
-          }
+    <>
+      {isModalOpen && (
+        <Modal
+          title={title}
+          onCancel={handleCancel}
+          centered
+          open={isModalOpen}
+          width="90vw"
+          footer={[
+            <Button
+              type="primary"
+              key="save"
+              onClick={handleOk}
+              hidden={
+                ![
+                  CONST_FORM_ACTION.Delete,
+                  CONST_FORM_ACTION.Create,
+                  CONST_FORM_ACTION.Update,
+                ].includes(action)
+              }
+            >
+              Lưu
+            </Button>,
+            <Button key="cancel" onClick={handleCancel}>
+              Thoát
+            </Button>,
+          ]}
         >
-          Lưu
-        </Button>,
-        <Button key="cancel" onClick={handleCancel}>
-          Thoát
-        </Button>,
-      ]}
-    >
-      <div
-        className="body-scroll relative z-50"
-        style={{
-          boxShadow: topVisible
-            ? bottomVisible
-              ? noShadow
-              : bottomShadow
-            : bottomVisible
-            ? topShadow
-            : `${topShadow}, ${bottomShadow}`,
-        }}
-      >
-        <div ref={topRef}></div>
-        <Form
-          form={formInstance}
-          className="py-5"
-          disabled={disable || action === CONST_FORM_ACTION.Detail}
-        >
-          {action === CONST_FORM_ACTION.Delete ? (
-            <div>
-              <div className="text-center font-bold mb-5">
-                Thao tác này không thể hoàn tác, Bạn có chắc chắn muốn xóa thông tin này ?
-              </div>
-              <Form.Item name={pageConfig.dataGrid.recordKey} hidden>
-                <Input />
-              </Form.Item>
-              {/* <Form.Item name="reasonDelete" label="Lý do xóa">
+          <div
+            className="body-scroll relative z-50"
+            style={{
+              boxShadow: topVisible
+                ? bottomVisible
+                  ? noShadow
+                  : bottomShadow
+                : bottomVisible
+                ? topShadow
+                : `${topShadow}, ${bottomShadow}`,
+            }}
+          >
+            <div ref={topRef}></div>
+            <Form
+              form={formInstance}
+              className="py-5"
+              disabled={disable || action === CONST_FORM_ACTION.Detail}
+            >
+              {action === CONST_FORM_ACTION.Delete ? (
+                <div>
+                  <div className="text-center font-bold mb-5">
+                    Thao tác này không thể hoàn tác, Bạn có chắc chắn muốn xóa thông tin này ?
+                  </div>
+                  <Form.Item name={pageConfig.dataGrid.recordKey} hidden>
+                    <Input />
+                  </Form.Item>
+                  {/* <Form.Item name="reasonDelete" label="Lý do xóa">
                 <TextArea autoSize={{ minRows: 3, maxRows: 5 }} />
               </Form.Item> */}
-            </div>
-          ) : (
-            <Spin spinning={isLoading}>
-              <pageConfig.config.InputItems
-                formInstance={formInstance}
-                action={action}
-                ref={refInput}
-              />
-            </Spin>
-          )}
-        </Form>
-        <div ref={bottomRef}></div>
-      </div>
-    </Modal>
+                </div>
+              ) : (
+                <Spin spinning={isLoading}>
+                  <pageConfig.config.InputItems
+                    formInstance={formInstance}
+                    action={action}
+                    ref={refInput}
+                  />
+                </Spin>
+              )}
+            </Form>
+            <div ref={bottomRef}></div>
+          </div>
+        </Modal>
+      )}
+    </>
   );
 });
 export default ModalAction;

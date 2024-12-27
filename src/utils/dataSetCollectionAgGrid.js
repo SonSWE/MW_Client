@@ -5,7 +5,7 @@ import { imgStoreHost, useGlobalConst } from "helpers/constData";
 import { t } from "i18next";
 import {
   GetStatusText,
-  dateFomatCompany,
+  dateFormatDefault,
   convertNumberToDate,
   convertToYN,
   encodeQueryData,
@@ -542,7 +542,7 @@ export const MapColumns = (
           <span className={`${hanldeChangeName(e, data, oldData, keyName)}`}>
             {" "}
             {value && !value.includes("0001-01-01") ? (
-              <Moment format={dateFomatCompany}>{value}</Moment>
+              <Moment format={dateFormatDefault}>{value}</Moment>
             ) : (
               ""
             )}
@@ -555,7 +555,7 @@ export const MapColumns = (
         return (
           <span className={`${hanldeChangeName(e, data, oldData, keyName)}`}>
             {value && !value.includes("0001-01-01") ? (
-              <Moment format={`${dateFomatCompany} HH:mm`}>{value}</Moment>
+              <Moment format={`${dateFormatDefault} HH:mm`}>{value}</Moment>
             ) : (
               ""
             )}
@@ -568,7 +568,7 @@ export const MapColumns = (
         return (
           <span className={`${hanldeChangeName(e, data, oldData, keyName)}`}>
             {value && !value.includes("0001-01-01") ? (
-              <Moment format={`${dateFomatCompany} HH:mm:ss`}>{value}</Moment>
+              <Moment format={`${dateFormatDefault} HH:mm:ss`}>{value}</Moment>
             ) : (
               ""
             )}
@@ -581,7 +581,7 @@ export const MapColumns = (
         return (
           <span className={`${hanldeChangeName(e, data, oldData, keyName)}`}>
             {value && !value.includes("0001-01-01") ? (
-              <Moment format={`${dateFomatCompany} HH:mm:ss.SSS`}>{value}</Moment>
+              <Moment format={`${dateFormatDefault} HH:mm:ss.SSS`}>{value}</Moment>
             ) : (
               ""
             )}

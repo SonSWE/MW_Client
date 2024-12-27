@@ -18,6 +18,9 @@ import { TYPE_ACTION } from "../../const/LayoutConst";
 import { objectToArray } from "../../utils/constData";
 import { ButtonAction } from "../element/ButtonAction";
 import { makeid } from "../../utils/commonFunction";
+import moment from "moment";
+import { dateFormatDefault, dateTimeFomatDefault } from "../../utils/utils";
+import { CONST_CONTROL_TYPE } from "../../const/FormConst";
 
 const BaseDataGird = React.forwardRef(
   ({ controller, searchCode, config, onEvent, pageSize = 100 }, ref) => {
@@ -80,7 +83,10 @@ const BaseDataGird = React.forwardRef(
               operator:
                 config.dataGrid.searchConfig.find(
                   (x) => x.key?.toUpperCase() === e.key?.toUpperCase()
-                )?.operators?.[0] ?? "=",
+                )?.operator ?? "=",
+              control: config.dataGrid.searchConfig.find(
+                (x) => x.key?.toUpperCase() === e.key?.toUpperCase()
+              )?.control,
             })),
           };
           setInquiryRequest(q);
@@ -103,6 +109,13 @@ const BaseDataGird = React.forwardRef(
           ellipsis: {
             showTitle: false,
           },
+          cellRenderer: (param) => {
+            return item?.dataType === CONST_CONTROL_TYPE.Date
+              ? moment(param.value).format(dateFormatDefault)
+              : item?.dataType === CONST_CONTROL_TYPE.DateTime
+              ? moment(param.value).format(dateTimeFomatDefault)
+              : param.value;
+          },
         })),
         {
           field: "createDate",
@@ -116,6 +129,9 @@ const BaseDataGird = React.forwardRef(
           },
           ellipsis: {
             showTitle: false,
+          },
+          cellRenderer: (param) => {
+            return moment(param.value).format(dateTimeFomatDefault);
           },
         },
         {
@@ -149,13 +165,16 @@ const BaseDataGird = React.forwardRef(
           headerName: "Ngày sửa",
           dataType: "DAT16",
           align: "left",
-          width: 100,
+          width: 180,
           sortable: true,
           sorter: {
             multiple: 1,
           },
           ellipsis: {
             showTitle: false,
+          },
+          cellRenderer: (param) => {
+            if (param.value) return moment(param.value).format(dateTimeFomatDefault);
           },
         },
         {

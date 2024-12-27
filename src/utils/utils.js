@@ -78,7 +78,9 @@ export const CONST_FORM_MODE = Object.freeze({
   COPY: "COPY",
 });
 
-export const dateFomatCompany = "DD/MM/YYYY";
+export const dateFormatDefault = "DD/MM/YYYY";
+export const dateTimeFomatDefault = "DD/MM/YYYY hh:mm";
+
 
 export const getSystemCodeValues = (systemCodes, systemCodeId) => {
   try {

@@ -1,4 +1,4 @@
-import { convertToArray, dateFomatCompany, isNullOrEmpty } from "./utils";
+import { convertToArray, dateFormatDefault, isNullOrEmpty } from "./utils";
 import moment from "moment";
 import { useSelector } from "react-redux";
 import { Tooltip } from "antd";
@@ -139,7 +139,7 @@ const makeCellFunction = (e, keyName, oldData, handleAddRow, globalConst) => {
     cellRenderer = (params) => {
       const { value, data } = params;
 
-      let date = moment(value, dateFomatCompany).format(dateFomatCompany);
+      let date = moment(value, dateFormatDefault).format(dateFormatDefault);
       return (
         <Cell>
           <span>{value && !value.includes("0001-01-01") ? date : ""}</span>

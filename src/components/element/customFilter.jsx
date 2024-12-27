@@ -1,7 +1,7 @@
 import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import moment from "moment/moment";
-import { convertToArray, dateFomatCompany, getSystemCodeValues } from "../../utils/utils";
+import { convertToArray, dateFormatDefault, getSystemCodeValues } from "../../utils/utils";
 
 
 export default forwardRef((props, ref) => {
@@ -23,13 +23,13 @@ export default forwardRef((props, ref) => {
     let textFormat = recordIndex;
 
     if (dataType === "DATEFROMNUMBER") {
-      textFormat = moment(recordIndex?.toString(), "YYYYMMDD").format(`${dateFomatCompany} HH:mm:ss`);
+      textFormat = moment(recordIndex?.toString(), "YYYYMMDD").format(`${dateFormatDefault} HH:mm:ss`);
     } else if (dataType === "DAT" || dataType === "DAT10" || dataType === "DATNUM") {
-      textFormat = moment(recordIndex?.toString(), "YYYY-MM-DD").format(dateFomatCompany);
+      textFormat = moment(recordIndex?.toString(), "YYYY-MM-DD").format(dateFormatDefault);
     } else if (dataType === "DAT16") {
-      textFormat = moment(recordIndex?.toString()).format(`${dateFomatCompany} HH:mm`);
+      textFormat = moment(recordIndex?.toString()).format(`${dateFormatDefault} HH:mm`);
     } else if (dataType === "DAT20") {
-      textFormat = moment(recordIndex?.toString()).format(`${dateFomatCompany} HH:mm:ss`);
+      textFormat = moment(recordIndex?.toString()).format(`${dateFormatDefault} HH:mm:ss`);
     } else if (["STATUS", "EXPIREDSTS"].includes(dataType?.toUpperCase())) {
       textFormat = convertToArray(getSystemCodeValues(systemCodes, "CF_STATUS").filter((x) => x.value === recordIndex).map((x) => (x?.lang === "en" ? x.descriptionOther : x.description)));
       textFormat.push("#");
