@@ -3,9 +3,11 @@ import { DASHBOARD } from "../pages/Freelancer/Dashboard/config";
 import { DETAILOFFER } from "../pages/Freelancer/DetailOffer/config";
 import { DETAILPROPOSAL } from "../pages/Freelancer/DetailProposal/config";
 import { FINDWORKADVANCED } from "../pages/Freelancer/FindWorkAdvanced/config";
+import { FREELANCERINFORMATION } from "../pages/Freelancer/FreelancerInfomation/config";
 import { PROPOSAL } from "../pages/Freelancer/Proposal/config";
 import { SAVEDJOB } from "../pages/Freelancer/SavedJob/config";
 import { SUBMITPROPOSAL } from "../pages/Freelancer/SubmitProposal/config";
+import { MESSENGER } from "../pages/Messenger/config";
 import { WALLET } from "../pages/Wallet/config";
 
 export const RoutesFreelancerConfig = [
@@ -51,7 +53,17 @@ export const RoutesFreelancerConfig = [
   },
   {
     DisplayOnMenu: 1,
+    url: "/thong-tin-ca-nhan",
+    ComponentConfig: FREELANCERINFORMATION,
+  },
+  {
+    DisplayOnMenu: 1,
     url: "/vi-tien",
     ComponentConfig: WALLET,
+  },
+  {
+    DisplayOnMenu: 1,
+    url: "/tin-nhan",
+    ComponentConfig: MESSENGER,
   },
 ];

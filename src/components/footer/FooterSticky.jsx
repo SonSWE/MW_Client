@@ -12,7 +12,7 @@ import { wsReadyState } from "../../utils/socket";
 import { useSelector } from "react-redux";
 
 const FooterSticky = () => {
-  const connectStatus = useSelector((state) => state.sysparams.CONNECTSTATUS);
+  const connectStatus = useSelector((state) => state.sysparamsReducer.CONNECTSTATUS);
   const classnameStatusConnect = (status) => {
     switch (status) {
       case wsReadyState.CONNECTING:

@@ -20,11 +20,13 @@ import { getUserFromStorage, removeUserFromStorage } from "../../store/actions/s
 import ListMenu from "./ListMenu";
 import { useDispatch, useSelector } from "react-redux";
 import { CONST_LOGIN_TYPE, CONST_USER_TYPE } from "../../const/LayoutConst";
+import { useNavigate } from "react-router-dom";
 export const Header = () => {
   const Axios = useAxios();
   const [showMenu, setShowMenu] = useState(false);
   const userLogged = useSelector((state) => state.authReducer);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const HandleColased = () => {
     setShowMenu(!showMenu);
@@ -115,6 +117,16 @@ export const Header = () => {
         },
       ],
     },
+    {
+      title: "Ví tiền",
+      url: "/vi-tien",
+      children: [],
+    },
+    {
+      title: "Tin nhắn",
+      url: "/tin-nhan",
+      children: [],
+    },
   ];
 
   const ListMenuFreelancer = [
@@ -149,6 +161,11 @@ export const Header = () => {
     {
       title: "Ví tiền",
       url: "/vi-tien",
+      children: [],
+    },
+    {
+      title: "Tin nhắn",
+      url: "/tin-nhan",
       children: [],
     },
   ];
@@ -210,7 +227,12 @@ export const Header = () => {
           className="inner-no-padding"
           content={
             <div className="account-infor">
-              <div className="card-hover !gap-2">
+              <div
+                className="card-hover !gap-2"
+                onClick={() => {
+                  navigate("/thong-tin-ca-nhan");
+                }}
+              >
                 <div className="avt-lg">
                   <img src={avt}></img>
                 </div>

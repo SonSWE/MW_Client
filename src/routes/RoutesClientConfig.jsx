@@ -10,6 +10,7 @@ import { DETAILJOB } from "../pages/Client/DetailJob/config";
 import { SENDOFFER } from "../pages/Client/SendOffer/config";
 import { WALLET } from "../pages/Wallet/config";
 import { ENDCONTRACT } from "../pages/Client/EndContract/config";
+import { MESSENGER } from "../pages/Messenger/config";
 
 export const RoutesClientConfig = [
   {
@@ -41,5 +42,10 @@ export const RoutesClientConfig = [
     DisplayOnMenu: 1,
     url: "/vi-tien",
     ComponentConfig: WALLET,
+  },
+  {
+    DisplayOnMenu: 1,
+    url: "/tin-nhan",
+    ComponentConfig: MESSENGER,
   },
 ];

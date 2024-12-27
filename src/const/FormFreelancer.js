@@ -13,11 +13,12 @@ export const FormFreelancer = {
   LevelIdText: "levelIdText", // ID cấp độ freelancer
   LevelId: "levelId", // ID cấp độ freelancer
   TargetTitle: "targetTitle", // Mục tiêu công việc
+  ProfileOverview: "profileOverview", // Mục tiêu công việc
   Title: "title", // Tiêu đề công việc
   Bio: "bio", // Mô tả bản thân
   IsOpeningForJob: "isOpeningForJob", // Mô tả bản thân
   HourlyRate: "hourlyRate", // Số tiền công mỗi giờ
-  HourlyRateReal: "hourlyRateReal", // Số tiền công mỗi giờ sau phí
+  HourWorkingPerWeek: "hourWorkingPerWeek", // Số tiền công mỗi giờ sau phí
   Status: "status",
   // Các danh sách liên quan
   Specialties: "specialties", // Danh sách chuyên ngành (mwFreelancerSpecialty)
@@ -25,6 +26,8 @@ export const FormFreelancer = {
   Educations: "educations", // Danh sách học vấn (mwFreelancerEducation)
   WorkingHistories: "workingHistories", // Danh sách lịch sử làm việc (mwFreelancerWorkingHistory)
   Certificates: "certificates", // Danh sách chứng chỉ (mwFreelancerCertificate)
+  SpecialtyProjects: "specialtyProjects", // Danh sách dự án nổi bật (mwFreelancerSpecailtyProject)
+
   SkillId: "skillId",
   SkillsText: "skillsText",
 };
@@ -61,4 +64,5 @@ export const FormCertificate = {
   FreelancerId: "freelancerId", // ID freelancer
   Name: "name", // Tên chứng chỉ
   FileAttach: "fileAttach", // File đính kèm
+  Description: "description",
 };

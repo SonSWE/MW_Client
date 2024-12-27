@@ -61,7 +61,6 @@ const InputItems = React.forwardRef(({ action, disabled }, ref) => {
   }, [searchParams]);
 
   useEffect(() => {
-    console.log(fileList);
     //set file list to form data
     if (fileList?.length > 0) {
       formInstance.setFieldValue(FormProposal.FileAttaches, fileList.map((e) => e.name).join("|"));
