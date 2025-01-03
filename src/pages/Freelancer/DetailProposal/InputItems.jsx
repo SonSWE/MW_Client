@@ -54,9 +54,9 @@ const InputItems = React.forwardRef(({ action, disabled }, ref) => {
             formInstance.setFieldsValue(res.data);
 
             //xử lý hiển thị file
-            if (!isNullOrEmpty(res.data?.[FormProposal.FileAttaches])) {
+            if (!isNullOrEmpty(res.data?.[FormProposal.FileAttach])) {
               setFileList(
-                convertToArray(res.data?.[FormProposal.FileAttaches].split("|")).map((e) => ({
+                convertToArray(res.data?.[FormProposal.FileAttach].split("|")).map((e) => ({
                   name: e,
                   status: "done",
                 }))
@@ -170,7 +170,7 @@ const InputItems = React.forwardRef(({ action, disabled }, ref) => {
             <Form.Item name={FormJob.JobId} hidden />
             <Form.Item name={FormProposal.FreelancerId} hidden />
             <Form.Item name={FormProposal.ProposalId} hidden />
-            <Form.Item name={FormProposal.FileAttaches} hidden />
+            <Form.Item name={FormProposal.FileAttach} hidden />
 
             <div className="card-border">
               <div className="text-xl font-medium mb-5">Chi tiết công việc</div>

@@ -17,4 +17,17 @@ export const FormUser = {
   LastTriedOrLogonIp: "lastTriedOrLogonIp",
   LastChangePasswordOn: "lastChangePasswordOn",
   ResetPassword: "resetPassword",
+
+  IdentityCard: "identityCard",
+  IdentityAddress: "identityAddress",
+  IdentityIssueDate: "identityIssueDate",
+  IdentityExpirationDate: "identityExpirationDate",
+  PhoneNumber: "phoneNumber",
+
+  LoginType: "loginType",
+  LoggedClientId: "loggedClientId",
+  Avatar: "avatar",
+
+  IsEmailVerified: "isEmailVerified",
+  IsEkycVerified: "isEkycVerified"
 };

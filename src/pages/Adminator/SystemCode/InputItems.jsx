@@ -128,9 +128,9 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
   };
   return (
     <div className="form-two-col">
-      <div className="row-item">
+      <div className="group-items">
         <Form.Item name={FormSystemCode.SystemCodeValues} hidden />
-        <div className="w-full">
+        <div className="item-group">
           <Form.Item
             name={FormSystemCode.SystemCodeId}
             label="System Code ID"
@@ -146,7 +146,7 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
             />
           </Form.Item>
         </div>
-        <div className="w-full">
+        <div className="item-group">
           <Form.Item
             name={FormSystemCode.Name}
             label="Tên"

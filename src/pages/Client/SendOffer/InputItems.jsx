@@ -1,17 +1,18 @@
 import { Button, Checkbox, DatePicker, Form, Input, InputNumber } from "antd";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useNotification, usePopupNotification } from "../../../utils/formHelper";
 import Dragger from "antd/es/upload/Dragger";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { isNullOrEmpty } from "../../../utils/utils";
 import { useBusinessAction } from "./BusinessAction";
 import { FormJob, FormProposal } from "../../../const/FormJob";
-import { CONST_BUDGET_TYPE, useGlobalConst } from "../../../utils/constData";
-import { PriceFormatter } from "../../../utils/convertData";
+import { CONST_BUDGET_TYPE, CONST_PARAM_ID, useGlobalConst } from "../../../utils/constData";
+import { convertToArray, PriceFormatter } from "../../../utils/convertData";
 import { getUserFromStorage } from "../../../store/actions/sharedActions";
 import { CONST_FORM_ACTION } from "../../../const/FormConst";
 import { FormContract } from "../../../const/FormContract";
 import { formaterNumber, parserNumber } from "../../../utils/Format";
+import { useSelector } from "react-redux";
 
 const InputItems = React.forwardRef(({ action, disabled }, ref) => {
   const navigate = useNavigate();
@@ -25,26 +26,15 @@ const InputItems = React.forwardRef(({ action, disabled }, ref) => {
   const userLogged = getUserFromStorage();
   const [allowSave, setAllowSave] = useState(false);
   const globalConst = useGlobalConst();
-
-  const props = {
-    name: "file",
-    multiple: true,
-    action: "https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload",
-    onChange(info) {
-      const { status } = info.file;
-      if (status !== "uploading") {
-        console.log(info.file, info.fileList);
-      }
-      if (status === "done") {
-        message.success(`${info.file.name} file uploaded successfully.`);
-      } else if (status === "error") {
-        message.error(`${info.file.name} file upload failed.`);
-      }
-    },
-    onDrop(e) {
-      console.log("Dropped files", e.dataTransfer.files);
-    },
-  };
+  const sysParam = useSelector((state) => state.sysparamsReducer.SYSPARAMS);
+  const ServiceFeePercent = useMemo(
+    () =>
+      Number(
+        convertToArray(sysParam).find((x) => x.sysParamId === CONST_PARAM_ID.FEE_SERVICE_PER_JOB)
+          ?.pValue ?? 0
+      ),
+    [sysParam]
+  );
 
   useEffect(() => {
     LoadProposal();
@@ -60,6 +50,10 @@ const InputItems = React.forwardRef(({ action, disabled }, ref) => {
           if (res.status === 200 && res.data) {
             formInstance.setFieldsValue(res.data);
             LoadJobDetail(res.data?.[FormJob.JobId]);
+
+            // const fee = res.data?.[FormProposal.BidAmount] * 0.1;
+            // formInstance.setFieldValue(FormProposal.RealReceive, value - fee);
+            // formInstance.setFieldValue("ServiceFee", fee);
           }
         })
         .catch((e) => {
@@ -101,9 +95,12 @@ const InputItems = React.forwardRef(({ action, disabled }, ref) => {
             [FormContract.FeeService]: values?.[FormProposal.FeeService],
             [FormContract.RealReceive]: values?.[FormProposal.RealReceive],
             [FormContract.ProposalId]: values?.[FormProposal.ProposalId],
+            [FormContract.StartDate]: values?.[FormContract.StartDate],
+            [FormContract.EndDate]: values?.[FormContract.EndDate],
+            [FormContract.JobTitle]: values?.[FormContract.JobTitle],
           };
           apiClient
-            .CreateContract(newContract)
+            .SendOffer(newContract)
             .then((res) => {
               if (res.status === 200) {
                 notification.success({ message: "Gửi yêu cầu thành công" });
@@ -145,16 +142,15 @@ const InputItems = React.forwardRef(({ action, disabled }, ref) => {
             <Form.Item name={FormProposal.JobId} hidden />
             <Form.Item name={FormProposal.FreelancerId} hidden />
             <Form.Item name={FormProposal.ProposalId} hidden />
+            <Form.Item name={FormProposal.JobTitle} hidden />
 
             <div className="card-border">
               <div className="text-xl font-medium mb-5">Điều khoản</div>
 
               <div className="flex items-center">
                 <div className="w-full">
-                  <div className="font-medium">Đấu thầu</div>
-                  <div className="text-label">
-                    Tổng số tiền khách hàng sẽ thấy trên đề xuất của bạn
-                  </div>
+                  <div className="font-medium">Số tiền</div>
+                  <div className="text-label">Tổng số tiền bạn cần chi trả cho freelancer</div>
                 </div>
                 <Form.Item
                   className="w-full"
@@ -178,7 +174,7 @@ const InputItems = React.forwardRef(({ action, disabled }, ref) => {
                 </Form.Item>
               </div>
 
-              <div className="flex items-center">
+              {/* <div className="flex items-center">
                 <div className="w-full">
                   <div className="font-medium">Phí dịch vụ 10%</div>
                 </div>
@@ -193,9 +189,9 @@ const InputItems = React.forwardRef(({ action, disabled }, ref) => {
                     suffix="đ"
                   />
                 </Form.Item>
-              </div>
+              </div> */}
 
-              <div className="flex items-center">
+              {/* <div className="flex items-center">
                 <div className="w-full">
                   <div className="font-medium">Số tiền sau phí</div>
                   <div className="text-label">Tổng số tiền thực tế bạn sẽ nhận được</div>
@@ -211,7 +207,7 @@ const InputItems = React.forwardRef(({ action, disabled }, ref) => {
                     suffix="đ"
                   />
                 </Form.Item>
-              </div>
+              </div> */}
 
               <div className="flex items-center">
                 <div className="w-full">
@@ -219,7 +215,25 @@ const InputItems = React.forwardRef(({ action, disabled }, ref) => {
                 </div>
                 <Form.Item
                   className="w-full"
-                  name={FormProposal.StartDate}
+                  name={FormContract.StartDate}
+                  label=""
+                  rules={[globalConst.ANT.FORM.RULES.yeuCauNhap]}
+                  {...globalConst.ANT.FORM.ITEM.PARSER.DATE_DATABASE}
+                >
+                  <DatePicker
+                    className="w-full"
+                    placeholder="dd/MM/yyyy"
+                    format={globalConst.ANT.LOCALE.dateFormat}
+                  />
+                </Form.Item>
+              </div>
+              <div className="flex items-center">
+                <div className="w-full">
+                  <div className="font-medium">Ngày kết thúc</div>
+                </div>
+                <Form.Item
+                  className="w-full"
+                  name={FormContract.EndDate}
                   label=""
                   rules={[globalConst.ANT.FORM.RULES.yeuCauNhap]}
                   {...globalConst.ANT.FORM.ITEM.PARSER.DATE_DATABASE}

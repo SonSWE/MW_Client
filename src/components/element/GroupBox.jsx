@@ -11,7 +11,7 @@ export const GroupBox = ({ title, children, className, classNameChildren }) => {
         {title}
       </div>
 
-      <div className={`px-6 py-3 flex flex-col ${classNameChildren}`}>{children}</div>
+      <div className={`px-6 py-6 flex flex-col ${classNameChildren}`}>{children}</div>
     </div>
   );
 };

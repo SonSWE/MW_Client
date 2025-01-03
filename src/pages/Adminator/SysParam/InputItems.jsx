@@ -15,7 +15,7 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
 
   return (
     <div className="form-two-col">
-      <div className="group-item">
+      <div className="group-items">
         <div className="">
           <Form.Item
             name={FormSysParam.SysParamId}

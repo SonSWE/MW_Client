@@ -1,48 +1,22 @@
-import {
-  Button,
-  Carousel,
-  Form,
-  Input,
-  Modal,
-  Popconfirm,
-  Progress,
-  Rate,
-  Tabs,
-  Tooltip,
-} from "antd";
-import React, { useEffect, useRef, useState } from "react";
-import { GroupBox } from "../../../components/element/GroupBox";
-import { FormSystemCode, FormSystemCodeValue } from "../../../const/FormSystemCode";
-import { convertToArray, isNullOrEmpty, isRender, makeid } from "../../../utils/utils";
-import EditTableCommunityAG from "../../../components/controls/EditTableCommunityAG";
-import { columnSystemCodeValue } from "./comom";
+import { Avatar, Button, Input, Progress, Tabs } from "antd";
+import React, { useEffect, useState } from "react";
+
+import { convertToArray, isNullOrEmpty } from "../../../utils/utils";
+
 import { useNotification, usePopupNotification } from "../../../utils/formHelper";
-import delteteicon from "../../../assets/image/icon/ic_tip_delete.svg";
-import addicon from "../../../assets/image/icon/ic_add_form.svg";
-import BaseModal from "../../../components/controls/BaseModal";
 
 import avt from "../../../assets/image/avtar.webp";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faHeart as faHeartSolid,
-  faLocation,
-  faLocationDot,
-  faMagnifyingGlass,
-  faPencil,
-} from "@fortawesome/free-solid-svg-icons";
-import {
-  faCheckCircle,
-  faHeart as faHeartRegular,
-  faThumbsDown,
-} from "@fortawesome/free-regular-svg-icons";
+import { faMagnifyingGlass, faPencil } from "@fortawesome/free-solid-svg-icons";
+
 import { useNavigate } from "react-router-dom";
-import { getUserFromStorage } from "../../../store/actions/sharedActions";
 import { CONST_YN } from "../../../const/FormConst";
 import { useBusinessAction } from "./BusinessAction";
 import { FormFreelancer } from "../../../const/FormFreelancer";
-import { useSelector } from "react-redux";
+
 import ListJob from "./ListJob";
 import { FormJob } from "../../../const/FormJob";
+import { useSelector } from "react-redux";
 
 const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) => {
   const apiClient = useBusinessAction();
@@ -50,7 +24,7 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
   const notification = useNotification();
   const [jobsSuggest, setJobSuggest] = useState([]);
   const [jobsSaved, setJobsSaved] = useState([]);
-  const userLogged = getUserFromStorage();
+  const userLogged = useSelector((state) => state.authReducer);
 
   const LoadJobsSuggest = () => {
     apiClient
@@ -80,8 +54,17 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
   useEffect(() => {
     LoadJobsSuggest();
     LoadJobsSaved();
-  }, []);
 
+    if (userLogged?.isEkycVerified === CONST_YN.No) {
+      const modal = popup.confirmDuplicate({
+        message: "Cảnh báo",
+        description: "Bạn cần xác thực tài khoản để có thể thực hiện các chức năng trên ứng dụng.",
+        onOk: (close) => {
+          window.location.href = "/xac-thuc-tai-khoan";
+        },
+      });
+    }
+  }, []);
 
   const navigate = useNavigate();
 
@@ -192,12 +175,12 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
             {
               label: "Phù hợp nhất",
               key: "1",
-              children: <ListJob datas={jobsSuggest} apiClient={apiClient} saveJob={saveJob}/>,
+              children: <ListJob datas={jobsSuggest} apiClient={apiClient} saveJob={saveJob} />,
             },
             {
               label: `Đã lưu (${jobsSaved?.length})`,
               key: "3",
-              children: <ListJob datas={jobsSaved} apiClient={apiClient}  saveJob={saveJob}/>,
+              children: <ListJob datas={jobsSaved} apiClient={apiClient} saveJob={saveJob} />,
             },
           ]}
         />
@@ -205,12 +188,12 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
       <div className="col-span-1 flex flex-col gap-6">
         <div className="card">
           <div className="flex items-center">
-            <div className="w-14 h-14 rounded-full overflow-hidden">
-              <img className="w-full h-full object-cover" src={avt}></img>
+            <div className="block">
+              <Avatar size={70} src={userLogged?.avatar} />
             </div>
             <div className="ml-5">
-              <div className="text-lg underline  btn-text !text-black">Đặng Tiến Sơn</div>
-              <div className="text-sm">Nhiếp ảnh chân dung</div>
+              <div className="text-lg underline  btn-text !text-black">{userLogged?.fullName}</div>
+              <div className="text-sm">{userLogged?.freelancer?.[FormFreelancer.Title]}</div>
             </div>
           </div>
           <div className="mt-2">

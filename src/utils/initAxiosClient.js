@@ -30,7 +30,7 @@ export const showError = (error) => {
 //
 let isRefreshing = false;
 let subscribers = [];
-const ignoreUrls = ["api/auth/token/auth"];
+const ignoreUrls = ["api/auth/token/auth", "api/cus/user/signupfreelancer"];
 
 function onRefreshed(isSuccess, token) {
   var callbacks = subscribers;

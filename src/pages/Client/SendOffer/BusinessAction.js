@@ -10,8 +10,8 @@ export const useBusinessAction = (controller) => {
     GetDetailById: (id) => {
       return httpRequest.get(`/api/cus/proposal/getdetailbyid?value=${id}`);
     },
-    CreateContract: (jsonData) => {
-      return httpRequest.post(`/api/cus/contract/add`, jsonData);
+    SendOffer: (jsonData) => {
+      return httpRequest.post(`/api/cus/contract/sendoffer`, jsonData);
     },
   };
 };

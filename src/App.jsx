@@ -2,6 +2,7 @@ import { Navigate, RouterProvider, createBrowserRouter, useNavigate } from "reac
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import Login from "./pages/Login/Index.jsx";
+import SignUp from "./pages/SignUp/Index.jsx";
 import { LayoutEmpty } from "./components/layout/LayoutEmpty.jsx";
 
 import {} from "./utils/initAxiosClient.js";
@@ -23,7 +24,6 @@ import { connectWS } from "./utils/socket.js";
 
 function App() {
   const dispatch = useDispatch();
-  // const navigate = useNavigate();
   const userLogin = useSelector((state) => state.authReducer);
   const isLogin = userLogin && !isNullOrEmpty(userLogin?.username);
   const AxiosClient = useAxios();
@@ -116,11 +116,21 @@ function App() {
 
     window.addEventListener("message", _handlePostMessage, false);
 
+    fetchSystemCodes();
+
     if (isLogin) {
       _handleVisibilityChange();
-
-      fetchSystemCodes();
       fetchSysParams();
+    } else {
+      if (window.location.pathname === "/dang-ky") {
+        console.log("Trang hiện tại là trang đăng ký!");
+      } else {
+        if (window.location.pathname !== "/login") {
+          window.location.href = "/login";
+        }
+        //
+        console.log("Trang hiện tại không phải là trang đăng ký.");
+      }
     }
 
     return () => {
@@ -135,10 +145,10 @@ function App() {
       path: "/login",
       element: <LayoutEmpty {...{ component: Login }} />,
     },
-    {
-      path: "*",
-      element: <Navigate to="/login" replace />,
-    },
+    { path: "/dang-ky", element: <LayoutEmpty {...{ component: SignUp }} /> },
+    //   path: "*",
+    //   element: <Navigate to="/login" replace />,
+    // },
   ]);
 
   const RenderByLoginType = ({ loginType }) => {

@@ -1,26 +1,23 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import logo from "../../assets/image/logo.png";
-import avt from "../../assets/image/avtar.webp";
+
 import {
-  faAngleDown,
-  faArrowDown,
-  faArrowLeftLong,
   faBars,
   faGear,
-  faHome,
   faMagnifyingGlass,
   faRightFromBracket,
-  faRing,
 } from "@fortawesome/free-solid-svg-icons";
-import { Button, Divider, Input, Popover } from "antd";
+import { Avatar, Button, Divider, Input, Popover } from "antd";
 import { faBell, faComment } from "@fortawesome/free-regular-svg-icons";
 import { useMemo, useState } from "react";
 import { useAxios } from "../../utils/apiHelper";
-import { getUserFromStorage, removeUserFromStorage } from "../../store/actions/sharedActions";
+import { removeUserFromStorage } from "../../store/actions/sharedActions";
 import ListMenu from "./ListMenu";
 import { useDispatch, useSelector } from "react-redux";
 import { CONST_LOGIN_TYPE, CONST_USER_TYPE } from "../../const/LayoutConst";
 import { useNavigate } from "react-router-dom";
+import { FormFreelancer } from "../../const/FormFreelancer";
+
 export const Header = () => {
   const Axios = useAxios();
   const [showMenu, setShowMenu] = useState(false);
@@ -90,6 +87,10 @@ export const Header = () => {
           url: "/cong-viec",
         },
         {
+          title: "Hợp đồng chờ xử lý",
+          url: "/hop-dong-cho-xu-ly",
+        },
+        {
           title: "Kỹ năng",
           url: "/ky-nang",
         },
@@ -107,16 +108,16 @@ export const Header = () => {
       url: "/",
       children: [],
     },
-    {
-      title: "Công việc",
-      url: "/cong-viec",
-      children: [
-        {
-          title: "Công việc",
-          url: "/cong-viec",
-        },
-      ],
-    },
+    // {
+    //   title: "Công việc",
+    //   url: "/cong-viec",
+    //   children: [
+    //     {
+    //       title: "Công việc",
+    //       url: "/cong-viec",
+    //     },
+    //   ],
+    // },
     {
       title: "Ví tiền",
       url: "/vi-tien",
@@ -230,30 +231,32 @@ export const Header = () => {
               <div
                 className="card-hover !gap-2"
                 onClick={() => {
-                  navigate("/thong-tin-ca-nhan");
+                  if (userLogged?.loginType === CONST_LOGIN_TYPE.Client) {
+                    // return ListMenuClient;
+                  } else if (userLogged?.loginType === CONST_LOGIN_TYPE.Freelancer) {
+                    navigate("/thong-tin-ca-nhan");
+                  }
                 }}
               >
-                <div className="avt-lg">
-                  <img src={avt}></img>
-                </div>
+                <Avatar size={64} src={userLogged?.avatar}></Avatar>
                 <div className="ml-3">
-                  <div className="text-base font-bold">Đặng Tiến Sơn</div>
-                  <div className="jod-title">Nhiếp ảnh gia</div>
+                  <div className="text-base font-bold">{userLogged?.fullName}</div>
+                  <div className="jod-title">{userLogged?.freelancer?.[FormFreelancer.Title]}</div>
                 </div>
               </div>
               <Divider className="my-2" />
-              <div className="card-hover">
+              {/* <div className="card-hover">
                 <FontAwesomeIcon icon={faHome} size="lg" />
                 <div className="text-base font-bold">Đăng xuất</div>
-              </div>
+              </div> */}
               <div className="card-hover">
                 <FontAwesomeIcon icon={faGear} size="lg" />
                 <div className="text-base font-bold">Cài đặt</div>
               </div>
-              <div className="card-hover">
+              {/* <div className="card-hover">
                 <FontAwesomeIcon icon={faRightFromBracket} size="lg" />
                 <div className="text-base font-bold">Đăng xuất</div>
-              </div>
+              </div> */}
               <Divider className="my-2" />
               <div className="card-hover" onClick={Logout}>
                 <FontAwesomeIcon icon={faRightFromBracket} color="#f87171" size="lg" />
@@ -263,7 +266,7 @@ export const Header = () => {
           }
         >
           <div className="avt">
-            <img src={avt}></img>
+            <Avatar src={userLogged?.avatar}></Avatar>
           </div>
         </Popover>
       </div>

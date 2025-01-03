@@ -27,6 +27,7 @@ export const columnDefs = [
     sorter: {
       multiple: 1,
     },
+    dataType: CONST_CONTROL_TYPE.Avatar,
   },
   {
     field: FormFreelancer.FreelancerId,

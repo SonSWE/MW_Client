@@ -12,6 +12,7 @@ import CertificateTab from "./CertificateTab";
 import { CONST_YN } from "../../../const/FormConst";
 import moment from "moment/moment";
 import { useGlobalConst } from "../../../utils/constData";
+import { formaterNumber, parserNumber } from "../../../utils/Format";
 
 const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) => {
   useImperativeHandle(ref, () => ({
@@ -87,18 +88,22 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
   ];
 
   return (
-    <div>
-      <div className="group-item">
+    <div className="form-two-col">
+      <div className="group-items">
         <Form.Item name={FormFreelancer.WorkingHistories} hidden></Form.Item>
         <Form.Item name={FormFreelancer.Educations} hidden></Form.Item>
         <Form.Item name={FormFreelancer.Certificates} hidden></Form.Item>
         <div className="">
-          <Form.Item name={FormFreelancer.FreelancerId} label="Mã">
+          <Form.Item name={FormFreelancer.FreelancerId} label="Mã Freelancer">
             <Input disabled />
           </Form.Item>
         </div>
         <div className="">
-          <Form.Item name={FormFreelancer.Name} label="Họ và tên">
+          <Form.Item
+            name={FormFreelancer.Name}
+            label="Họ và tên"
+            rules={[globalConst.ANT.FORM.RULES.yeuCauNhap]}
+          >
             <Input />
           </Form.Item>
         </div>
@@ -106,7 +111,7 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
           <Form.Item
             name={FormFreelancer.DateOfBirth}
             label="Ngày sinh"
-            rules={[]}
+            rules={[globalConst.ANT.FORM.RULES.yeuCauNhap]}
             {...globalConst.ANT.FORM.ITEM.PARSER.DATE_DATABASE}
           >
             <DatePicker
@@ -117,12 +122,20 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
           </Form.Item>
         </div>
         <div className="">
-          <Form.Item name={FormFreelancer.Email} label="Email">
+          <Form.Item
+            name={FormFreelancer.Email}
+            label="Email"
+            rules={[globalConst.ANT.FORM.RULES.yeuCauNhap]}
+          >
             <Input />
           </Form.Item>
         </div>
         <div className="">
-          <Form.Item name={FormFreelancer.Password} label="Mật khẩu">
+          <Form.Item
+            name={FormFreelancer.Password}
+            label="Mật khẩu"
+            rules={[globalConst.ANT.FORM.RULES.yeuCauNhap]}
+          >
             <Input.Password />
           </Form.Item>
         </div>
@@ -132,15 +145,24 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
           </Form.Item>
         </div>
         <div className="">
-          <Form.Item name={FormFreelancer.StreetAddress} label="Địa chỉ">
+          <Form.Item
+            name={FormFreelancer.StreetAddress}
+            label="Địa chỉ"
+            rules={[globalConst.ANT.FORM.RULES.yeuCauNhap]}
+          >
             <Input />
           </Form.Item>
         </div>
+
         <div className="">
-          <Form.Item name={FormFreelancer.CityId} label="Thành phố">
+          <Form.Item
+            name={FormFreelancer.Status}
+            label="Trạng thái"
+            rules={[globalConst.ANT.FORM.RULES.yeuCauNhap]}
+          >
             <Select
               options={[
-                ...getSystemCodeValues(systemCodes, "FREELANCER_STATUS")?.map((e) => ({
+                ...getSystemCodeValues(systemCodes, "CLIENT_STATUS")?.map((e) => ({
                   value: e.value,
                   label: <span>{e.description}</span>,
                 })),
@@ -150,24 +172,15 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
         </div>
 
         <div className="">
-          <Form.Item name={FormFreelancer.Status} label="Trạng thái">
-            <Select
-              options={[
-                ...getSystemCodeValues(systemCodes, "FREELANCER_STATUS")?.map((e) => ({
-                  value: e.value,
-                  label: <span>{e.description}</span>,
-                })),
-              ]}
-            />
-          </Form.Item>
-        </div>
-
-        <div className="">
-          <Form.Item name={FormFreelancer.Skills} label="Kỹ năng">
+          <Form.Item
+            name={FormFreelancer.Skills}
+            label="Kỹ năng"
+            rules={[globalConst.ANT.FORM.RULES.yeuCauNhap]}
+          >
             <Select
               allowClear
               mode="multiple"
-              maxCount={10}
+              maxCount={15}
               options={[
                 ...lstSkill?.map((e) => ({
                   value: e.skillId,
@@ -179,7 +192,11 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
         </div>
 
         <div className="">
-          <Form.Item name={FormFreelancer.Specialties} label="Chuyên môn">
+          <Form.Item
+            name={FormFreelancer.Specialties}
+            label="Chuyên môn"
+            rules={[globalConst.ANT.FORM.RULES.yeuCauNhap]}
+          >
             <Select
               mode="multiple"
               maxCount={10}
@@ -194,7 +211,11 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
         </div>
 
         <div className="">
-          <Form.Item name={FormFreelancer.LevelId} label="Trình độ">
+          <Form.Item
+            name={FormFreelancer.LevelId}
+            label="Trình độ"
+            rules={[globalConst.ANT.FORM.RULES.yeuCauNhap]}
+          >
             <Select
               options={[
                 ...getSystemCodeValues(systemCodes, "PROJECT_LEVEL")?.map((e) => ({
@@ -205,18 +226,41 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
             />
           </Form.Item>
         </div>
-        <Form.Item name={FormFreelancer.HourlyRate} label="Thu nhập">
-          <InputNumber className="w-full" suffix={"/ giờ"} />
+        <Form.Item
+          name={FormFreelancer.HourlyRate}
+          label="Thu nhập bình quân"
+          rules={[globalConst.ANT.FORM.RULES.yeuCauNhap]}
+        >
+          <InputNumber
+            className="w-full"
+            min={1000}
+            step={100}
+            formatter={formaterNumber}
+            parser={parserNumber}
+            suffix={"đ/ giờ"}
+          />
+        </Form.Item>
+
+        <Form.Item
+          name={FormFreelancer.HourWorkingPerWeek}
+          label="Số giờ làm việc trên tuần"
+          rules={[globalConst.ANT.FORM.RULES.yeuCauNhap]}
+        >
+          <InputNumber className="w-full" step={1} min={0} max={80} suffix={"giờ/ tuần"} />
         </Form.Item>
 
         <div className="">
-          <Form.Item name={FormFreelancer.Title} label="Tiêu đề công việc">
-            <Input />
+          <Form.Item
+            name={FormFreelancer.Title}
+            label="Tiêu đề công việc"
+            rules={[globalConst.ANT.FORM.RULES.yeuCauNhap]}
+          >
+            <Input maxLength={250} />
           </Form.Item>
         </div>
         <div className="">
           <Form.Item name={FormFreelancer.Bio} label="Giới thiệu bản thân">
-            <Input.TextArea rows={4} />
+            <Input.TextArea rows={4} maxLength={1000} />
           </Form.Item>
         </div>
         <div className="">

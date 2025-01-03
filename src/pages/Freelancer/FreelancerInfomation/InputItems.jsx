@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useBusinessAction } from "./BusinessAction";
 import { useSelector } from "react-redux";
-import { Avatar, Button, Form, Image } from "antd";
+import { Avatar, Button, Form } from "antd";
 import { FormCertificate, FormEducation, FormFreelancer } from "../../../const/FormFreelancer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCheckCircle,
-  faLocation,
   faLocationDot,
   faPencil,
   faPlus,
   faTrash,
+  faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { CONST_YN } from "../../../const/FormConst";
 import { PriceFormatter } from "../../../utils/convertData";
@@ -19,6 +19,10 @@ import { useForm } from "antd/es/form/Form";
 import { ACTION_INFO } from "./config";
 import FormAvatar from "./FormContent/FormAvatar";
 import { useNotification } from "../../../utils/formHelper";
+import { GetUrlFileFromStorageAsync } from "../../../utils/utils";
+import { FormUser } from "../../../const/FormUser";
+import FormTitle from "./FormContent/FormTitle";
+import FormSkill from "./FormContent/FormSkill";
 
 const InputItems = React.forwardRef(({ disabled }, ref) => {
   const [infomation, setInformation] = useState();
@@ -33,6 +37,10 @@ const InputItems = React.forwardRef(({ disabled }, ref) => {
   const showModal = (action) => {
     if (action == ACTION_INFO.Avatar) {
       setTitle("Ảnh đại diện");
+    } else if (action == ACTION_INFO.Title) {
+      setTitle("Tiêu đề");
+    } else if (action == ACTION_INFO.Skill) {
+      setTitle("Kỹ năng");
     }
     setAction(action);
     setIsShowModal(true);
@@ -44,6 +52,24 @@ const InputItems = React.forwardRef(({ disabled }, ref) => {
     setIsShowModal(false);
     formInstance.resetFields();
   };
+
+  const handleError = (err) => {
+    if (err.response) {
+      if (err.response?.data?.message) {
+        notification.error({
+          message: err.response.data.message,
+        });
+      }
+    } else if (err.request) {
+      notification.error({
+        message: "Không thể kết nối đến máy chủ!",
+      });
+    } else {
+      // Lỗi khác trong quá trình gửi yêu cầu
+      console.error("Error:", err.message);
+    }
+  };
+
   const onSave = () => {
     if (action === ACTION_INFO.Avatar) {
       apiClient
@@ -55,30 +81,28 @@ const InputItems = React.forwardRef(({ disabled }, ref) => {
             closeModal();
           }
         })
-        .catch((err) => {
-          if (err.response) {
-            if (err.response?.data?.message) {
-              notification.error({
-                message: err.response.data.message,
-              });
-            }
-          } else if (err.request) {
-            notification.error({
-              message: "Không thể kết nối đến máy chủ!",
-            });
-          } else {
-            // Lỗi khác trong quá trình gửi yêu cầu
-            console.error("Error:", err.message);
+        .catch((err) => handleError(err));
+    } else if (action === ACTION_INFO.Skill) {
+      apiClient
+        .UpdateSkills(formInstance.getFieldsValue())
+        .then((res) => {
+          if (res.status === 200) {
+            notification.success({ message: "Cập nhật thành công" });
+            LoadData();
+            closeModal();
           }
-        });
+        })
+        .catch((err) => handleError(err));
     }
   };
 
   const LoadData = () => {
     apiClient
       .GetFreelancerDetailById(userLogin.freelancer.freelancerId)
-      .then((res) => {
-        setInformation(res.data);
+      .then(async (res) => {
+        if (res && res?.data) {
+          setInformation({ ...res.data });
+        }
       })
       .catch((e) => {
         setInformation({});
@@ -95,10 +119,9 @@ const InputItems = React.forwardRef(({ disabled }, ref) => {
         <div className="p-5 flex justify-between">
           <div className="flex">
             <div className="relative">
-              <Avatar shape="circle" size={80} src={infomation?.[FormFreelancer.Avatar]} />
+              <BaseAvatar size={80} src={infomation?.[FormFreelancer.Avatar]} />
               <div className="absolute right-[-5px] bottom-[-5px]">
                 <Button
-                  // type="text"
                   onClick={() => {
                     showModal(ACTION_INFO.Avatar);
                   }}
@@ -149,16 +172,33 @@ const InputItems = React.forwardRef(({ disabled }, ref) => {
                 <div className="text-xl font-medium">Xác thực định danh</div>
               </div>
 
+              {/* <div className="text-label">
+                <span className="font-bold">Số điện thoại: </span>
+                
+              </div> */}
               <div className="text-label">
-                <span className="font-bold">Số điện thoại:</span> Đã xác thực{" "}
-                <FontAwesomeIcon icon={faCheckCircle} color="#008000" />
+                <span className="font-bold">Email:</span>{" "}
+                {infomation?.[FormUser.IsEmailVerified] === CONST_YN.Yes ? (
+                  <span>
+                    Đã xác thực <FontAwesomeIcon icon={faCheckCircle} color="#008000" />
+                  </span>
+                ) : (
+                  <span>
+                    Chưa xác thực <FontAwesomeIcon icon={faXmark} color="red" />
+                  </span>
+                )}
               </div>
               <div className="text-label">
-                <span className="font-bold">Email:</span> Đã xác thực{" "}
-                <FontAwesomeIcon icon={faCheckCircle} color="#008000" />
-              </div>
-              <div className="text-label">
-                <span className="font-bold">Định danh:</span> Chưa xác thực
+                <span className="font-bold">Định danh:</span>{" "}
+                {infomation?.[FormUser.IsEkycVerified] === CONST_YN.Yes ? (
+                  <span>
+                    Đã xác thực <FontAwesomeIcon icon={faCheckCircle} color="#008000" />
+                  </span>
+                ) : (
+                  <span>
+                    Chưa xác thực <FontAwesomeIcon icon={faXmark} color="red" />
+                  </span>
+                )}
               </div>
             </div>
             <div className="mt-5">
@@ -193,7 +233,13 @@ const InputItems = React.forwardRef(({ disabled }, ref) => {
                     <span className="text-xl font-medium">
                       {infomation?.[FormFreelancer.Title]}{" "}
                     </span>
-                    <Button shape="circle" icon={<FontAwesomeIcon icon={faPencil} />} />
+                    <Button
+                      shape="circle"
+                      icon={<FontAwesomeIcon icon={faPencil} />}
+                      onClick={() => {
+                        showModal(ACTION_INFO.Title);
+                      }}
+                    />
                   </div>
                   <div className="flex gap-3 items-center">
                     <span className="text-xl font-medium">
@@ -259,7 +305,13 @@ const InputItems = React.forwardRef(({ disabled }, ref) => {
               <div className="p-5">
                 <div className="flex justify-between items-center">
                   <div className="text-xl font-medium">Kỹ năng</div>
-                  <Button shape="circle" icon={<FontAwesomeIcon icon={faPlus} />} />
+                  <Button
+                    shape="circle"
+                    icon={<FontAwesomeIcon icon={faPencil} />}
+                    onClick={() => {
+                      showModal(ACTION_INFO.Skill);
+                    }}
+                  />
                 </div>
                 <div className="flex flex-wrap gap-3 mt-3">
                   {infomation?.[FormFreelancer.SkillsText]?.split(",")?.map((item, i) => (
@@ -315,7 +367,17 @@ const InputItems = React.forwardRef(({ disabled }, ref) => {
         >
           <Form form={formInstance} className="py-5">
             <Form.Item name={FormFreelancer.FreelancerId} hidden />
-            {action === ACTION_INFO.Avatar ? <FormAvatar formInstance={formInstance} /> : <></>}
+            <Form.Item name={FormFreelancer.Email} hidden />
+
+            {action === ACTION_INFO.Avatar ? (
+              <FormAvatar formInstance={formInstance} />
+            ) : action === ACTION_INFO.Title ? (
+              <FormTitle formInstance={formInstance} />
+            ) : action === ACTION_INFO.Skill ? (
+              <FormSkill formInstance={formInstance} />
+            ) : (
+              <></>
+            )}
           </Form>
         </BaseModal>
       )}

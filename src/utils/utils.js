@@ -1,4 +1,56 @@
+import { getDownloadURL, ref } from "firebase/storage";
 import moment from "moment";
+import { storage } from "./firebase";
+
+export const DowloadFileFormStorage = (fileName) => {
+  getDownloadURL(ref(storage, `fileAttach/${fileName}`))
+    .then((url) => {
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = fileName;
+      link.target = "_blank";
+      document.body.appendChild(link);
+      link.click();
+      URL.revokeObjectURL(url);
+      link.remove();
+    })
+    .catch((error) => {
+      // Handle any errors
+    });
+};
+
+export const GetUrlFileFromStorageAsync = async (fileName) => {
+  if(isNullOrEmpty(fileName)){
+    return "";
+  }
+  try {
+    return new Promise((resolve, reject) => {
+      //do something
+      getDownloadURL(ref(storage, `fileAttach/${fileName}`))
+        .then((url) => {
+          resolve(url);
+          // return url;
+        })
+        .catch((error) => {
+          console.log(error);
+          // Handle any errors
+          // reject();
+          resolve("");
+        });
+    });
+  } catch (err) {
+    return "";
+  }
+};
+
+export const GetUrlFileFromStorage = async (fileName) => {
+  if (isNullOrEmpty(fileName)) {
+    return "";
+  }
+  const url = await GetUrlFileFromStorageAsync(fileName);
+
+  return url;
+};
 
 export function makeid() {
   return parseInt(new Date().getTime());
@@ -79,8 +131,7 @@ export const CONST_FORM_MODE = Object.freeze({
 });
 
 export const dateFormatDefault = "DD/MM/YYYY";
-export const dateTimeFomatDefault = "DD/MM/YYYY hh:mm";
-
+export const dateTimeFomatDefault = "DD/MM/YYYY HH:mm";
 
 export const getSystemCodeValues = (systemCodes, systemCodeId) => {
   try {

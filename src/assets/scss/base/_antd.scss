@@ -16,9 +16,21 @@
   }
 }
 
+// .form-two-col {
+//   .ant-form-item-label {
+//     min-width: 100px;
+//   }
+// }
 .form-two-col {
-  .ant-form-item-label {
-    min-width: 100px;
+  .ant-form-item-row {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    .ant-form-item-control {
+      width: 100%;
+      flex: auto;
+    }
   }
 }
 
@@ -30,6 +42,7 @@
 
     .ant-form-item-control {
       width: 100%;
+      flex: auto;
     }
   }
 }

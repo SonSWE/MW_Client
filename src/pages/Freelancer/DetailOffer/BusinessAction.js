@@ -11,7 +11,7 @@ export const useBusinessAction = (controller) => {
     AcceptContract: (id) => {
       return httpRequest.put(`/api/cus/contract/updatestatus`, {
         Id: id,
-        Status: CONST_CONTRACT_STATUS.Active
+        Status: CONST_CONTRACT_STATUS.PendingPayment
       });
     },
     RejectContract: (id) => {

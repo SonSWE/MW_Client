@@ -1,4 +1,4 @@
-import { Button, Spin, notification } from "antd";
+import { Avatar, Button, Spin, notification } from "antd";
 import React, {
   useCallback,
   useEffect,
@@ -114,6 +114,8 @@ const BaseDataGird = React.forwardRef(
               ? moment(param.value).format(dateFormatDefault)
               : item?.dataType === CONST_CONTROL_TYPE.DateTime
               ? moment(param.value).format(dateTimeFomatDefault)
+              : item?.dataType === CONST_CONTROL_TYPE.Avatar
+              ? <Avatar size={36} src={param.value}/>
               : param.value;
           },
         })),

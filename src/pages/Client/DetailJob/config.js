@@ -10,3 +10,9 @@ export const DETAILJOB = {
     functionId: "DETAILJOB",
   },
 };
+
+export const CONST_ACTION = {
+  ApprovalResult: "A",
+  EndContract: "E",
+  DetailContract: "D",
+};

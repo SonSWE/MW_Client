@@ -12,5 +12,9 @@ export const FREELANCERINFORMATION = {
 };
 
 export const ACTION_INFO = {
-  Avatar: "AVATAR"
-}
+  Avatar: "AVATAR",
+  Title: "TITLE",
+  HourlyRate: "HR",
+  Bio: "BIO",
+  Skill: "SKILL",
+};

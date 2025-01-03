@@ -17,6 +17,9 @@ const initState = {
   freelancer: _initUser.freelancer,
   clients: _initUser.clients,
   client: _initUser.client,
+  avatar: _initUser.avatar,
+  isEkycVerified: _initUser.isEmailVerified,
+  isEmailVerified: _initUser.isEmailVerified,
 };
 
 export const authReducer = (state = initState, { type, payload }) => {
@@ -24,7 +27,7 @@ export const authReducer = (state = initState, { type, payload }) => {
     case "SET_USER":
       return {
         ...state,
-        ...payload
+        ...payload,
       };
     case "CLEAR_USER":
       return {
@@ -40,6 +43,9 @@ export const authReducer = (state = initState, { type, payload }) => {
         mustChangePassword: undefined,
         freelancer: undefined,
         client: undefined,
+        avatar: "",
+        isEkycVerified: "",
+        isEmailVerified: "",
         clients: [],
         functionSettings: [],
       };

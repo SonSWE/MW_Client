@@ -341,13 +341,13 @@ a:hover, a:focus {
   gap: 32px;
 }
 
-.group-item {
+.group-items {
   display: grid;
-  gap: 16px;
+  gap: 24px;
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 @media screen and (max-width: 600px) {
-  .group-item {
+  .group-items {
     grid-template-columns: repeat(1, minmax(0, 1fr));
   }
 }
@@ -443,6 +443,30 @@ a:hover, a:focus {
   margin-bottom: 24px;
 }
 
+.contract-pending-payment {
+  color: #5ba2d9 !important;
+  border-color: #5ba2d9 !important;
+}
+
+.contract-active {
+  border-color: #37ac37 !important;
+  color: #37ac37 !important;
+}
+
+.contract-pending-accept {
+  border-color: #ffe500 !important;
+}
+
+.contract-done {
+  background: #37ac37 !important;
+  color: white !important;
+}
+
+.contract-closed {
+  background: #ff3d3d !important;
+  color: white !important;
+}
+
 .ant-tabs .ant-tabs-nav::before {
   border-bottom: 3px solid #d9d9d9 !important;
 }
@@ -455,8 +479,14 @@ a:hover, a:focus {
   max-width: 1020px;
 }
 
-.form-two-col .ant-form-item-label {
-  min-width: 100px;
+.form-two-col .ant-form-item-row {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.form-two-col .ant-form-item-row .ant-form-item-control {
+  width: 100%;
+  flex: auto;
 }
 
 .form-one-col .ant-form-item-row {
@@ -466,6 +496,7 @@ a:hover, a:focus {
 }
 .form-one-col .ant-form-item-row .ant-form-item-control {
   width: 100%;
+  flex: auto;
 }
 
 .ant-modal-content {

@@ -1,20 +1,15 @@
-import { Button, Form, Input, InputNumber, Tabs } from "antd";
+import {Form, Tabs } from "antd";
 import React, { useEffect, useState } from "react";
 import { useNotification, usePopupNotification } from "../../../utils/formHelper";
-import Dragger from "antd/es/upload/Dragger";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { isNullOrEmpty } from "../../../utils/utils";
 import { useBusinessAction } from "./BusinessAction";
 import { FormJob, FormProposal } from "../../../const/FormJob";
-import { CONST_BUDGET_TYPE } from "../../../utils/constData";
-import { PriceFormatter } from "../../../utils/convertData";
 import { getUserFromStorage } from "../../../store/actions/sharedActions";
-import { CONST_FORM_ACTION } from "../../../const/FormConst";
-import TabJobInformation from "./TabJobInformation";
-import TabInviteFreelancer from "./TabInviteFreelancer";
-import TabReviewProposal from "./TabReviewProposal";
-import TabContract from "./TabContract";
-import TabFreelancerHired from "./TabFreelancerHired";
+import TabJobInformation from "./TabComponent/TabJobInformation";
+import TabInviteFreelancer from "./TabComponent/TabInviteFreelancer";
+import TabReviewProposal from "./TabComponent/TabReviewProposal";
+import TabContract from "./TabComponent/TabContract";
 
 const InputItems = React.forwardRef(({ action, disabled }, ref) => {
   const navigate = useNavigate();
@@ -163,20 +158,15 @@ const InputItems = React.forwardRef(({ action, disabled }, ref) => {
             key: "1",
             children: <TabJobInformation jobDetail={jobDetail} />,
           },
-          {
-            label: "Mời freelancer",
-            key: "2",
-            children: <TabInviteFreelancer />,
-          },
+          // {
+          //   label: "Mời freelancer",
+          //   key: "2",
+          //   children: <TabInviteFreelancer />,
+          // },
           {
             label: `Review đề xuất công việc (${jobDetail?.[FormJob.CountOfProposal]})`,
             key: "3",
             children: <TabReviewProposal jobDetail={jobDetail} apiClient={apiClient} key={key} />,
-          },
-          {
-            label: `Đã thuê (${jobDetail?.[FormJob.CountOfContract]})`,
-            key: "4",
-            children: <TabFreelancerHired jobDetail={jobDetail} apiClient={apiClient} key={key} />,
           },
           {
             label: `Hợp đồng (${jobDetail?.[FormJob.CountOfContract]})`,

@@ -1,26 +1,20 @@
 import { Form, Image } from "antd";
 import { FormFreelancer } from "../../../../const/FormFreelancer";
-import { isNullOrEmpty, isRender } from "../../../../utils/utils";
+import { GetUrlFileFromStorageAsync, isNullOrEmpty, isRender } from "../../../../utils/utils";
 import { useEffect, useState } from "react";
 import { BaseUploadImage } from "../../../../components/element/BaseUploadImage";
-import { getDownloadURL, ref as refStore } from "firebase/storage";
-import { storage } from "../../../../utils/firebase";
 
 const FormAvatar = ({ formInstance }) => {
   const [fileList, setFileList] = useState([]);
 
-  const GetUrlFile = (fileName) => {
+  const GetUrlFile = async (fileName) => {
     if (isNullOrEmpty(fileName)) {
-      formInstance.setFieldValue(FormFreelancer.Avatar, "");
-    } else {
-      getDownloadURL(refStore(storage, `fileAttach/${fileName}`))
-        .then((url) => {
-          formInstance.setFieldValue(FormFreelancer.Avatar, url);
-        })
-        .catch((error) => {
-          // Handle any errors
-        });
+      return;
     }
+    const url = await GetUrlFileFromStorageAsync(fileName);
+  
+    formInstance.setFieldValue(FormFreelancer.Avatar, fileName);
+    formInstance.setFieldValue(FormFreelancer.AvatarUrl, url);
   };
 
   useEffect(() => {
@@ -33,24 +27,20 @@ const FormAvatar = ({ formInstance }) => {
         GetUrlFile(fileList[0]?.name);
       }
     } else {
-      formInstance.setFieldValue(
-        FormFreelancer.Avatar,
-        formInstance.getFieldValue(FormFreelancer.Avatar)
-      );
+      GetUrlFile(formInstance.getFieldValue(FormFreelancer.Avatar));
     }
   }, [fileList]);
 
   return (
     <div>
+      <Form.Item name={FormFreelancer.AvatarUrl} hidden />
       <Form.Item name={FormFreelancer.Avatar} hidden />
       <Form.Item
         className="pt-3 w-100"
-        shouldUpdate={(prevValues, currentValues) =>
-          isRender(prevValues, currentValues, [FormFreelancer.Avatar])
-        }
+        shouldUpdate={(prevValues, currentValues) => isRender(prevValues, currentValues, [FormFreelancer.AvatarUrl])}
       >
         {({ getFieldValue }) => {
-          const url = getFieldValue(FormFreelancer.Avatar);
+          const url = getFieldValue(FormFreelancer.AvatarUrl);
           return (
             <div>
               <Image src={url}></Image>

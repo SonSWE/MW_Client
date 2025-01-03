@@ -9,7 +9,7 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
 
   return (
     <div>
-      <div className="group-item">
+      <div className="group-items">
         <div className="">
           <Form.Item name={FormSpecialty.SpecialtyId} label="Mã chuyên môn">
             <Input disabled />

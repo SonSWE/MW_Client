@@ -1,5 +1,4 @@
 import { useAxios } from "../../../utils/apiHelper";
-import { CONST_CONTRACT_STATUS } from "../../../utils/constData";
 
 export const useBusinessAction = (controller) => {
   const httpRequest = useAxios();
@@ -9,6 +8,9 @@ export const useBusinessAction = (controller) => {
       return httpRequest.get(`/api/cus/job/getdetailbyid?value=${id}`);
     },
     GetDetailById: (id) => {
+      return httpRequest.get(`/api/cus/proposal/getdetailbyid?value=${id}`);
+    },
+    GetDetailProposalById: (id) => {
       return httpRequest.get(`/api/cus/proposal/getdetailbyid?value=${id}`);
     },
     GetProposalByJobId: (id) => {
@@ -23,6 +25,11 @@ export const useBusinessAction = (controller) => {
     GetContractResultByContractId: (id) => {
       return httpRequest.get(`/api/cus/contract/getcontractresult?value=${id}`);
     },
-    
+    PaymentContract: (id) => {
+      return httpRequest.post(`/api/cus/contract/paymentcontract?value=${id}`);
+    },
+    EndContract: (jsondata) => {
+      return httpRequest.post(`/api/cus/contract/endcontract`, jsondata);
+    },
   };
 };

@@ -3,6 +3,8 @@ export const CONST_FORM_ACTION = {
   Update: "update",
   Delete: "delete",
   Detail: "detail",
+  Accept: "accept",
+  Reject: "reject",
 };
 
 export const CONST_CONTROL_TYPE = {
@@ -12,6 +14,7 @@ export const CONST_CONTROL_TYPE = {
   Number: "LNG",
   Date: "DAT",
   DateTime: "DATTIME",
+  Avatar: "AVATAR"
 };
 
 export const CONST_YN = {

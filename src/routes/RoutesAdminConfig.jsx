@@ -1,5 +1,5 @@
-
 import { CLIENT } from "../pages/Adminator/Client/config";
+import { CONTRACTCOMPLAINT } from "../pages/Adminator/ContractComplaint/config";
 import { DASHBOARD } from "../pages/Adminator/Dashboard/config";
 import { FREELANCER } from "../pages/Adminator/Freelancer/config";
 import { JOB } from "../pages/Adminator/Job/config";
@@ -34,7 +34,6 @@ export const RoutesAdminConfig = [
     url: "/sys-param",
     ComponentConfig: SYSPARAM,
   },
-
 
   {
     Function_Id: SKILL.pageConfig.functionId,
@@ -84,5 +83,13 @@ export const RoutesAdminConfig = [
     checkRight: false,
     url: "/khach-hang",
     ComponentConfig: CLIENT,
+  },
+  {
+    Function_Id: CONTRACTCOMPLAINT.pageConfig.functionId,
+    Function_Name: "Hợp đồng chờ xử lý",
+    DisplayOnMenu: 1,
+    checkRight: false,
+    url: "/hop-dong-cho-xu-ly",
+    ComponentConfig: CONTRACTCOMPLAINT,
   },
 ];

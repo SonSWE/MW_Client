@@ -51,6 +51,10 @@ export const BaseUploadImage = ({
         return item.uid !== file.uid;
       })
     );
+
+    if (multiple === false) {
+      setFileList([]);
+    }
   };
 
   const customRequest = async (options) => {
@@ -78,7 +82,6 @@ export const BaseUploadImage = ({
     }
 
     const newFile = new File([file], makeid() + "_" + file.name, { type: file.type });
-    console.log(newFile);
     return newFile;
   };
 

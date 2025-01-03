@@ -12,7 +12,7 @@ export const useBusinessAction = (controller = "freelancer") => {
       return httpRequest.get(`/api/cus/contract/getcontractresult?value=${id}`);
     },
     SubmitContract: (jsonData) => {
-      return httpRequest.put(`/api/cus/contract/submitcontact`, jsonData);
+      return httpRequest.post(`/api/cus/contract/submitcontact`, jsonData);
     },
   };
 };

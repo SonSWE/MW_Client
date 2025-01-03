@@ -10,5 +10,8 @@ export const useBusinessAction = (controller) => {
     UpdateAvatar: (jsondata) => {
       return httpRequest.put(`/api/cus/freelancer/updateavatar`, jsondata);
     },
+    UpdateSkills: (jsondata) => {
+      return httpRequest.put(`/api/cus/freelancer/updateskills`, jsondata);
+    },
   };
 };

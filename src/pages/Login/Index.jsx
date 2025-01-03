@@ -7,6 +7,8 @@ import md5 from "md5";
 import { saveUserToStorage } from "../../store/actions/sharedActions";
 import { useAxios } from "../../utils/apiHelper";
 import { useNotification } from "../../utils/formHelper";
+import { FormUser } from "../../const/FormUser";
+import { GetUrlFileFromStorageAsync } from "../../utils/utils";
 
 const Index = () => {
   const [form] = Form.useForm();
@@ -25,18 +27,23 @@ const Index = () => {
     };
 
     Axios.Login(param)
-      .then((res) => {
+      .then(async (res) => {
         if (res) {
           if (res?.status === 200 && res?.data?.code > 0) {
-            saveUserToStorage(res.data);
-            dispatch({ type: "SET_USER", payload: res.data });
+            const urlAvt = await GetUrlFileFromStorageAsync(res.data?.avatar);
+  
+            var data = { ...res.data, avatar: urlAvt };
+
+            saveUserToStorage(data);
+
+            dispatch({ type: "SET_USER", payload: data });
 
             if (values.remember === true) {
               localStorage.setItem(
                 "userRemember",
                 JSON.stringify({
-                  username: values?.txtUsername,
-                  Password: values?.pwbPassword,
+                  username: values?.username,
+                  Password: values?.Password,
                   Remember: values?.remember,
                 })
               );
@@ -109,7 +116,15 @@ const Index = () => {
                   <Checkbox>Nhớ mật khẩu</Checkbox>
                 </Form.Item>
               </div>
-              <div className="login_footer w-full">
+              <div className="login_footer w-full flex gap-5">
+                <Button
+                  className="w-full h-12  rounded-3xl"
+                  onClick={() => {
+                    navigate("/dang-ky");
+                  }}
+                >
+                  Đăng ký
+                </Button>
                 <Button type="primary" className="w-full h-12  rounded-3xl" htmlType="submit">
                   Đăng nhập
                 </Button>

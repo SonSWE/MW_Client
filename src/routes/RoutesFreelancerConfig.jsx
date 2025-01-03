@@ -8,6 +8,7 @@ import { PROPOSAL } from "../pages/Freelancer/Proposal/config";
 import { SAVEDJOB } from "../pages/Freelancer/SavedJob/config";
 import { SUBMITPROPOSAL } from "../pages/Freelancer/SubmitProposal/config";
 import { MESSENGER } from "../pages/Messenger/config";
+import { VERIFYEKYC } from "../pages/VerifyEKYC/config";
 import { WALLET } from "../pages/Wallet/config";
 
 export const RoutesFreelancerConfig = [
@@ -65,5 +66,10 @@ export const RoutesFreelancerConfig = [
     DisplayOnMenu: 1,
     url: "/tin-nhan",
     ComponentConfig: MESSENGER,
+  },
+  {
+    DisplayOnMenu: 0,
+    url: "/xac-thuc-tai-khoan",
+    ComponentConfig: VERIFYEKYC,
   },
 ];

@@ -33,8 +33,8 @@ export const CRUD_ButtonConfig = {
 };
 
 export const CONST_USER_TYPE = {
-  Admin: "A",
-  User: "U",
+  Admin: "ADMIN",
+  User: "USER",
 };
 
 export const CONST_LOGIN_TYPE = {

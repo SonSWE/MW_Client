@@ -63,9 +63,9 @@ const InputItems = React.forwardRef(({ action, disabled }, ref) => {
   useEffect(() => {
     //set file list to form data
     if (fileList?.length > 0) {
-      formInstance.setFieldValue(FormProposal.FileAttaches, fileList.map((e) => e.name).join("|"));
+      formInstance.setFieldValue(FormProposal.FileAttach, fileList.map((e) => e.name).join("|"));
     } else {
-      formInstance.setFieldValue(FormProposal.FileAttaches, undefined);
+      formInstance.setFieldValue(FormProposal.FileAttach, undefined);
     }
   }, [fileList]);
 
@@ -105,7 +105,7 @@ const InputItems = React.forwardRef(({ action, disabled }, ref) => {
       <Form form={formInstance} className="py-5">
         <Form.Item name={FormJob.JobId} hidden />
         <Form.Item name={FormProposal.FreelancerId} hidden />
-        <Form.Item name={FormProposal.FileAttaches} hidden />
+        <Form.Item name={FormProposal.FileAttach} hidden />
 
         <div>
           <div className="form-title text-2xl font-medium mb-5">Gửi đề xuất công việc</div>

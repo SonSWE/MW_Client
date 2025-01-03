@@ -67,7 +67,7 @@ export const getBase64 = (img, callback) => {
 };
 
 export const formatDate = (value, format = "DD/MM/YYYY") => {
-  if(isNullOrEmpty(value)){
+  if(isNullOrEmpty(value) || value?.includes("0001-01-01")){
     return ""
   }
   const inputDate = moment(value); // Convert API date to moment object

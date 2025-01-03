@@ -56,6 +56,21 @@ const DropdownCell = forwardRef((props, ref) => {
     }
   }, [props]);
 
+  useEffect(() => {
+    if (props?.colDef?.controlType === CONST_CONTROL_TYPE.Date) {
+      const handlePanelMouseDown = (e) => {
+        //kiểm tra xem có phải đang click tại panel k, nếu có thì ngăn lan chuyền đến cell edit
+        if (e.target?.className.includes("ant-picker")) {
+          e.preventDefault();
+        }
+      };
+
+      document.body.addEventListener("mousedown", handlePanelMouseDown);
+      return () => document.body.removeEventListener("mousedown", handlePanelMouseDown);
+    }
+  }, [props]);
+
+
   const getDisabled = () => {
     let _disable = false;
     if (typeof props?.colDef?.disabled === "function" && props?.colDef?.disabled) {

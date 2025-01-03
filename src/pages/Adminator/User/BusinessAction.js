@@ -13,10 +13,10 @@ export const useBusinessAction = (controller = "user") => {
     updateOne: (jsonData) => {
       return httpRequest.put(`/api/sa/${controller}/update`, jsonData);
     },
-    // deleteOne: (id) => {
-    //   return httpRequest.delete(`/api/sa/${controller}/delete`, {
-    //     id: id,
-    //   });
-    // },
+    deleteOne: (id) => {
+      return httpRequest.delete(`/api/sa/${controller}/delete`, {
+        id: id,
+      });
+    },
   };
 };

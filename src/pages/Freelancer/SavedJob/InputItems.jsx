@@ -1,47 +1,17 @@
-import {
-  Button,
-  Carousel,
-  Form,
-  Input,
-  Modal,
-  Popconfirm,
-  Progress,
-  Rate,
-  Tabs,
-  Tooltip,
-} from "antd";
-import React, { useEffect, useRef, useState } from "react";
-import { GroupBox } from "../../../components/element/GroupBox";
-import { FormSystemCode, FormSystemCodeValue } from "../../../const/FormSystemCode";
-import { convertToArray, isNullOrEmpty, isRender, makeid } from "../../../utils/utils";
-import EditTableCommunityAG from "../../../components/controls/EditTableCommunityAG";
-import { columnSystemCodeValue } from "./comom";
-import { useNotification, usePopupNotification } from "../../../utils/formHelper";
-import delteteicon from "../../../assets/image/icon/ic_tip_delete.svg";
-import addicon from "../../../assets/image/icon/ic_add_form.svg";
-import BaseModal from "../../../components/controls/BaseModal";
+import { Form } from "antd";
+import React, { useEffect, useState } from "react";
 
-import avt from "../../../assets/image/avtar.webp";
+import { convertToArray } from "../../../utils/utils";
+import { useNotification, usePopupNotification } from "../../../utils/formHelper";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faArrowLeft,
-  faHeart as faHeartSolid,
-  faLocation,
-  faLocationDot,
-  faMagnifyingGlass,
-  faPencil,
-} from "@fortawesome/free-solid-svg-icons";
-import {
-  faCheckCircle,
-  faHeart as faHeartRegular,
-  faThumbsDown,
-} from "@fortawesome/free-regular-svg-icons";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+
 import { useNavigate } from "react-router-dom";
 import { getUserFromStorage } from "../../../store/actions/sharedActions";
 import { CONST_YN } from "../../../const/FormConst";
 import { useBusinessAction } from "./BusinessAction";
-import { FormFreelancer } from "../../../const/FormFreelancer";
-import { useSelector } from "react-redux";
+
 import ListJob from "./ListJob";
 import { FormJob } from "../../../const/FormJob";
 
@@ -84,7 +54,6 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
     LoadJobsSuggest();
     LoadJobsSaved();
   }, []);
-
 
   const navigate = useNavigate();
 

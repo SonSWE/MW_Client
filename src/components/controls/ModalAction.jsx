@@ -171,6 +171,78 @@ const ModalAction = React.forwardRef(({ controller, searchCode, pageConfig, onEv
               console.error("Error:", err.message);
             }
           });
+      } else if (action === CONST_FORM_ACTION.Accept) {
+        pageConfig
+          .businessAction()
+          .Accept(values)
+          .then((res) => {
+            setIsLoading(false);
+            if (res?.status === 200 && res?.data?.code > 0) {
+              closeModal();
+              notification.success({ message: "Xác nhận thành công" });
+              onEvent({
+                type: TYPE_ACTION.SAVE_DATA_SUCCESS,
+                data: { ...res.data },
+              });
+            }
+          })
+          .catch((err) => {
+            onEvent({
+              type: TYPE_ACTION.SAVE_DATA_ERROR,
+              data: { ...err?.data },
+            });
+            setIsLoading(false);
+            if (err.response) {
+              if (err.response?.data?.message) {
+                notification.error({
+                  message: err.response.data.code + ": " + err.response.data.message,
+                });
+              }
+            } else if (err.request) {
+              notification.error({
+                message: "Không thể kết nối đến máy chủ!",
+              });
+            } else {
+              // Lỗi khác trong quá trình gửi yêu cầu
+              console.error("Error:", err.message);
+            }
+          });
+      } else if (action === CONST_FORM_ACTION.Reject) {
+        pageConfig
+          .businessAction()
+          .Reject(values)
+          .then((res) => {
+            setIsLoading(false);
+            if (res?.status === 200 && res?.data?.code > 0) {
+              closeModal();
+              notification.success({ message: "Từ chối thành công" });
+              onEvent({
+                type: TYPE_ACTION.SAVE_DATA_SUCCESS,
+                data: { ...res.data },
+              });
+            }
+          })
+          .catch((err) => {
+            onEvent({
+              type: TYPE_ACTION.SAVE_DATA_ERROR,
+              data: { ...err?.data },
+            });
+            setIsLoading(false);
+            if (err.response) {
+              if (err.response?.data?.message) {
+                notification.error({
+                  message: err.response.data.code + ": " + err.response.data.message,
+                });
+              }
+            } else if (err.request) {
+              notification.error({
+                message: "Không thể kết nối đến máy chủ!",
+              });
+            } else {
+              // Lỗi khác trong quá trình gửi yêu cầu
+              console.error("Error:", err.message);
+            }
+          });
       }
     });
   };
@@ -197,15 +269,15 @@ const ModalAction = React.forwardRef(({ controller, searchCode, pageConfig, onEv
   const [action, setAction] = useState("");
 
   const showModal = (action) => {
-    const allowedAction = [
-      CONST_FORM_ACTION.Create,
-      CONST_FORM_ACTION.Update,
-      CONST_FORM_ACTION.Delete,
-      CONST_FORM_ACTION.Detail,
-    ];
-    if (!allowedAction.includes(action)) {
-      return;
-    }
+    // const allowedAction = [
+    //   CONST_FORM_ACTION.Create,
+    //   CONST_FORM_ACTION.Update,
+    //   CONST_FORM_ACTION.Delete,
+    //   CONST_FORM_ACTION.Detail,
+    // ];
+    // if (!allowedAction.includes(action)) {
+    //   return;
+    // }
 
     setAction(action);
     setIsModalOpen(true);
@@ -222,6 +294,12 @@ const ModalAction = React.forwardRef(({ controller, searchCode, pageConfig, onEv
         break;
       case CONST_FORM_ACTION.Detail:
         title = "Xem chi tiết";
+        break;
+      case CONST_FORM_ACTION.Accept:
+        title = "Đồng ý";
+        break;
+      case CONST_FORM_ACTION.Reject:
+        title = "Từ chối";
         break;
       case CONST_FORM_ACTION.Delete:
         title = (
@@ -297,6 +375,8 @@ const ModalAction = React.forwardRef(({ controller, searchCode, pageConfig, onEv
                   CONST_FORM_ACTION.Delete,
                   CONST_FORM_ACTION.Create,
                   CONST_FORM_ACTION.Update,
+                  CONST_FORM_ACTION.Accept,
+                  CONST_FORM_ACTION.Reject,
                 ].includes(action)
               }
             >

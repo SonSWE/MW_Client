@@ -5,9 +5,9 @@
   gap: 32px;
 }
 
-.group-item {
+.group-items {
   display: grid;
-  gap: 16px;
+  gap: 24px;
   grid-template-columns: repeat(2, minmax(0, 1fr));
 
   @media screen and (max-width: 600px) {

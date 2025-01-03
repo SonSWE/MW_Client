@@ -384,7 +384,7 @@ export const useGlobalConst = () => {
             DATE_DATABASE: {
               getValueProps: (i) => {
                 return {
-                  value: i && dayjs(i),
+                  value: i && !i?.includes("0001-01-01") ? dayjs(i) : undefined,
                 };
               },
               normalize: (val) => val && `${dayjs(val).format("YYYY-MM-DD")}`,
@@ -464,18 +464,25 @@ export const CONST_BUDGET_TYPE = {
   Hourly: "H",
 };
 
+export const CONST_PROPOSAL_STATUS = {
+  Sent: "A",
+  Offered: "D",
+  Reject: "R"
+};
+
 export const CONST_CLIENT_TYPE = {
   Personal: "P",
   Organization: "O",
 };
 
 export const CONST_CONTRACT_STATUS = {
-  Pending: "P",
+  Offer: "O",
   Rejected: "R",
   Closed: "C",
   Active: "A",
-  End: "E",
+  PendingPayment: "PP",
   PendingApprovalSubmit: "PA",
+  PendingEnd: "PE",
   Reopen: "RO",
   Done: "D",
   Fail: "F",
@@ -487,4 +494,9 @@ export const CONST_TRANSACTION_TYPE = {
   Payment: "P",
   Transfer: "T",
   Receive: "R",
+};
+
+export const CONST_END_CONTRACT_REASON = {
+  Complaint: "C",
+  Other: "O",
 };

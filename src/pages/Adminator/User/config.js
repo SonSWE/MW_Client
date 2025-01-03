@@ -1,5 +1,5 @@
 import LayoutManagement from "../../../components/layout/LayoutManagement";
-import { CONST_FORM_ACTION } from "../../../const/FormConst";
+import { CONST_CONTROL_TYPE, CONST_FORM_ACTION } from "../../../const/FormConst";
 import { FormUser } from "../../../const/FormUser";
 
 import { CRUD_ButtonConfig } from "../../../const/LayoutConst";
@@ -16,6 +16,18 @@ export const columnDefs = [
     pinned: "left",
     width: 80,
     sortable: false,
+  },
+  {
+    field: FormUser.Avatar,
+    headerName: "Ảnh đại diện",
+    align: "left",
+    pinned: "left",
+    width: 160,
+    sortable: true,
+    sorter: {
+      multiple: 1,
+    },
+    dataType: CONST_CONTROL_TYPE.Avatar,
   },
   {
     field: FormUser.UserName,
@@ -107,6 +119,7 @@ export const columnDefs = [
     sorter: {
       multiple: 1,
     },
+    dataType: CONST_CONTROL_TYPE.DateTime,
   },
   {
     field: FormUser.LastChangePasswordOn,
@@ -117,18 +130,19 @@ export const columnDefs = [
     sorter: {
       multiple: 1,
     },
+    dataType: CONST_CONTROL_TYPE.DateTime,
   },
 ];
 
 const SearchConfig = [
   { key: FormUser.UserName, operator: "=" },
   { key: FormUser.Name, operator: "=" },
-  { key: FormUser.Status, operator: "=" },
+  { key: FormUser.Status, operator: "=", control: CONST_CONTROL_TYPE.ComboxMultiple },
+  { key: FormUser.UserType, operator: "=", control: CONST_CONTROL_TYPE.ComboxMultiple },
+  { key: FormUser.PhoneNumber, operator: "=" },
   { key: FormUser.EnableLogon, operator: "=" },
-  { key: FormUser.FailedLogonCount, operator: "=" },
   { key: FormUser.MustChangePasswordAtNextLogon, operator: "=" },
   { key: FormUser.AccountIsLockedOut, operator: "=" },
-  { key: FormUser.LastChangePasswordOn, operator: "=" },
 ];
 
 export const USER = {
@@ -139,9 +153,7 @@ export const USER = {
       InputItems,
       InputItemsSearch,
     },
-    header: {
-      
-    },
+    header: {},
     dataGrid: {
       recordKey: FormUser.UserName,
       searchCode: "USER",

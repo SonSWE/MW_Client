@@ -61,7 +61,7 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
 
   return (
     <div>
-      <div className="group-item">
+      <div className="group-items">
         <Form.Item name={FormJob.Proposals} hidden></Form.Item>
         <div className="">
           <Form.Item name={FormJob.JobId} label="Mã">

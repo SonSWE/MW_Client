@@ -73,7 +73,7 @@ export const columnProposal = (props) => {
     },
     {
       headerName: "Tệp đính kèm",
-      field: FormProposal.FileAttaches,
+      field: FormProposal.FileAttach,
       editable: false,
     },
   ];

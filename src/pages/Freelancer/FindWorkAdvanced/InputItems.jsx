@@ -1,30 +1,8 @@
-import {
-  Button,
-  Carousel,
-  Checkbox,
-  Drawer,
-  Form,
-  Input,
-  Modal,
-  Popconfirm,
-  Progress,
-  Rate,
-  Select,
-  Tabs,
-  Tooltip,
-} from "antd";
-import React, { useRef, useState } from "react";
-import { GroupBox } from "../../../components/element/GroupBox";
-import { FormSystemCode, FormSystemCodeValue } from "../../../const/FormSystemCode";
-import { convertToArray, isNullOrEmpty, isRender, makeid } from "../../../utils/utils";
-import EditTableCommunityAG from "../../../components/controls/EditTableCommunityAG";
-import { columnSystemCodeValue } from "./comom";
-import { usePopupNotification } from "../../../utils/formHelper";
-import delteteicon from "../../../assets/image/icon/ic_tip_delete.svg";
-import addicon from "../../../assets/image/icon/ic_add_form.svg";
-import BaseModal from "../../../components/controls/BaseModal";
+import { Button, Checkbox, Drawer, Form, Input, Rate, Select } from "antd";
+import React, { useState } from "react";
 
-import avt from "../../../assets/image/avtar.webp";
+import { usePopupNotification } from "../../../utils/formHelper";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHeart as faHeartSolid,
@@ -392,8 +370,6 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
                     onClick={() => {
                       navigate(`/gui-de-xuat`);
                     }}
-                  
-                  
                   >
                     Ứng tuyển ngay
                   </Button>

@@ -1,54 +1,15 @@
-import {
-  Button,
-  Carousel,
-  Form,
-  Input,
-  Modal,
-  Popconfirm,
-  Progress,
-  Rate,
-  Tabs,
-  Tooltip,
-} from "antd";
-import React, { useEffect, useRef, useState } from "react";
-import { GroupBox } from "../../../components/element/GroupBox";
-import { FormSystemCode, FormSystemCodeValue } from "../../../const/FormSystemCode";
-import { convertToArray, isNullOrEmpty, isRender, makeid } from "../../../utils/utils";
-import EditTableCommunityAG from "../../../components/controls/EditTableCommunityAG";
-import { columnSystemCodeValue } from "./comom";
-import { useNotification, usePopupNotification } from "../../../utils/formHelper";
-import delteteicon from "../../../assets/image/icon/ic_tip_delete.svg";
-import addicon from "../../../assets/image/icon/ic_add_form.svg";
-import BaseModal from "../../../components/controls/BaseModal";
-
-import avt from "../../../assets/image/avtar.webp";
+import { Button } from "antd";
+import React, { useEffect, useState } from "react";
+import { convertToArray } from "../../../utils/utils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faHeart as faHeartSolid,
-  faLocation,
-  faLocationDot,
-  faMagnifyingGlass,
-  faPencil,
-  faPlus,
-} from "@fortawesome/free-solid-svg-icons";
-import {
-  faCheckCircle,
-  faHeart as faHeartRegular,
-  faThumbsDown,
-} from "@fortawesome/free-regular-svg-icons";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { getUserFromStorage } from "../../../store/actions/sharedActions";
-import { CONST_YN } from "../../../const/FormConst";
 import { useBusinessAction } from "./BusinessAction";
-import { FormFreelancer } from "../../../const/FormFreelancer";
-import { useSelector } from "react-redux";
 import ListJob from "./ListJob";
-import { FormJob } from "../../../const/FormJob";
 
 const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) => {
   const apiClient = useBusinessAction();
-  const popup = usePopupNotification();
-  const notification = useNotification();
   const [jobs, setJobs] = useState([]);
   const userLogged = getUserFromStorage();
 
@@ -88,7 +49,7 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
         </div>
       </div>
       <div className="mt-3">
-        <div className="text-xl">Tổng quan</div>
+        <div className="text-xl">Danh sách công việc</div>
         <ListJob datas={jobs} apiClient={apiClient} />
       </div>
     </div>

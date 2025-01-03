@@ -11,6 +11,7 @@ import {
   faHandHoldingDollar,
   faUserTie,
   faClipboardCheck,
+  faLink,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Drawer, Form, Rate } from "antd";
@@ -223,6 +224,21 @@ const ListJob = ({ datas, apiClient, saveJob }) => {
                   </div>
                 </div>
                 <div className="p-6 border-b">
+                  <div className="text-2xl mb-3">Tệp đính kèm</div>
+                  <div className="flex flex-col flex-wrap w-2/4 gap-2">
+                    {selectedJob?.[FormJob.FileAttach]?.split("|")?.map((e) => (
+                      <div
+                        className="text-[#1677ff] !underline"
+                        onClick={() => {
+                          DowloadFileFormStorage(e);
+                        }}
+                      >
+                        <FontAwesomeIcon icon={faLink} /> <a>{e}</a>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="p-6 border-b">
                   <div className="text-2xl mb-3">Trạng thái của công việc</div>
                   <div className="text-sm text-label">
                     <div>
@@ -293,27 +309,17 @@ const ListJob = ({ datas, apiClient, saveJob }) => {
                     <FontAwesomeIcon icon={faHeartSolid} /> Đã lưu
                   </Button> */}
                   </div>
-                  <div className="py-3">
-                    <div className="">
-                      <span>Một lần gửi đề xuất: </span>
-                      <span className="font-medium">6 Connects</span>
-                    </div>
-                    <div className="">
-                      <span>Connects khả dụng: </span>
-                      <span className="font-medium">140</span>
-                    </div>
-                  </div>
                   <div>
-                    <div className="text-2xl mb-3">Về khách hàng</div>
+                    <div className="text-2xl mb-3 mt-2">Về khách hàng</div>
                     <div>
-                      <FontAwesomeIcon icon={faCheckCircle} color="green" />
-                      <span> Đã xác thực thanh toán</span>
-                    </div>
-                    <div className="mt-2">
                       <FontAwesomeIcon icon={faCheckCircle} color="green" />
                       <span> Đã xác thực định danh</span>
                     </div>
-                    <div className="mt-2 font-medium">Hà Nội</div>
+                    <div className="mt-2">
+                      <FontAwesomeIcon icon={faCheckCircle} color="green" />
+                      <span> Đã xác thực thanh toán</span>
+                    </div>
+                    {/* <div className="mt-2 font-medium">Hà Nội</div> */}
                   </div>
                 </div>
               </div>

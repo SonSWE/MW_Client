@@ -1,5 +1,6 @@
 import LayoutManagement from "../../../components/layout/LayoutManagement";
 import { FormClient } from "../../../const/FormClient";
+import { CONST_CONTROL_TYPE } from "../../../const/FormConst";
 
 import { CRUD_ButtonConfig } from "../../../const/LayoutConst";
 import { useBusinessAction } from "./BusinessAction";
@@ -18,7 +19,7 @@ export const columnDefs = [
   },
   {
     field: FormClient.ClientId,
-    headerName: "Mã",
+    headerName: "Mã khách hàng",
     align: "left",
     pinned: "left",
     width: 160,
@@ -52,6 +53,16 @@ export const columnDefs = [
     headerName: "Email",
     align: "left",
     width: 280,
+    sortable: true,
+    sorter: {
+      multiple: 1,
+    },
+  },
+  {
+    field: FormClient.ClientTypeText,
+    headerName: "Loại khách hàng",
+    align: "left",
+    width: 200,
     sortable: true,
     sorter: {
       multiple: 1,
@@ -123,14 +134,16 @@ const SearchConfig = [
   { key: FormClient.ClientId, operator: "=" },
   { key: FormClient.Name, operator: "=" },
   { key: FormClient.Email, operator: "=" },
+  { key: FormClient.ClientType, operator: "=", control: CONST_CONTROL_TYPE.ComboxMultiple },
   { key: FormClient.Website, operator: "=" },
-  { key: FormClient.SpecialtyId, operator: "=" },
-  { key: FormClient.PeopleInCompany, operator: "=" },
+  { key: FormClient.SpecialtyId, operator: "=", control: CONST_CONTROL_TYPE.ComboxMultiple },
+  { key: FormClient.PeopleInCompany, operator: "=", control: CONST_CONTROL_TYPE.ComboxMultiple },
   { key: FormClient.TagLine, operator: "=" },
   { key: FormClient.Description, operator: "=" },
   { key: FormClient.Owner, operator: "=" },
   { key: FormClient.PhoneNumber, operator: "=" },
   { key: FormClient.Address, operator: "=" },
+  { key: FormClient.Status, operator: "=", control: CONST_CONTROL_TYPE.ComboxMultiple },
 ];
 
 export const CLIENT = {

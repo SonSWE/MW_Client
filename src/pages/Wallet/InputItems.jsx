@@ -184,8 +184,9 @@ const InputItems = React.forwardRef(({ action, disabled }, ref) => {
                     {item?.[FormTransaction.TransactionTypeText]}
                   </div>
                   <div className="text-xs text-label">
-                    {formatDate(item?.[FormTransaction.TransactionDate], "DD/MM/YYYY hh:mm")}
+                    {formatDate(item?.[FormTransaction.TransactionDate], "DD/MM/YYYY HH:mm")}
                   </div>
+                  <div className="">STK nhận: {item?.[FormTransaction.WalletReceiveId]}</div>
                   <div className="">{item?.[FormTransaction.Description]}</div>
                 </div>
               </div>

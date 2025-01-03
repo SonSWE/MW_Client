@@ -15,6 +15,10 @@ export const FormContract = {
   ContractResults: "contractResults",
   ProposalId: "proposalId",
   CreateDate: "createDate",
+  EndReason: "endReason",
+  EndReasonText: "endReasonText",
+  EndReasonRemark: "endReasonRemark",
+  FileAttach: "fileAttach",
 };
 
 export const FormContractResult = {
