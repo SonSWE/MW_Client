@@ -21,6 +21,7 @@ import { makeid } from "../../utils/commonFunction";
 import moment from "moment";
 import { dateFormatDefault, dateTimeFomatDefault } from "../../utils/utils";
 import { CONST_CONTROL_TYPE } from "../../const/FormConst";
+import BaseAvatar from "../element/BaseAvatar";
 
 const BaseDataGird = React.forwardRef(
   ({ controller, searchCode, config, onEvent, pageSize = 100 }, ref) => {
@@ -115,7 +116,7 @@ const BaseDataGird = React.forwardRef(
               : item?.dataType === CONST_CONTROL_TYPE.DateTime
               ? moment(param.value).format(dateTimeFomatDefault)
               : item?.dataType === CONST_CONTROL_TYPE.Avatar
-              ? <Avatar size={36} src={param.value}/>
+              ? <BaseAvatar size={36} src={param.value}/>
               : param.value;
           },
         })),

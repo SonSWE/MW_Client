@@ -13,5 +13,14 @@ export const useBusinessAction = (controller) => {
     UpdateSkills: (jsondata) => {
       return httpRequest.put(`/api/cus/freelancer/updateskills`, jsondata);
     },
+    UpdateEducation: (jsondata) => {
+      return httpRequest.put(`/api/cus/freelancer/updateeducation`, jsondata);
+    },
+    DeleteEducation: (id) => {
+      return httpRequest.delete(`/api/cus/freelancer/deleteeducation?value=${id}`);
+    },
+    Update: (jsondata) => {
+      return httpRequest.put(`/api/cus/freelancer/update`, jsondata);
+    },
   };
 };

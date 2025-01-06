@@ -17,6 +17,7 @@ import { FormFreelancer } from "../../../const/FormFreelancer";
 import ListJob from "./ListJob";
 import { FormJob } from "../../../const/FormJob";
 import { useSelector } from "react-redux";
+import BaseAvatar from "../../../components/element/BaseAvatar";
 
 const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) => {
   const apiClient = useBusinessAction();
@@ -189,15 +190,29 @@ const InputItems = React.forwardRef(({ formInstance, action, disabled }, ref) =>
         <div className="card">
           <div className="flex items-center">
             <div className="block">
-              <Avatar size={70} src={userLogged?.avatar} />
+              <BaseAvatar size={70} src={userLogged?.avatar} />
             </div>
             <div className="ml-5">
-              <div className="text-lg underline  btn-text !text-black">{userLogged?.fullName}</div>
+              <div
+                className="text-lg underline  btn-text !text-black"
+                onClick={() => {
+                  navigate("/thong-tin-ca-nhan");
+                }}
+              >
+                {userLogged?.fullName}
+              </div>
               <div className="text-sm">{userLogged?.freelancer?.[FormFreelancer.Title]}</div>
             </div>
           </div>
           <div className="mt-2">
-            <div className="btn-text">Hoàn thiện thông tin cá nhân</div>
+            <div
+              className="btn-text"
+              onClick={() => {
+                navigate("/thong-tin-ca-nhan");
+              }}
+            >
+              Hoàn thiện thông tin cá nhân
+            </div>
             <Progress percent={30} />
           </div>
         </div>

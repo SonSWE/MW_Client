@@ -118,7 +118,7 @@ export const columnWorkingHistory = (props) => {
     },
     {
       headerName: "Thành phố",
-      field: FormWorkingHistory.CityId,
+      field: FormWorkingHistory.Address,
       editable: true,
       cellEditor: DropdownCell,
       controlType: CONST_CONTROL_TYPE.Combobox,
@@ -273,7 +273,7 @@ export const columnCertificate = (props) => {
     },
     {
       headerName: "Tên chứng chỉ",
-      field: FormCertificate.Name,
+      field: FormCertificate.CertificateName,
       editable: true,
       cellEditor: DropdownCell,
     },
@@ -288,6 +288,6 @@ export const columnCertificate = (props) => {
     columnList,
     keyName: indexKey,
     addRowAsync: handleAddRowAsync,
-    fisrtEditKey: FormCertificate.Name,
+    fisrtEditKey: FormCertificate.CertificateName,
   });
 };

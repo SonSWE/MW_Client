@@ -16,6 +16,7 @@ import {
   faPlane,
 } from "@fortawesome/free-solid-svg-icons";
 import { faFaceSmile, faFileAlt, faImage } from "@fortawesome/free-regular-svg-icons";
+import BaseAvatar from "../../../components/element/BaseAvatar";
 // import { format } from "timeago.js";
 
 const ChatContent = ({ className, selectedChat, setSelectedChat }) => {
@@ -116,10 +117,10 @@ const ChatContent = ({ className, selectedChat, setSelectedChat }) => {
       <div className={`chat`}>
         <div className="top">
           <div className="user">
-            <img src={selectedChat?.[FormChat.userReceive]?.avatar || "./avatar.png"} alt="" />
+            <BaseAvatar size={50} src={selectedChat?.[FormChat.userReceive]?.avatar} />
             <div className="texts">
               <span>{selectedChat?.[FormChat.userReceive]?.name}</span>
-              <p>khách hàng</p>
+              {/* <p>khách hàng</p> */}
             </div>
           </div>
           <div className="icons">

@@ -1,8 +1,8 @@
-import { Avatar, Spin } from "antd";
+import { Avatar, Image, Spin } from "antd";
 import { GetUrlFileFromStorageAsync } from "../../utils/utils";
 import { useEffect, useState } from "react";
 
-const BaseAvatar = ({ size, src }) => {
+const BaseImage = ({ props, src, height = 200, width = 200, className = "" }) => {
   const [avatarUrl, setAvatarUrl] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -24,7 +24,15 @@ const BaseAvatar = ({ size, src }) => {
     }
   }, [src]);
 
-  return <Avatar size={size} src={avatarUrl} />;
+  return src ? (
+    loading ? (
+      <Spin /> // Hiển thị vòng xoay khi đang tải
+    ) : (
+      <Image className={className} width={width} height={height} src={avatarUrl} {...props} />
+    )
+  ) : (
+    <></>
+  );
 };
 
-export default BaseAvatar;
+export default BaseImage;

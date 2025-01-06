@@ -30,13 +30,9 @@ const Index = () => {
       .then(async (res) => {
         if (res) {
           if (res?.status === 200 && res?.data?.code > 0) {
-            const urlAvt = await GetUrlFileFromStorageAsync(res.data?.avatar);
-  
-            var data = { ...res.data, avatar: urlAvt };
+            saveUserToStorage(res.data);
 
-            saveUserToStorage(data);
-
-            dispatch({ type: "SET_USER", payload: data });
+            dispatch({ type: "SET_USER", payload: res.data });
 
             if (values.remember === true) {
               localStorage.setItem(

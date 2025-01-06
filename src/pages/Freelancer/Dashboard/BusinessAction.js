@@ -5,6 +5,9 @@ export const useBusinessAction = (controller = "freelancer") => {
   const httpRequest = useAxios();
 
   return {
+    Search: (jsondata) => {
+      return httpRequest.post(`/api/cus/job/search`, jsondata);
+    },
     GetSuggestByFreelancer: (id) => {
       return httpRequest.get(`/api/cus/job/getsuggestbyfreelancer?value=${id}`);
     },
@@ -18,7 +21,7 @@ export const useBusinessAction = (controller = "freelancer") => {
       return httpRequest.post(`/api/cus/job/insertsavejob`, jsonData);
     },
     RemoveSaveJob: (jsonData) =>{
-      return httpRequest.post(`/api/cus/job/removesavejob`, jsonData);
+      return httpRequest.delete(`/api/cus/job/removesavejob`, jsonData);
     },
   };
 };

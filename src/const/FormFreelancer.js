@@ -27,7 +27,8 @@ export const FormFreelancer = {
   Educations: "educations", // Danh sách học vấn (mwFreelancerEducation)
   WorkingHistories: "workingHistories", // Danh sách lịch sử làm việc (mwFreelancerWorkingHistory)
   Certificates: "certificates", // Danh sách chứng chỉ (mwFreelancerCertificate)
-  SpecialtyProjects: "specialtyProjects", // Danh sách dự án nổi bật (mwFreelancerSpecailtyProject)
+  SpecialProjects: "specialProjects", // Danh sách dự án nổi bật (mwFreelancerSpecailtyProject)
+  FeedBacks: "feedBacks", // Danh sách dự án nổi bật (mwFreelancerSpecailtyProject)
 
   SkillId: "skillId",
   SkillsText: "skillsText",
@@ -35,6 +36,7 @@ export const FormFreelancer = {
 
 export const FormSpecialty = {
   SpecialtyId: "specialtyId",
+  Name: "name",
 };
 
 export const FormEducation = {
@@ -42,6 +44,7 @@ export const FormEducation = {
   FreelancerId: "freelancerId", // ID freelancer
   SchoolName: "schoolName", // Tên trường
   Degree: "degree", // Bằng cấp
+  DegreeText: "degreeText", // Bằng cấp
   Major: "major", // Chuyên ngành
   FromDate: "fromDate", // Năm bắt đầu học
   EndDate: "endDate", // Năm tốt nghiệp
@@ -52,18 +55,27 @@ export const FormWorkingHistory = {
   WorkingHistoryId: "workingHistoryId", // ID lịch sử làm việc
   FreelancerId: "freelancerId", // ID freelancer
   CompanyName: "companyName", // Tên công ty
-  City: "city", // Thành phố
-  CityId: "countryId", // ID quốc gia
+  Position: "position",
+  Address: "address", // Thành phố
   FromDate: "fromDate", // Tháng năm bắt đầu
   EndDate: "endDate", // Tháng năm kết thúc
   IsCurrentlyWorkingHere: "isCurrentlyWorkingHere", // Có đang làm việc tại đây không
+  IsCurrentlyWorkingHereText: "isCurrentlyWorkingHereText", // Có đang làm việc tại đây không
   Description: "description", // Mô tả
 };
 
 export const FormCertificate = {
   CertificateId: "certificateId", // ID chứng chỉ
   FreelancerId: "freelancerId", // ID freelancer
-  Name: "name", // Tên chứng chỉ
+  CertificateName: "certificateName", // Tên chứng chỉ
+  FileAttach: "fileAttach", // File đính kèm
+  Description: "description",
+};
+
+export const FormSpecialProject = {
+  ProjectId: "projectId", // ID chứng chỉ
+  FreelancerId: "freelancerId", // ID freelancer
+  ProjectName: "projectName", // Tên chứng chỉ
   FileAttach: "fileAttach", // File đính kèm
   Description: "description",
 };

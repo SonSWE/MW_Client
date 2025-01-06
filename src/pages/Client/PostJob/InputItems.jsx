@@ -98,7 +98,7 @@ const InputItems = React.forwardRef(({ action, disabled }, ref) => {
         <Form.Item name={FormJob.FileAttach} hidden />
         <div>
           <div className="flex justify-between  mb-5">
-            <div className="form-title text-2xl font-medium">Chi tiết công việc</div>
+            <div className="form-title text-2xl font-medium">Tạo công việc</div>
             <Button className="rounded-xl" type="primary" size="large" onClick={submit}>
               Đăng tải
             </Button>

@@ -381,6 +381,18 @@ export const useGlobalConst = () => {
             },
           },
           PARSER: {
+            YEAR_DATABASE: {
+              getValueProps: (i) => {
+                return {
+                  value: i ? dayjs(i, 'YYYY') : undefined,
+                };
+              },
+              normalize: (val) => val && `${dayjs(val).format("YYYY")}`,
+              onKeyDown: (event) => {
+                const input = event.target;
+                input.value = DATE_MASKED.resolve(input.value);
+              },
+            },
             DATE_DATABASE: {
               getValueProps: (i) => {
                 return {

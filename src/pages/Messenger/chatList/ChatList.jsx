@@ -8,8 +8,9 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { Input } from "antd";
 import { db } from "../../../utils/firebase";
 import { useBusinessAction } from "../BusinessAction";
+import BaseAvatar from "../../../components/element/BaseAvatar";
 
-const ChatList = ({ className,selectedChat, setSelectedChat }) => {
+const ChatList = ({ className, selectedChat, setSelectedChat }) => {
   const apiClient = useBusinessAction();
   const [chats, setChats] = useState([]);
   const [input, setInput] = useState("");
@@ -81,14 +82,14 @@ const ChatList = ({ className,selectedChat, setSelectedChat }) => {
         </div>
         {filteredChats.map((chat) => (
           <div
-            className="item"
+            className={`item ${chat.chatId === selectedChat?.chatId ? "bg-[#73b1e029]" : ""}`}
             key={chat.chatId}
             onClick={() => handleSelect(chat)}
-            style={{
-              backgroundColor: chat?.isSeen ? "transparent" : "#5183fe14",
-            }}
+            // style={{
+            //   backgroundColor: chat?.isSeen ? "transparent" : "#5183fe14",
+            // }}
           >
-            <img src={chat.userReceive.avatar} alt="" />
+            <BaseAvatar size={50} src={chat.userReceive.avatar} />
             <div className="texts">
               <span>{chat.userReceive.name}</span>
               <p>{chat.lastMessage}</p>

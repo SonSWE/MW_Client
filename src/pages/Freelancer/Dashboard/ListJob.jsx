@@ -77,15 +77,17 @@ const ListJob = ({ datas, apiClient, saveJob }) => {
                 </div>
               </div>
               <div className="flex">
-                <Button
+                {/* <Button
                   type="text"
                   shape="circle"
                   icon={<FontAwesomeIcon icFon={faThumbsDown} />}
-                />
+                /> */}
                 <Button
                   type="text"
                   shape="circle"
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
                     saveJob({
                       [FormJob.JobId]: item?.[FormJob.JobId],
                       [FormJob.Saved]: item?.[FormJob.Saved],
@@ -110,7 +112,7 @@ const ListJob = ({ datas, apiClient, saveJob }) => {
                 : ` ${PriceFormatter(item?.[FormJob.CostEstimate])}`}
             </div>
             <div className="mt-5 text-base text-label mt-5">{item?.[FormJob.Description]}</div>
-            <div className="flex items-center gap-3 mt-5">
+            <div className="flex flex-wrap items-center gap-3 mt-5">
               {item?.[FormJob.JobSkillsText]?.split(",")?.map((e) => (
                 <div className="tag-skill">{e}</div>
               ))}

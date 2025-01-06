@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { CONST_LOGIN_TYPE, CONST_USER_TYPE } from "../../const/LayoutConst";
 import { useNavigate } from "react-router-dom";
 import { FormFreelancer } from "../../const/FormFreelancer";
+import BaseAvatar from "../element/BaseAvatar";
 
 export const Header = () => {
   const Axios = useAxios();
@@ -238,7 +239,7 @@ export const Header = () => {
                   }
                 }}
               >
-                <Avatar size={64} src={userLogged?.avatar}></Avatar>
+                <BaseAvatar size={64} src={userLogged?.avatar} />
                 <div className="ml-3">
                   <div className="text-base font-bold">{userLogged?.fullName}</div>
                   <div className="jod-title">{userLogged?.freelancer?.[FormFreelancer.Title]}</div>
@@ -266,7 +267,7 @@ export const Header = () => {
           }
         >
           <div className="avt">
-            <Avatar src={userLogged?.avatar}></Avatar>
+            <BaseAvatar src={userLogged?.avatar} />
           </div>
         </Popover>
       </div>
