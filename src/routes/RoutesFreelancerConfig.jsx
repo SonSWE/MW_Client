@@ -4,6 +4,7 @@ import { DETAILOFFER } from "../pages/Freelancer/DetailOffer/config";
 import { DETAILPROPOSAL } from "../pages/Freelancer/DetailProposal/config";
 import { FINDWORKADVANCED } from "../pages/Freelancer/FindWorkAdvanced/config";
 import { FREELANCERINFORMATION } from "../pages/Freelancer/FreelancerInfomation/config";
+import { FREELANCERINFORMATIONVIEW } from "../pages/Freelancer/FreelancerInfomationView/config";
 import { PROPOSAL } from "../pages/Freelancer/Proposal/config";
 import { SAVEDJOB } from "../pages/Freelancer/SavedJob/config";
 import { SUBMITPROPOSAL } from "../pages/Freelancer/SubmitProposal/config";
@@ -56,6 +57,11 @@ export const RoutesFreelancerConfig = [
     DisplayOnMenu: 1,
     url: "/thong-tin-ca-nhan",
     ComponentConfig: FREELANCERINFORMATION,
+  },
+  {
+    DisplayOnMenu: 1,
+    url: "/xem-thong-tin-ca-nhan",
+    ComponentConfig: FREELANCERINFORMATIONVIEW,
   },
   {
     DisplayOnMenu: 1,

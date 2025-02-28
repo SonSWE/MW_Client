@@ -62,7 +62,7 @@ export const RoutesAdminConfig = [
 
   {
     Function_Id: USER.pageConfig.functionId,
-    Function_Name: "Tài khoản người dùng",
+    Function_Name: "Tài khoản đăng nhập",
     DisplayOnMenu: 1,
     checkRight: false,
     url: "/tai-khoan",

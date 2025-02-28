@@ -6,6 +6,7 @@ import { WALLET } from "../pages/Wallet/config";
 import { FEEDBACKCONTRACT } from "../pages/Client/FeedbackContract/config";
 import { MESSENGER } from "../pages/Messenger/config";
 import { VERIFYEKYC } from "../pages/VerifyEKYC/config";
+import { FREELANCERINFORMATIONVIEW } from "../pages/Freelancer/FreelancerInfomationView/config";
 
 export const RoutesClientConfig = [
   {
@@ -47,5 +48,10 @@ export const RoutesClientConfig = [
     DisplayOnMenu: 0,
     url: "/xac-thuc-tai-khoan",
     ComponentConfig: VERIFYEKYC,
+  },
+  {
+    DisplayOnMenu: 1,
+    url: "/xem-thong-tin-ca-nhan",
+    ComponentConfig: FREELANCERINFORMATIONVIEW,
   },
 ];

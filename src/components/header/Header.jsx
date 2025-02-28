@@ -59,6 +59,14 @@ export const Header = () => {
           title: "Cấu hình tham số",
           url: "/sys-param",
         },
+        {
+          title: "Kỹ năng",
+          url: "/ky-nang",
+        },
+        {
+          title: "Chuyên môn",
+          url: "/chuyen-mon",
+        },
       ],
     },
     {
@@ -90,14 +98,6 @@ export const Header = () => {
         {
           title: "Hợp đồng chờ xử lý",
           url: "/hop-dong-cho-xu-ly",
-        },
-        {
-          title: "Kỹ năng",
-          url: "/ky-nang",
-        },
-        {
-          title: "Chuyên môn",
-          url: "/chuyen-mon",
         },
       ],
     },

@@ -21,7 +21,7 @@ export const columnDefs = [
     headerName: "System Code ID",
     align: "left",
     pinned: "left",
-    width: 160,
+    width: 250,
     sortable: true,
     sorter: {
       multiple: 1,
@@ -31,7 +31,7 @@ export const columnDefs = [
     field: FormSystemCode.Name,
     headerName: "Tên",
     align: "left",
-    width: 180,
+    width: 250,
     sortable: true,
     sorter: {
       multiple: 1,

@@ -216,7 +216,22 @@ const ListProposal = ({ datas, apiClient }) => {
                           </span>
                         </div>
                         <div className="!text-[#1677ff] !underline mt-3">
-                          <a href="#">Xem thông tin chi tiết</a>
+                          <a
+                            href="#"
+                            onClick={() => {
+                              window.open(
+                                "/xem-thong-tin-ca-nhan?id=" +
+                                  selectedProposal?.[FormFreelancer.FreelancerId],
+                                "_blank"
+                              );
+                              // navigate(
+                              //   "/xem-thong-tin-ca-nhan?id=" +
+                              //     selectedProposal?.[FormFreelancer.FreelancerId]
+                              // );
+                            }}
+                          >
+                            Xem thông tin chi tiết
+                          </a>
                         </div>
                       </div>
                     </div>

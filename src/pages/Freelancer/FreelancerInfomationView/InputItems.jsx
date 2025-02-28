@@ -1,10 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { useBusinessAction } from "./BusinessAction";
 import { useSelector } from "react-redux";
-import { Button, Form, Modal, Rate } from "antd";
-import { FormCertificate, FormEducation, FormFreelancer, FormSpecialProject, FormSpecialty, FormWorkingHistory } from "../../../const/FormFreelancer";
+import { Button, Form, Rate } from "antd";
+import {
+  FormCertificate,
+  FormEducation,
+  FormFreelancer,
+  FormSpecialProject,
+  FormSpecialty,
+  FormWorkingHistory,
+} from "../../../const/FormFreelancer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheckCircle, faLocationDot, faPencil, faPlus, faTrash, faXmark } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCheckCircle,
+  faLocationDot,
+  faPencil,
+  faPlus,
+  faTrash,
+  faXmark,
+} from "@fortawesome/free-solid-svg-icons";
 import { CONST_YN } from "../../../const/FormConst";
 import { PriceFormatter } from "../../../utils/convertData";
 import BaseModal from "../../../components/controls/BaseModal";
@@ -26,7 +40,7 @@ import BaseImage from "../../../components/element/BaseImage";
 import FormSpecialProjects from "./FormContent/FormSpecialProjects";
 import { FormFeedback } from "../../../const/FormFeedback";
 import BaseImageList from "../../../components/element/BaseImageList";
-import { useNavigate } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 const InputItems = React.forwardRef(({ disabled }, ref) => {
   const [infomation, setInformation] = useState();
@@ -38,7 +52,12 @@ const InputItems = React.forwardRef(({ disabled }, ref) => {
   const [action, setAction] = useState("");
   const [title, setTitle] = useState("");
   const notification = useNotification();
-  const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  useEffect(() => {
+    const id = searchParams.get("id");
+    LoadData(id);
+  }, [searchParams]);
 
   const showModal = (action, data) => {
     if (action == ACTION_INFO.Avatar) {
@@ -198,7 +217,8 @@ const InputItems = React.forwardRef(({ disabled }, ref) => {
             [FormWorkingHistory.Position]: values?.[FormWorkingHistory.Position],
             [FormWorkingHistory.FromDate]: values?.[FormWorkingHistory.FromDate],
             [FormWorkingHistory.EndDate]: values?.[FormWorkingHistory.EndDate],
-            [FormWorkingHistory.IsCurrentlyWorkingHere]: values?.[FormWorkingHistory.IsCurrentlyWorkingHere],
+            [FormWorkingHistory.IsCurrentlyWorkingHere]:
+              values?.[FormWorkingHistory.IsCurrentlyWorkingHere],
             [FormWorkingHistory.Description]: values?.[FormWorkingHistory.Description],
           },
         ];
@@ -222,14 +242,16 @@ const InputItems = React.forwardRef(({ disabled }, ref) => {
         const newDatas = oldDatas.map((e) =>
           e?.[FormWorkingHistory.WorkingHistoryId] === values?.[FormWorkingHistory.WorkingHistoryId]
             ? {
-                [FormWorkingHistory.WorkingHistoryId]: values?.[FormWorkingHistory.WorkingHistoryId],
+                [FormWorkingHistory.WorkingHistoryId]:
+                  values?.[FormWorkingHistory.WorkingHistoryId],
                 [FormFreelancer.FreelancerId]: values?.[FormFreelancer.FreelancerId],
                 [FormWorkingHistory.CompanyName]: values?.[FormWorkingHistory.CompanyName],
                 [FormWorkingHistory.Address]: values?.[FormWorkingHistory.Address],
                 [FormWorkingHistory.Position]: values?.[FormWorkingHistory.Position],
                 [FormWorkingHistory.FromDate]: values?.[FormWorkingHistory.FromDate],
                 [FormWorkingHistory.EndDate]: values?.[FormWorkingHistory.EndDate],
-                [FormWorkingHistory.IsCurrentlyWorkingHere]: values?.[FormWorkingHistory.IsCurrentlyWorkingHere],
+                [FormWorkingHistory.IsCurrentlyWorkingHere]:
+                  values?.[FormWorkingHistory.IsCurrentlyWorkingHere],
                 [FormWorkingHistory.Description]: values?.[FormWorkingHistory.Description],
               }
             : e
@@ -367,7 +389,9 @@ const InputItems = React.forwardRef(({ disabled }, ref) => {
       onOk: (close) => {
         const oldDatas = convertToArray(infomation?.[FormFreelancer.Educations]);
 
-        const newDatas = convertToArray(oldDatas.filter((x) => x?.[FormEducation.EducationId] !== id));
+        const newDatas = convertToArray(
+          oldDatas.filter((x) => x?.[FormEducation.EducationId] !== id)
+        );
 
         apiClient
           .Update({ ...infomation, [FormFreelancer.Educations]: newDatas })
@@ -391,7 +415,9 @@ const InputItems = React.forwardRef(({ disabled }, ref) => {
       onOk: (close) => {
         const oldDatas = convertToArray(infomation?.[FormFreelancer.WorkingHistories]);
 
-        const newDatas = convertToArray(oldDatas.filter((x) => x?.[FormWorkingHistory.WorkingHistoryId] !== id));
+        const newDatas = convertToArray(
+          oldDatas.filter((x) => x?.[FormWorkingHistory.WorkingHistoryId] !== id)
+        );
 
         apiClient
           .Update({ ...infomation, [FormFreelancer.WorkingHistories]: newDatas })
@@ -415,7 +441,9 @@ const InputItems = React.forwardRef(({ disabled }, ref) => {
       onOk: (close) => {
         const oldDatas = convertToArray(infomation?.[FormFreelancer.Certificates]);
 
-        const newDatas = convertToArray(oldDatas.filter((x) => x?.[FormCertificate.CertificateId] !== id));
+        const newDatas = convertToArray(
+          oldDatas.filter((x) => x?.[FormCertificate.CertificateId] !== id)
+        );
 
         apiClient
           .Update({ ...infomation, [FormFreelancer.Certificates]: newDatas })
@@ -439,7 +467,9 @@ const InputItems = React.forwardRef(({ disabled }, ref) => {
       onOk: (close) => {
         const oldDatas = convertToArray(infomation?.[FormFreelancer.SpecialProjects]);
 
-        const newDatas = convertToArray(oldDatas.filter((x) => x?.[FormSpecialProject.ProjectId] !== id));
+        const newDatas = convertToArray(
+          oldDatas.filter((x) => x?.[FormSpecialProject.ProjectId] !== id)
+        );
 
         apiClient
           .Update({ ...infomation, [FormFreelancer.SpecialProjects]: newDatas })
@@ -456,9 +486,9 @@ const InputItems = React.forwardRef(({ disabled }, ref) => {
     });
   };
 
-  const LoadData = () => {
+  const LoadData = (id) => {
     apiClient
-      .GetFreelancerDetailById(userLogin.freelancer.freelancerId)
+      .GetFreelancerDetailById(id)
       .then(async (res) => {
         if (res && res?.data) {
           setInformation({ ...res.data });
@@ -469,10 +499,6 @@ const InputItems = React.forwardRef(({ disabled }, ref) => {
       });
   };
 
-  useEffect(() => {
-    LoadData();
-  }, [userLogin]);
-
   return (
     <div>
       <div className="border rounded-xl">
@@ -481,32 +507,24 @@ const InputItems = React.forwardRef(({ disabled }, ref) => {
             <div className="relative">
               <BaseAvatar size={80} src={infomation?.[FormFreelancer.Avatar]} />
               <div className="absolute right-[-5px] bottom-[-5px]">
-                <Button
+                {/* <Button
                   onClick={() => {
                     showModal(ACTION_INFO.Avatar);
                   }}
                   shape="circle"
                   icon={<FontAwesomeIcon icon={faPencil} />}
-                />
+                /> */}
               </div>
             </div>
             <div className="ml-3">
               <div className="text-2xl font-medium">{infomation?.[FormFreelancer.Name]}</div>
               <div className="text-label text-base">
-                <FontAwesomeIcon icon={faLocationDot} size="lg" /> {infomation?.[FormFreelancer.StreetAddress]}
+                <FontAwesomeIcon icon={faLocationDot} size="lg" />{" "}
+                {infomation?.[FormFreelancer.StreetAddress]}
               </div>
             </div>
           </div>
-          <div>
-            <Button
-              className="rounded"
-              onClick={() => {
-                navigate("/xem-thong-tin-ca-nhan?id=" + infomation?.[FormFreelancer.FreelancerId]);
-              }}
-            >
-              Chế độ xem thông tin
-            </Button>
-          </div>
+          <div>{/* <Button className="rounded">Chế độ xem thông tin</Button> */}</div>
         </div>
         <div className="flex border-t">
           <div className="p-5 border-r min-w-[25%]">
@@ -515,19 +533,23 @@ const InputItems = React.forwardRef(({ disabled }, ref) => {
               <div className="flex items-center justify-between">
                 <div>
                   <div className="text-base text-label">Sẵn sàng làm việc</div>
-                  <div className="text-[#008000]">{infomation?.[FormFreelancer.IsOpeningForJob] === CONST_YN.Yes ? "Mở" : "Đóng"}</div>
+                  <div className="text-[#008000]">
+                    {infomation?.[FormFreelancer.IsOpeningForJob] === CONST_YN.Yes ? "Mở" : "Đóng"}
+                  </div>
                 </div>
-                <Button
+                {/* <Button
                   type="text"
                   // onClick={handleChangeOpenForJob}
                   shape="circle"
                   icon={<FontAwesomeIcon icon={faPencil} />}
-                />
+                /> */}
               </div>
             </div>
             <div className="mt-5">
               <div className="text-xl font-medium">Thời gian làm việc</div>
-              <div className="text-label">Có thể làm việc {infomation?.[FormFreelancer.HourWorkingPerWeek]} tiếng/ tuần</div>
+              <div className="text-label">
+                Có thể làm việc {infomation?.[FormFreelancer.HourWorkingPerWeek]} tiếng/ tuần
+              </div>
             </div>
             <div className="mt-5">
               <div className="flex justify-between items-center mb-3">
@@ -566,23 +588,27 @@ const InputItems = React.forwardRef(({ disabled }, ref) => {
             <div className="mt-5">
               <div className="flex justify-between items-center mb-3">
                 <div className="text-xl font-medium">Học vấn</div>{" "}
-                <Button
+                {/* <Button
                   shape="circle"
                   icon={<FontAwesomeIcon icon={faPlus} />}
                   onClick={() => {
                     showModal(ACTION_INFO.EDU_INSERT);
                   }}
-                />
+                /> */}
               </div>
               {infomation?.[FormFreelancer.Educations]?.map((item, i) => (
                 <div className="flex justify-between" key={i}>
                   <div>
                     <div className="text-lg font-medium">{item?.[FormEducation.SchoolName]}</div>
-                    <div className="text-label">{`${item?.[FormEducation.DegreeText]}, ${item?.[FormEducation.Major]}`}</div>
-                    <div className="text-label">{`${item?.[FormEducation.FromDate]}-${item?.[FormEducation.EndDate]}`}</div>
+                    <div className="text-label">{`${item?.[FormEducation.DegreeText]}, ${
+                      item?.[FormEducation.Major]
+                    }`}</div>
+                    <div className="text-label">{`${item?.[FormEducation.FromDate]}-${
+                      item?.[FormEducation.EndDate]
+                    }`}</div>
                   </div>
                   <div className="flex gap-3">
-                    <Button
+                    {/* <Button
                       shape="circle"
                       icon={<FontAwesomeIcon icon={faPencil} />}
                       onClick={() => {
@@ -595,7 +621,7 @@ const InputItems = React.forwardRef(({ disabled }, ref) => {
                       onClick={() => {
                         deleteEducation(item?.[FormEducation.EducationId]);
                       }}
-                    />
+                    /> */}
                   </div>
                 </div>
               ))}
@@ -606,35 +632,39 @@ const InputItems = React.forwardRef(({ disabled }, ref) => {
               <div className="p-5">
                 <div className="flex items-center justify-between ">
                   <div>
-                    <span className="text-xl font-medium">{infomation?.[FormFreelancer.Title]} </span>
-                    <Button
+                    <span className="text-xl font-medium">
+                      {infomation?.[FormFreelancer.Title]}{" "}
+                    </span>
+                    {/* <Button
                       shape="circle"
                       icon={<FontAwesomeIcon icon={faPencil} />}
                       onClick={() => {
                         showModal(ACTION_INFO.Title);
                       }}
-                    />
+                    /> */}
                   </div>
                   <div className="flex gap-3 items-center">
-                    <span className="text-xl font-medium">{PriceFormatter(infomation?.[FormFreelancer.HourlyRate])}/giờ</span>
-                    <Button
+                    <span className="text-xl font-medium">
+                      {PriceFormatter(infomation?.[FormFreelancer.HourlyRate])}/giờ
+                    </span>
+                    {/* <Button
                       shape="circle"
                       icon={<FontAwesomeIcon icon={faPencil} />}
                       onClick={() => {
                         showModal(ACTION_INFO.HourlyRate);
                       }}
-                    />
+                    /> */}
                   </div>
                 </div>
                 <div className="flex items-center justify-between mt-5">
                   <div className="text-label">{infomation?.[FormFreelancer.Bio]}</div>
-                  <Button
+                  {/* <Button
                     shape="circle"
                     icon={<FontAwesomeIcon icon={faPencil} />}
                     onClick={() => {
                       showModal(ACTION_INFO.Bio);
                     }}
-                  />
+                  /> */}
                 </div>
               </div>
             </div>
@@ -642,13 +672,13 @@ const InputItems = React.forwardRef(({ disabled }, ref) => {
               <div className="p-5">
                 <div className="flex items-center justify-between">
                   <div className="text-xl font-medium">Dự án nổi bật</div>
-                  <Button
+                  {/* <Button
                     shape="circle"
                     icon={<FontAwesomeIcon icon={faPlus} />}
                     onClick={() => {
                       showModal(ACTION_INFO.PROJECT_INSERT);
                     }}
-                  />
+                  /> */}
                 </div>
                 <div className="mt-5">
                   <div className="flex">
@@ -656,7 +686,7 @@ const InputItems = React.forwardRef(({ disabled }, ref) => {
                       <div className="" key={i}>
                         <div className="w-[200px]">
                           <div className="flex gap-3 mb-2 justify-end">
-                            <Button
+                            {/* <Button
                               shape="circle"
                               icon={<FontAwesomeIcon icon={faPencil} />}
                               onClick={() => {
@@ -669,12 +699,19 @@ const InputItems = React.forwardRef(({ disabled }, ref) => {
                               onClick={() => {
                                 deleteSpecialProject(item?.[FormSpecialProject.ProjectId]);
                               }}
-                            />
+                            /> */}
                           </div>
                           <div className="">
-                            <BaseImage height={200} width={200} className="border rounded-xl" src={item?.[FormSpecialProject.FileAttach]} />
+                            <BaseImage
+                              height={200}
+                              width={200}
+                              className="border rounded-xl"
+                              src={item?.[FormSpecialProject.FileAttach]}
+                            />
                           </div>
-                          <div className="text-xl font-medium">{item?.[FormSpecialProject.ProjectName]}</div>
+                          <div className="text-xl font-medium">
+                            {item?.[FormSpecialProject.ProjectName]}
+                          </div>
                           <div className="text-label">{item?.[FormSpecialProject.Description]}</div>
                         </div>
                       </div>
@@ -687,26 +724,30 @@ const InputItems = React.forwardRef(({ disabled }, ref) => {
               <div className="p-5">
                 <div className="flex items-center justify-between">
                   <div className="text-xl font-medium">Lịch sử làm việc</div>
-                  <Button
+                  {/* <Button
                     shape="circle"
                     icon={<FontAwesomeIcon icon={faPlus} />}
                     onClick={() => {
                       showModal(ACTION_INFO.WH_INSERT);
                     }}
-                  />
+                  /> */}
                 </div>
                 <div className="mt-3">
                   {infomation?.[FormFreelancer.WorkingHistories]?.map((item, i) => (
                     <div className="flex justify-between" key={i}>
                       <div>
-                        <div className="text-xl font-medium">{item?.[FormWorkingHistory.CompanyName]}</div>
+                        <div className="text-xl font-medium">
+                          {item?.[FormWorkingHistory.CompanyName]}
+                        </div>
                         <div className="text-label">{`${item?.[FormWorkingHistory.Position]}`}</div>
                         <div className="text-label">{`${item?.[FormWorkingHistory.FromDate]}-${
-                          item?.[FormWorkingHistory.IsCurrentlyWorkingHere] === CONST_YN.Yes ? "Hiện tại" : item?.[FormWorkingHistory.EndDate]
+                          item?.[FormWorkingHistory.IsCurrentlyWorkingHere] === CONST_YN.Yes
+                            ? "Hiện tại"
+                            : item?.[FormWorkingHistory.EndDate]
                         }`}</div>
                       </div>
                       <div className="flex gap-3">
-                        <Button
+                        {/* <Button
                           shape="circle"
                           icon={<FontAwesomeIcon icon={faPencil} />}
                           onClick={() => {
@@ -719,7 +760,7 @@ const InputItems = React.forwardRef(({ disabled }, ref) => {
                           onClick={() => {
                             deleteWorkingHis(item?.[FormWorkingHistory.WorkingHistoryId]);
                           }}
-                        />
+                        /> */}
                       </div>
                     </div>
                   ))}
@@ -730,13 +771,13 @@ const InputItems = React.forwardRef(({ disabled }, ref) => {
               <div className="p-5">
                 <div className="flex justify-between items-center">
                   <div className="text-xl font-medium">Kỹ năng</div>
-                  <Button
+                  {/* <Button
                     shape="circle"
                     icon={<FontAwesomeIcon icon={faPencil} />}
                     onClick={() => {
                       showModal(ACTION_INFO.Skill);
                     }}
-                  />
+                  /> */}
                 </div>
                 <div className="flex flex-wrap gap-3 mt-3">
                   {infomation?.[FormFreelancer.Skills]?.map((item, i) => (
@@ -749,13 +790,13 @@ const InputItems = React.forwardRef(({ disabled }, ref) => {
               <div className="p-5">
                 <div className="flex justify-between items-center">
                   <div className="text-xl font-medium">Chuyên môn</div>
-                  <Button
+                  {/* <Button
                     shape="circle"
                     icon={<FontAwesomeIcon icon={faPencil} />}
                     onClick={() => {
                       showModal(ACTION_INFO.Skill);
                     }}
-                  />
+                  /> */}
                 </div>
                 <div className="flex flex-wrap gap-3 mt-3">
                   {infomation?.[FormFreelancer.Specialties]?.map((item, i) => (
@@ -770,13 +811,13 @@ const InputItems = React.forwardRef(({ disabled }, ref) => {
       <div className="border rounded-xl mt-5 p-5">
         <div className="flex justify-between items-center mb-3">
           <div className="text-xl font-medium">Chứng chỉ</div>
-          <Button
+          {/* <Button
             shape="circle"
             icon={<FontAwesomeIcon icon={faPlus} />}
             onClick={() => {
               showModal(ACTION_INFO.CERT_INSERT);
             }}
-          />
+          /> */}
         </div>
         {infomation?.[FormFreelancer.Certificates]?.map((item, i) => (
           <div className="flex justify-between" key={i}>
@@ -790,7 +831,7 @@ const InputItems = React.forwardRef(({ disabled }, ref) => {
               </div>
             </div>
             <div className="flex gap-3">
-              <Button
+              {/* <Button
                 shape="circle"
                 icon={<FontAwesomeIcon icon={faPencil} />}
                 onClick={() => {
@@ -803,7 +844,7 @@ const InputItems = React.forwardRef(({ disabled }, ref) => {
                 onClick={() => {
                   deleteCertificate(item?.[FormCertificate.CertificateId]);
                 }}
-              />
+              /> */}
             </div>
           </div>
         ))}

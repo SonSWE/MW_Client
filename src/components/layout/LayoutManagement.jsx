@@ -13,15 +13,53 @@ import {
 import { Header } from "../header/Header";
 import BaseDataGird from "../controls/BaseDataGird";
 import ModalAction from "../controls/ModalAction";
-import { TYPE_ACTION } from "../../const/LayoutConst";
+import { CONST_LOGIN_TYPE, CONST_USER_TYPE, TYPE_ACTION } from "../../const/LayoutConst";
 import { CONST_FORM_ACTION } from "../../const/FormConst";
 import FooterSticky from "../footer/FooterSticky";
+import { useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RoutesAdminConfig } from "../../routes/RoutesAdminConfig";
+import { RoutesClientConfig } from "../../routes/RoutesClientConfig";
+import { RoutesFreelancerConfig } from "../../routes/RoutesFreelancerConfig";
 
 const LayoutManagement = ({ ComponentConfig }) => {
   const refInput = useRef(null);
-  // console.log(ComponentConfig);
+  const location = useLocation();
+  const userLogged = useSelector((state) => state.authReducer);
+
   //filter
   const [openFilter, setOpenFilter] = useState(false);
+  const [titleHeader, setTitleHeader] = useState("");
+
+  useEffect(() => {
+    console.log(location);
+    setTitleHeader(GetFunctionNameByUrl(location.pathname));
+  }, [location]);
+
+  useEffect(() => {
+    Search();
+  }, []);
+
+  useEffect(() => {
+    if (openFilter) {
+      if (refInput.current?.triggerThayDoiBanGhi) {
+        refInput.current?.triggerThayDoiBanGhi(formInstance.getFieldsValue());
+      }
+    }
+  }, [openFilter]);
+
+  const GetFunctionNameByUrl = (url) => {
+    if (userLogged?.userType === CONST_USER_TYPE.Admin) {
+      return RoutesAdminConfig.find((x) => x.url.toLocaleLowerCase() === url.toLocaleLowerCase()).Function_Name;
+    }
+
+    if (userLogged?.loginType === CONST_LOGIN_TYPE.Client) {
+      return RoutesClientConfig.find((x) => x.url.toLocaleLowerCase() === url.toLocaleLowerCase()).Function_Name;
+    } else if (userLogged?.loginType === CONST_LOGIN_TYPE.Freelancer) {
+      return RoutesFreelancerConfig.find((x) => x.url.toLocaleLowerCase() === url.toLocaleLowerCase()).Function_Name;
+    }
+  };
+
   const showDrawer = () => {
     setOpenFilter(true);
   };
@@ -62,18 +100,6 @@ const LayoutManagement = ({ ComponentConfig }) => {
     });
   };
 
-  useEffect(() => {
-    Search();
-  }, []);
-
-  useEffect(() => {
-    if (openFilter) {
-      if (refInput.current?.triggerThayDoiBanGhi) {
-        refInput.current?.triggerThayDoiBanGhi(formInstance.getFieldsValue());
-      }
-    }
-  }, [openFilter]);
-
   return (
     <>
       <div className="bg-gray-50 relative">
@@ -81,6 +107,7 @@ const LayoutManagement = ({ ComponentConfig }) => {
           <Header />
 
           <div className="px-16 py-4 h-full ">
+            <div className="pb-5 text-lg font-bold">{titleHeader}</div>
             <div className="bg-white p-5 rounded-lg">
               <div>
                 <Form form={formInstance} className="">
